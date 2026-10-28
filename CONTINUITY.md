@@ -1084,6 +1084,8 @@ Together, these tools create an environment where the map can be flown, interrog
 - clue sequencing / reveal engine
 - scoring engine
 - final-beacon game progression
+- answer-triggered beacon reveal/controller
+- automated scenario-state → KML beacon show/load logic
 - firefighter GIS Incident Scenario Builder
 - triggered incident updates
 - scenario scoring/evaluation framework
@@ -1114,7 +1116,7 @@ Both current v1.0 products are accepted.
 
 The most fertile next directions are now:
 
-1. **Scavenger Hunt Maker** — clipboard coordinate → clue card → GeoJSON/GeoPackage
+1. **Scavenger Hunt Maker** — clipboard coordinate → clue card → progressive beacon reveal → GeoJSON/GeoPackage
 2. **Firefighter GIS Incident Scenario Builder**
 3. **Earth Beacon Tour Maker / Follow the Rainbow**
 4. **bulk beacons from GIS point datasets**
@@ -1137,3 +1139,118 @@ Before building anything, preserve the Minimal Build Rule:
 ## 30. CURRENT ONE-LINE SUMMARY
 
 > **EarthStick lets you fly the real map. Earth Beacon gives you something to fly toward. GIS layers can now turn that world into an interactive game, classroom, or incident-training environment.**
+
+---
+
+## 31. ANSWER-TRIGGERED BEACONS — PROGRESSIVE REVEAL MECHANIC
+
+A major progression idea is to make beacons appear only after the player or trainee successfully completes the current objective.
+
+Core loop:
+
+> **find clue → stop/hover → click/inspect → answer or make a decision → correct/acceptable response → next beacon appears → fly toward it**
+
+This changes the beacon from a passive destination marker into both a **reward** and a **navigation mechanic**.
+
+The key phrase is:
+
+> **Knowledge unlocks geography.**
+
+The route should not necessarily be visible in advance. The next part of the world is revealed only when the current problem is solved.
+
+### Classroom / scavenger-hunt version
+A possible sequence:
+1. student finds the hidden clue
+2. EarthStick stops/hover
+3. class opens the clue and answers the question
+4. correct answer is accepted
+5. a new colored beacon suddenly becomes visible on the map/horizon
+6. the room can immediately see the next objective
+7. the active pilot, or the next student after a control handoff, flies toward it
+
+That creates a strong shared-room moment:
+
+> **“There it is!”**
+
+The beacon is not merely telling the student where to go. It is visual confirmation that the previous objective was completed successfully.
+
+### Possible color language
+Colors could carry meaning while still keeping the system simple:
+- **Yellow** — next clue / general objective
+- **Blue** — water source
+- **Green** — staging / safe access / approved objective
+- **Red** — incident / hazard / primary target
+- **Purple or Magenta** — bonus / optional objective
+- **Gold** — finish / home / final objective
+
+The exact color vocabulary should remain flexible by scenario.
+
+### Firefighter / incident-training version
+The same mechanic becomes more serious in an operational training scenario.
+
+Example progression:
+
+> **Select a defensible access route → staging beacon appears**
+
+Then:
+
+> **Identify an acceptable water source → water/hydrant beacon appears**
+
+Then a scenario update may occur:
+
+> **Wind shifts / fire crosses road → choose an alternate egress → escape/safety beacon appears**
+
+For adult incident scenarios, “correct” should often mean **acceptable or defensible**, not necessarily one rigid answer. Real incidents may have several valid decisions depending on the trainee’s reasoning and the scenario conditions.
+
+### Simple controller concept
+A first implementation does not need to alter the foundation imagery or rebuild map packages.
+
+A small scenario controller could maintain:
+- current stage
+- accepted answer(s) or decision(s)
+- current score if scoring is used
+- which clues are active
+- which beacon is currently visible
+- which beacon or layer becomes available next
+
+Conceptually:
+
+> **Foundation map stays fixed. Scenario state changes the small layers above it.**
+
+The controller would keep later beacons hidden/unloaded and reveal only the next earned beacon after the response is accepted.
+
+A reset command could return the exercise to stage one for immediate replay.
+
+### Important status
+This progression mechanic is **conceptual / not built**.
+
+Verified:
+- beacon KML works in ArcGIS Earth
+- beacon layers can be manually shown/hidden
+- EarthStick can fly toward a visible beacon and stop/hover for inspection
+
+Not yet verified:
+- automated answer checking
+- automated scenario-state management
+- automated KML beacon loading/showing/hiding in ArcGIS Earth
+- a complete clue → answer → beacon-reveal cycle
+
+Do not claim the automated reveal mechanism works until it has been built and live-tested.
+
+---
+
+## 32. VISUAL SAMPLERS — PIN VS BEACON
+
+These are real ArcGIS Earth screenshots from the working project, included as quick visual references rather than polished marketing graphics.
+
+| Conventional 2D-style pin/drop | Earth Beacon in the 3D horizon view |
+| --- | --- |
+| ![Conventional map pin](assets/Pin_Drop_2D_Map_sampler.jpg) | ![Live-tested Earth Beacon](assets/Earth_Beacon_ArcGIS_Earth.jpg) |
+
+The contrast is intentionally simple:
+
+> **A pin marks a place. A beacon gives you something to aim at.**
+
+The pin is a conventional marker associated with a location on the map. The beacon is a true vertical line rising from the geography, giving the EarthStick pilot a horizon-visible geographic reference.
+
+That visual difference is also what makes progressive beacon unlocking potentially powerful: after a correct answer or acceptable decision, the next objective can become a large, immediately understandable feature in the world rather than another small pin the operator must hunt for on a flat map.
