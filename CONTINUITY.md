@@ -1,1256 +1,1156 @@
-# CONTINUITY — EarthStick + Earth Beacon
-**Date:** 2026-10-27  
-**Purpose:** Preserve the exact current state, live-tested facts, published repositories, and the major new concepts developed around EarthStick, Earth Beacon, game-like GIS exploration, classroom use, and firefighter training.
+# CONTINUITY — ArcGIS Earth + EarthStick + Earth Beacon + Object Factory
+
+**Date:** 2026-10-29  
+**Purpose:** This file is written by ChatGPT for future ChatGPT sessions. It is the current reset-proof project state. Read this before proposing changes, rebuilding tools, or interpreting the project from scratch.
+
+The project has moved beyond EarthStick + Earth Beacon into a broader ArcGIS Earth interaction system built around offline worlds, direct joystick navigation, programmable geographic objects, simple authoring, training, games, classroom use, and public-safety workflows.
+
+Important naming note:
+- **EarthStick** and **Earth Beacon** remain accepted product/tool names.
+- **Mapworld** was useful as a working concept, but the user considers the name effectively taken/generic and does **not** want to rely on it as the final umbrella brand.
+- Current naming direction is to start with **ArcGIS Earth** and add a descriptor. Candidates discussed included ArcGIS Earth Worlds, ArcGIS Earth Interactive, ArcGIS Earth Unlocked, etc. **No final umbrella name has been chosen.**
+- `MAPWORLD.md` remains the existing technical format/architecture inventory, but treat “Mapworld” inside it as a working technical term rather than a finalized public brand.
 
 ---
 
-## 1. CORE PROJECT STATE
+# 1. USER / PROJECT INTENT
 
-### EarthStick 1.0 — FINISHED / LIVE-ACCEPTED
-Repository: https://github.com/Jim-dc95811/EarthStick
+The user works in public safety/fire-service context and has spent decades around computers/electronics. He is not a traditional programmer, but is a highly capable hands-on operator/analyst who tests relentlessly and trusts measured behavior over theory.
 
-EarthStick turns ArcGIS Earth into a directly piloted map using the Thrustmaster TCA Sidestick Airbus Edition.
+Primary mission:
 
-Core public idea:
+> **Create new map makers.**
+
+The project is intentionally aimed at ordinary users, firefighters, resource staff, students, teachers, field operators, and decision makers—not only GIS specialists.
+
+The larger philosophy is:
+
+> **Do not make the user learn GIS before they can use geography.**
+
+A joystick, clipboard coordinates, simple object presets, offline basemaps, and clickable objects are all ways of lowering the human-interface barrier without reducing the power of the GIS underneath.
+
+---
+
+# 2. NON-NEGOTIABLE BUILD RULES
+
+Preserve the user’s **Minimal Build Rule**:
+
+- Implement only the requested function unless the user explicitly grants broader design authority.
+- Do not rename/restructure accepted products casually.
+- Preserve filenames, paths, working behavior, and known-good settings unless a change is specifically justified.
+- No “cleanup refactor” of accepted code merely because another structure looks prettier.
+- Functional code changes get a new version.
+- Do not call a version accepted until the user live-tests it in ArcGIS Earth.
+- Distinguish **verified**, **inferred**, and **conceptual** behavior.
+- “Unknown” is better than pretending.
+
+Special current authority:
+
+> **The Object Factory is ChatGPT’s factory build.**
+
+The user explicitly gave ChatGPT broad authority to assemble the Object Factory as it sees fit, including building several proof-of-function scripts before tying them together. That does **not** revoke the Minimal Build Rule for accepted EarthStick/Earth Beacon code.
+
+---
+
+# 3. CORE ARCHITECTURE
+
+Current system model:
+
+> **ArcGIS Earth = world + renderer**  
+> **EarthStick = movement**  
+> **Earth Beacon = long-range navigation / objectives**  
+> **GIS layers = objects and meaning**  
+> **Python = rules / state / scenario logic**
+
+Stable-world rule:
+
+> **Foundation = stable geography**  
+> **Layers = changing information**
+
+Foundation examples:
+- offline TPKX imagery
+- road/street basemaps
+- terrain/elevation
+- district-wide Z17/Z18
+- local Z20 detail
+
+Changeable content examples:
+- parcels
+- hydrants
+- offices
+- photos
+- beacons
+- clues
+- hazards
+- staging
+- landing zones
+- fire perimeters
+- routes
+- historical overlays
+- 3D objects
+- sky objects
+- scenario objectives
+
+Do not rebuild a giant base map because a hydrant, clue, photo, or scenario object changes.
+
+---
+
+# 4. EARTHSTICK 1.0 — FINISHED / LIVE-ACCEPTED
+
+Repository:
+https://github.com/Jim-dc95811/EarthStick
+
+Core idea:
 
 > **Fly the real map.**
 
-EarthStick is not a conventional flight simulator. The actual ArcGIS Earth GIS/map becomes the world being flown.
+EarthStick turns ArcGIS Earth into a directly piloted GIS/map using the Thrustmaster TCA Sidestick Airbus Edition.
+
+Important framing:
+
+> **This is not a flight simulator. It is a real map that you can fly.**
+
+> **Instead of putting the real world into a flight simulator, we put flight controls into the real-world map.**
 
 ### Accepted controls
 - Stick X = strafe left/right
 - Stick Y = forward/reverse
-- Twist = heading
-- Physical throttle = travel speed
+- Twist/RZ = heading
+- Physical throttle / Slider0 = travel speed
 - POV up/down = camera tilt
-- Red top button = zoom in / descend
-- Black thumb button = zoom out / climb
+- Button 4, red top button = zoom in / descend
+- Button 3, black thumb button = zoom out / climb
 - Neutral controls = stop / hover
 
-### Important behavioral fact
-Neutral input is not merely “nothing happens.” It creates a useful operational state:
+Important operational behavior:
 
 > **Stop. Hover. Think. Then move.**
 
-This is one of the most important EarthStick advantages over keyboard/mouse or SpaceMouse control. The operator can stop completely, inspect the map, change layers, decide what to do next, and continue without fighting the camera.
+Neutral input produces a stable working state. The operator can stop, inspect the map, toggle layers, click parcels/features, make a decision, and resume without fighting camera movement.
 
-### Operational insight
-Keyboard/mouse or SpaceMouse control consumes attention maintaining camera attitude, horizon, heading, speed and position.
+EarthStick makes horizon view a practical working view rather than a temporary dramatic camera angle.
 
-EarthStick reduces that camera-control workload enough that the operator can actually **observe the GIS while moving through it**.
+### Accepted technical behavior
+- ArcGIS Earth Automation API GET/PUT camera
+- WKID 4326
+- Windows WinMM/ctypes, standard library only
+- `POLL_HZ = 30.0`
+- `DEADZONE = .08`
+- `YAW_RATE_DPS = 55`
+- `TILT_RATE_DPS = 45`
+- Earth radius = 6378137
+- idle resync = .50 s
+- HTTP timeout = .75 s
+- API base = `http://localhost:8000`
+- target joystick = `T.A320 Pilot`
+- invert twist = false
+- invert throttle = true
+- fixed 30 Hz loop
+- dt capped at .10
+- API fault recovery retries camera GET every .25 s
+- local authoritative camera state is updated only after successful PUT
+- joystick reconnect retry every 1 s
+- on reconnect, reread camera and reset timers
+- no neutral-before-resume requirement
 
-EarthStick also makes the horizon view a practical working view rather than a temporary dramatic camera angle. The operator can cruise, stop, turn, inspect, resume, and remain spatially oriented.
+Speed law:
+
+```python
+max_speed = clamp(max(8.0, altitude_m * 0.020), 8.0, 12000.0) * 60.0
+min_speed = 0.50
+speed = min_speed + (max_speed - min_speed) * throttle**2
+```
+
+Zoom behavior:
+- `max(2.0, altitude * .75)`
+- minimum altitude 1 m
+
+Live-tested on Windows 11 / Python 3.14.5.
+
+Known accepted release reference:
+- release commit previously recorded: `f2023e85c9b44b925cf361cf48e2fc0d81beeab1`
+- ZIP: `releases/EarthStick_v1.0.zip`
+- SHA256: `8b399d70df582c448ed2bfdf532d5dcc17f579187f99a4d165bd06ef1cb0c292`
+
+Do not reinvent or casually change EarthStick 1.0.
 
 ---
 
-## 2. EARTH BEACON 1.0 — FINISHED / LIVE-TESTED
+# 5. EARTH BEACON 1.0 — FINISHED / LIVE-TESTED
 
-Repository: https://github.com/Jim-dc95811/Earth-Beacon
+Repository:
+https://github.com/Jim-dc95811/Earth-Beacon
 
-Earth Beacon creates a tall vertical KML line at a geographic coordinate so the location remains visible from very long distances in an oblique ArcGIS Earth view.
-
-Core public idea:
+Core idea:
 
 > **A pin marks a place. A beacon gives you something to aim at.**
 
-Earth Beacon uses standard KML 3D geometry. The geometry itself is not claimed as a new invention. The unusual part is using the vertical line intentionally as a long-range visual navigation/homing marker inside ArcGIS Earth.
+Earth Beacon creates a tall vertical KML line anchored to a geographic coordinate, producing a long-range horizon-visible destination inside ArcGIS Earth.
 
-### Live-tested behavior
-User created the beacon and tested it in ArcGIS Earth successfully.
+Live behavior already verified:
+- clear vertical beacon against horizon
+- visible from very long range
+- screenshot previously showed approximately 102 km eye altitude with beacon still visible
+- user reports visibility from extreme regional distances in favorable views
+- near/parallel to ground, vertical line effectively collapses visually and becomes unobtrusive
+- layers can be toggled on/off
 
-Observed live behavior:
-- Vertical beacon clearly visible against the horizon.
-- Screenshot showed approximately 102 km eye altitude while the beacon remained plainly visible.
-- User reports being able to see the beacon from extremely long regional distances, including from multiple states away in some views.
-- When oriented essentially parallel to the ground at/near the beacon, the vertical line becomes effectively invisible.
-- This is desirable behavior: obvious while approaching, unobtrusive when working close to the destination.
-- Beacon layers can be toggled on/off in ArcGIS Earth.
-
-### Beacon Maker v1.0
-Coordinate input methods:
-- Manual latitude / longitude
-- Windows clipboard
-- Current ArcGIS Earth camera position through Automation API
-
-Clipboard handling supports:
-- comma-separated coordinates
-- whitespace-separated coordinates
-- labeled latitude/longitude
-- ambiguous coordinate pairs are flagged rather than silently treated as certain
-- Swap Lat/Lon button
-
-Default beacon:
-- 100 km tall
+Default v1.0 beacon:
+- height 100 km
 - red
-- line width 6
+- width 6
 - `relativeToGround`
 - KML output
-- optional automatic open after creation
+- optional auto-open
 
-The v1.0 source/package was live-tested before the GitHub page was built.
+Coordinate sources:
+- manual lat/lon
+- Windows clipboard
+- current ArcGIS Earth camera position through Automation API
 
-### Name behavior
-The Beacon Maker defaults the name field to `EarthStick Beacon`, but a user-entered name is used in the KML placemark/document. The default name is only used if the field is left blank.
+Clipboard handling includes lat/lon swap and ambiguity protection.
 
----
-
-## 3. EARTHSTICK + EARTH BEACON — THE IMPORTANT COMBINATION
-
-Earth Beacon by itself is a clever geographic marker.
-
-EarthStick gives it operational purpose.
-
-The combination is:
-
-> **EarthStick = movement**  
-> **Earth Beacon = destination**  
-> **GIS layers = meaning**
-
-Or:
-
-> **Drop a beacon anywhere on Earth, then fly the real map toward it.**
-
-Before EarthStick, a horizon-visible KML pillar had limited practical value because ordinary ArcGIS Earth navigation requires too much camera manipulation.
-
-With EarthStick, the operator can:
-1. acquire the beacon visually
-2. fly toward it
-3. stop/hover anywhere
-4. inspect the map
-5. change layers
-6. resume flight
-7. arrive without losing orientation
-
-This creates a simple visual navigation language inside ArcGIS Earth.
-
-### “Where is home?” behavior
-A particularly strong use case is:
-1. fly into an area and become semi-lost
-2. turn the home beacon layer on
-3. rotate until the beacon appears on the horizon
-4. point toward it
-5. fly home
-6. turn the beacon off again when no longer needed
-
-No bearing calculation is required. The beacon acts like a visual geographic reference anchored to a real place.
-
-Useful phrase:
+Useful combination:
 
 > **EarthStick makes horizon flight practical. Earth Beacon makes horizon flight navigable.**
 
 ---
 
-## 4. CURRENT HIGH-VALUE BEACON USES
+# 6. THE BIG UX REALIZATION — ARCGIS EARTH BECOMES A PLACE
 
-### Fixed facilities
-Possible district-wide persistent beacon layer for:
-- offices
-- fire stations
-- yards
-- dispatch locations
-- training sites
-- staging areas
-- landing zones
-- other fixed operational facilities
+Before joystick control, ArcGIS Earth behaves largely like something a user operates.
 
-Concept name:
+After joystick control, it becomes somewhere a user can **go**.
 
-> **District Beacon Network**
+Useful project phrase:
 
-This would allow an operator to answer visually:
+> **A $90 joystick didn’t improve ArcGIS Earth. It activated it.**
 
-> “Where is that facility from here?”
+The joystick acts like water on a dormant desert seed: the imagery, TPKX, parcels, KML, scene layers, API, 3D camera, and GIS datasets were already present, but direct analog navigation makes them connect into one experience.
 
-without calculating a bearing or searching a flat map.
+SpaceMouse is a useful contrast:
+- SpaceMouse = manipulate a 3D camera/view
+- EarthStick = navigate a geographic world
 
-### Incident / operational targets
-Potential beacons for:
-- incident locations
-- staging
-- ICP
-- landing zones
-- parcel / tract targets
-- search sectors
-- inspection points
-- home base
-
-### Feature-derived beacons
-Any existing GIS point feature could theoretically generate a beacon.
-
-Example discussed:
-- fire hydrants
-
-Potential encoding:
-- blue = hydrant
-- green = tested / available
-- yellow = limited
-- red = out of service
-- height/color could encode attributes
-
-Important design insight:
-Do **not** display enormous beacons for every feature across a huge region at once. Use an AOI, incident radius, selected grid, filtered subset, or similar visibility logic to avoid visual spaghetti.
+ArcGIS Earth already had many pieces—TPKX, SpaceMouse support, KML, 3D, Automation API—but they were not organized around a natural “go there” interaction metaphor.
 
 ---
 
-## 5. BEACON TOURS — “FOLLOW THE RAINBOW”
+# 7. BASEMAPS AS GAME / TRAINING MECHANICS
 
-A sequence of differently colored beacons can become a visual route/tour without drawing a continuous route line.
-
-Example concept:
-- red
-- orange
-- yellow
-- green
-- cyan
-- blue
-- magenta
-
-Operator simply flies from one visible beacon to the next.
-
-Phrase:
-
-> **Follow the rainbow.**
-
-Potential uses:
-- helicopter route familiarization
-- district familiarization
-- wildfire/disaster walkthroughs
-- utility corridor inspections
-- river/coastline tours
-- historical tours
-- forestry tracts
-- scenic tours
-- training routes
-- presentations where the instructor wants the viewer to visit a series of specific locations
-
-Possible future utility:
-
-> **Earth Beacon Tour Maker**
-
-Potential input:
-- list of coordinates
-- optional names
-- automatic sequential colors
-- one generated KML containing the complete tour
-
-Not built yet.
-
----
-
-## 6. MULTI-OPERATOR / COPILOT CONCEPT
-
-EarthStick controls ArcGIS Earth through its Automation API.
-
-Infrastructure insight:
-If ArcGIS Earth instances/endpoints can be independently addressed, the same control stream could theoretically be sent to more than one Earth display or transferred between operators.
-
-Possible roles:
-- primary operator
-- copilot / relief operator
-- local expert
-- instructor
-
-### Port-pilot analogy
-A local expert could temporarily take control of the map exactly like a harbor/port pilot takes temporary navigational responsibility aboard a ship.
-
-They do not replace the main operator. They bring local knowledge for a specific geographic area.
+A major new concept is that changing basemaps can itself be part of the problem-solving mechanic.
 
 Examples:
-- district staff who know one county extremely well
-- forester who knows a tract
-- utility worker who knows a corridor
-- fire officer who knows a response area
-- emergency manager with local knowledge
+- imagery to identify a real building, clearing, old runway, shoreline, obstruction
+- street map to identify named roads, addresses, route numbers, businesses
+- topo to solve ridge/drainage/slope/elevation problems
+- hybrid to reconcile ground appearance with labels
+- parcel layers to identify ownership/boundaries/access
+- historical maps/imagery to determine what used to exist
+- current vs older imagery to identify change
+- weather/fire/flood/live overlays to determine current viability
 
-They could say while actually flying the shared map:
-- “That road washes out.”
-- “That gate is usually locked.”
-- “Come in from this side.”
-- “That is our tract.”
-- “That crossing is the one you want.”
+Key phrase:
 
-Concept phrase:
+> **The map is not the answer. Choosing the right map is part of the answer.**
 
-> **Local pilotage for the map.**
+This turns GIS literacy into gameplay/training without requiring the user to feel like they are studying GIS software.
 
-No multi-user control software has been built yet.
+The same system can switch back to a conventional flat/2D operational basemap within seconds. The user does not leave the GIS or change applications; only the view/visual language changes.
 
----
-
-## 7. MULTIPLE ARCGIS EARTH DISPLAYS — INFRASTRUCTURE IDEA
-
-ArcGIS Earth Automation API uses a configurable base URL; the default is `http://localhost:8000`.
-
-Theoretical architecture:
-
-- Earth display 1 = imagery
-- Earth display 2 = roads / labels
-- Earth display 3 = parcels / operational GIS
-- all displays receive the same camera state
-
-This could create a multi-screen GIS cockpit where all views move together but each screen carries different layers.
-
-Important status:
-- Multiple networked computers/endpoints are conceptually straightforward.
-- Multiple simultaneous ArcGIS Earth processes on one Windows machine using separate API ports has **not been live-tested**.
-- Do not treat that specific same-PC behavior as proven.
+> **Explore in 3D. Navigate in horizon view. Interact with objects. Flatten back to a standard map whenever needed.**
 
 ---
 
-## 8. CLASSROOM CONCEPT
+# 8. “MAPWORLD” CONCEPT — INTERNAL ONLY / NAME NOT FINAL
 
-One ArcGIS Earth instance appears on a shared classroom screen.
+The conceptual idea remains important even though the name is not favored as a final brand.
 
-Each student has a joystick.
+Same Earth can host different visual/data worlds:
+- imagery world
+- street-map world
+- topo world
+- parcel world
+- historical world
+- weather world
+- utility world
+- 3D world
+- live incident world
 
-Only one joystick has control authority at a time.
+Important realization:
 
-Instructor selects the active pilot through a small GUI.
+> **The mechanics can be universal while the world stays completely local.**
 
-Basic control model:
-- Student 1 — available
-- Student 2 — available
-- Student 3 — PILOT
-- Student 4 — available
-- Instructor takeover
-- Stop / hover
-- next pilot
+Kansas City, Chicago, Toronto, Jacksonville, or any other place can use the same EarthStick / Beacon / object / scenario mechanics while loading local imagery, roads, parcels, hydrants, history, hazards, photos, and objectives.
 
-Handoff sequence:
+Objects can be real or abstract. If something can have a place, shape, state, time, meaning, or rule, it can potentially become a geographic object.
 
-> **fly → release controls → hover → transfer authority → next student flies**
+Important later step:
 
-Because neutral input means stop/hover, EarthStick is unusually well suited for controlled handoffs.
+> **Objects can change other objects.**
 
-### Educational value
-Students would not feel like they were being taught GIS software.
+Python can maintain scenario state and reveal/load/remove/update small object layers without rebuilding foundation maps.
 
-They would feel like they were:
+---
 
-> **taking turns flying the world**
+# 9. OBJECT FACTORY — CURRENT MAJOR DEVELOPMENT
 
-While doing so they learn:
-- spatial orientation
-- distance and scale
-- terrain recognition
+The Object Factory is now the major active development direction.
+
+Reason for existence:
+
+> **Choose an object → choose where it lives → choose how it appears → choose what it contains/does → create it.**
+
+The user should not have to understand KML syntax, XML, GIS feature-class design, 3D coordinate rules, image optimization, or KMZ packaging.
+
+The Object Factory should feel like simple object authoring, not GIS administration.
+
+### Proposal artifact
+A PDF proposal was created in this conversation:
+- `ArcGIS_Earth_Object_Factory_Proposal_v0.1.pdf`
+
+It is a design proposal, not an accepted released product.
+
+### Proof-of-function artifact
+A separate proof kit was created:
+- `Object_Factory_POF_v0.1.zip`
+
+The kit intentionally used multiple independent proof scripts before integration, per user authorization.
+
+The kit included three main proof functions:
+1. generic airborne PNG object
+2. batch object-list → KMZ generation
+3. generated NSEW sky compass
+
+The POF package was conversation-generated and was not yet committed to the GitHub repository at the time of this continuity update.
+
+---
+
+# 10. POF1 — GENERIC AIRBORNE PNG OBJECT — LIVE-PROVEN
+
+User live-tested POF1 in ArcGIS Earth.
+
+Test object:
+- a **flying fire-truck PNG** placed in the sky at geographic coordinates/altitude
+
+Observed result:
+- object rendered correctly
+- fixed location/altitude behavior worked
+- icon was clearly visible in the sky
+- no-label-until-click behavior worked
+- click information worked
+- optional tether behavior worked
+- the user described the result as essentially perfect except for the oversized ArcGIS Earth information box
+
+Status:
+
+> **POF1 airborne PNG primitive = LIVE-PROVEN**
+
+This proves that the balloon concept generalizes to arbitrary PNG objects such as:
+- helicopter
+- airplane
+- drone
+- fire truck
+- fuel pump
+- hospital symbol
+- warning symbol
+- bird
+- clue icon
+- house/home
+- staging marker
+- water source
+- camera
+- virtually any transparent PNG
+
+Important distinction:
+- PNG object = billboard/symbol-like visual object at geographic altitude
+- standalone 3D model = true physical 3D object with world scale/orientation
+
+Both may eventually belong in the factory.
+
+---
+
+# 11. POF2 — BATCH OBJECT LIST → MULTI-OBJECT KMZ — LIVE-PROVEN
+
+User live-tested POF2 in ArcGIS Earth.
+
+Observed behavior:
+- one simple object list generated multiple different object types
+- different icons worked
+- different locations worked
+- different information content worked
+- resulting objects were packaged into one KMZ
+- click-to-reveal behavior worked
+
+A “Mystery Bird” example proved the educational mechanic:
+
+> **see object → guess → click → reveal**
+
+Status:
+
+> **POF2 batch world/object-pack generation = LIVE-PROVEN**
+
+This is a major architectural win because it means a teacher, trainer, or ordinary user can create an entire geographic object set from a simple list rather than manually authoring GIS features one at a time.
+
+Example simple list concept:
+
+```text
+fuel,30.410104,-81.922396
+heli,30.398210,-81.931440,300
+water,30.402778,-81.918620
+home,30.385525,-81.930807
+```
+
+Presets can supply default icon, altitude, size, visibility, and popup behavior.
+
+---
+
+# 12. POF3 — NSEW SKY COMPASS — LIVE-PROVEN
+
+User live-tested the generated Sky Compass in ArcGIS Earth.
+
+Concept:
+- giant **N**, **E**, **S**, **W** visual objects
+- positioned far from the operating center
+- elevated high in the sky
+- used as permanent horizon orientation anchors
+
+The user tested the output and showed the giant directional markers visible in the horizon view.
+
+Status:
+
+> **POF3 generated sky compass = LIVE-PROVEN**
+
+This is not merely decorative. EarthStick makes the horizon a persistent working view, so the sky compass functions like a geographic heads-up orientation system.
+
+Conceptual relationship:
+
+> **Sky Compass = orientation**  
+> **Earth Beacon = destination**  
+> **EarthStick = movement**
+
+The exact ideal radius/altitude/icon size can continue to be tuned, but the foundation concept works.
+
+---
+
+# 13. THE SKY IS NOW A PROGRAMMABLE INFORMATION LAYER
+
+The balloon/PNG tests produced a major project realization.
+
+User phrase:
+
+> **We own the sky.**
+
+Then:
+
+> **We control the sky.**
+
+Meaning:
+ArcGIS Earth’s sky can contain arbitrary geographic symbols/objects that do not need to obey real-world physical constraints.
+
+Possible sky objects:
+- helicopters
+- balloons
+- giant directional letters
+- fuel pumps
+- warning symbols
+- checkpoints
+- targets
+- route markers
+- clue icons
+- giant arrows
+- observation markers
+- floating signs
+- camera/viewpoint icons
+
+A floating gas-pump symbol over a real fuel stop can simply mean:
+
+> **Use this fuel stop.**
+
+A floating helicopter can identify an aviation point.
+
+A giant `N` can orient the user.
+
+A bird can become a classroom identification question.
+
+The object itself carries the first layer of meaning.
+
+Preferred information hierarchy:
+
+> **See it → recognize it → click it → understand it.**
+
+For most objects, **no visible label until clicked** is preferred. This prevents sky/world clutter.
+
+---
+
+# 14. OBJECT FACTORY PRESET DIRECTION
+
+The factory should be built around a generic object engine plus presets, not custom code for every icon.
+
+Likely first-class object/preset families:
+- Beacon
+- Airborne PNG
+- Pin / ground icon
+- Balloon
+- Helicopter
+- Fuel Stop
+- Hazard
+- Bird / lesson object
+- Fire Truck
+- Hospital / medical
+- Water source
+- Staging
+- Home/Base
+- Camera / Viewpoint
+- Sky Compass
+- later: standalone 3D model
+- later: route/line/search-zone objects
+
+Common fields may include:
+- object name
+- latitude
+- longitude
+- altitude
+- altitude mode
+- icon/image
+- display size
+- label visibility
+- popup mode
+- popup title/body
+- optional tether
+- optional URL
+- optional local file/photo
+
+3D objects may additionally require:
+- scale
+- heading
+- tilt
+- roll
+- model file
+
+---
+
+# 15. PNG HANDLING — USER-APPROVED FACTORY RULE
+
+The user explicitly approved automatic PNG normalization.
+
+Factory behavior should be:
+
+1. User selects a PNG.
+2. Factory inspects it.
+3. User’s original file is **never modified**.
+4. Factory makes a working copy for the KMZ.
+5. Maximum working dimension = **256 px**.
+6. Preserve aspect ratio.
+7. Preserve transparency.
+8. Do not aggressively upscale smaller source icons; a clean 128×128 source can remain 128×128.
+9. Package only the normalized working copy into the KMZ.
+
+This keeps object packs lean without asking users to understand image optimization.
+
+Selection-time information panel should ideally show:
+- preview
+- dimensions
+- file size
+- transparency yes/no
+- aspect ratio
+- simple quality/status message
+
+Possible guidance:
+- ideal: 128–256 px
+- 512 px: acceptable source, normalize for package
+- oversized source: warning, then normalize
+- corrupt/non-PNG: reject
+
+These are friendly guardrails, not a GIS lecture.
+
+---
+
+# 16. POPUP BOX ISSUE — ONLY COMMON POF DEFECT SO FAR
+
+POF1 and POF2 both showed the same issue:
+
+> ArcGIS Earth’s native KML information/popup box is visually much larger than desired.
+
+The user otherwise described both proof functions as perfect.
+
+Treat this as a **presentation issue**, not a failure of the object architecture.
+
+Current direction:
+- keep popup content concise
+- support **Info on Click** and **No Popup** modes
+- use short title/body
+- avoid unnecessary blank content
+- do not make labels permanently visible just to compensate for the popup
+
+The factory should not let the oversized popup block development of the object system.
+
+---
+
+# 17. GOOGLE MAPS → OBJECT LIST — ULTRA-SIMPLE AUTHORING WORKFLOW
+
+A major accessibility insight:
+
+A user can go around Google Maps, right-click locations, copy coordinates, and build an object list in minutes.
+
+Authoring flow:
+
+> **find place → copy coordinate → choose object type → add to list → build KMZ → open in ArcGIS Earth**
+
+This can be done without ArcGIS Pro, QGIS, feature classes, schemas, projections, or manual KML editing.
+
+This is especially powerful for schools.
+
+Students could quickly build:
 - landmarks
-- roads
-- jurisdictions
-- layer interpretation
-- map-to-world recognition
-- route selection
-- observation before movement
+- history objects
+- hazards
+- bird/animal lessons
+- resource points
+- scavenger hunts
+- community mapping projects
 
-Possible classroom challenges:
-- fly to the next beacon
-- find the county line
-- identify location with labels off
-- follow a river
-- find a facility using imagery only
-- navigate a route by a sequence of beacons
+The educational question becomes:
+
+> **What should we put in the world?**
+
+instead of:
+
+> “How do I operate GIS software?”
+
+---
+
+# 18. CLASSROOM / LESSON OBJECTS
+
+A bird object produced an important lesson pattern.
+
+Example:
+1. place a bird PNG at a geographic location/habitat
+2. no label
+3. student flies toward it
+4. student guesses species
+5. click reveals answer and information
+
+Loop:
+
+> **See it → inspect it → guess → click → reveal → move on**
+
+The same mechanic works for:
+- birds
+- trees
+- animals
+- insects
+- clouds
+- aircraft
+- vehicles
+- historical buildings
+- road signs
+- fire-service equipment
+- landmarks
+
+Geography can be part of the lesson: the object may be placed in the habitat/context where the concept makes sense.
+
+This makes the Object Factory potentially a **lesson factory**.
+
+---
+
+# 19. SCAVENGER HUNT / GAME DIRECTION
+
+Existing scavenger-hunt architecture remains active.
+
+Core mapping:
+
+> **world = ArcGIS Earth / real GIS**  
+> **movement = EarthStick**  
+> **navigation = Earth Beacon / sky objects**  
+> **objects = KML/KMZ, GeoJSON, GIS features, PNG/3D objects**  
+> **missions = attributes + layers + Python state**  
+> **players = whoever has the joystick**
+
+Important mechanic:
+
+> **Knowledge unlocks geography.**
+
+Possible progression:
+
+> find clue → hover → inspect → answer/make decision → acceptable response → next beacon/object appears → fly toward it
+
+Beacons/objects can be rewards as well as navigation aids.
+
+This progression controller is still conceptual unless/until separately built and live-tested.
+
+---
+
+# 20. FIREFIGHTER INCIDENT TRAINING DIRECTION
+
+The scavenger-hunt mechanic translates naturally into serious spatial-decision training.
+
+Possible progression:
+
+> **Dispatch → Recon → Choose access → Locate water → Select staging/LZ → Identify egress → Receive update → Reassess**
+
+Potential objects/layers:
+- access routes
+- egress routes
+- hydrants/water
+- staging
+- landing zones
+- structures
+- parcels/ownership
+- road choke points
+- closures
+- jurisdiction
+- terrain/obstacles
+- hazards
+- safety/search areas
+
+Adult scenarios should support multiple defensible answers rather than assume one rigid “correct” decision.
+
+The big advantage is repeatability without repeatedly staging apparatus, personnel, props, travel, and site logistics.
+
+This is not a substitute for hands-on training; it is a geographic familiarization and decision-making environment.
+
+---
+
+# 21. VIEWPOINT / CAMERA OBJECT — NEW MAJOR DIRECTION
+
+A new object class emerged from the clickable-link discussion:
+
+> **Camera / Viewpoint Object**
+
+The geographic object means:
+
+> **There is another way to see this place.**
+
+Possible viewpoint types:
+- live webcam
+- Street View link
+- still photo
+- recorded video
+- web page
+- other online/local visual resource
+
+Important clarification from user:
+
+Do **not** try to force live video to play inside ArcGIS Earth’s own popup.
+
+Preferred architecture:
+
+> **floating camera icon in ArcGIS Earth → click/open → small separate viewer floats on top of ArcGIS Earth**
+
+Possible Camera Viewer behavior:
+- always-on-top
+- compact movable window
+- resize
+- close
+- refresh
+- mute/unmute when relevant
+- reuse one viewer window instead of spawning many
+
+ArcGIS Earth remains the geography/rendering environment. The small viewer handles web/video content.
+
+Possible architecture:
+
+> **ArcGIS Earth = geography**  
+> **Object Factory = geographic objects**  
+> **Camera Viewer = external live/street/photo/video view**
+
+The exact launch/click integration still needs a dedicated proof-of-function.
+
+---
+
+# 22. OFFLINE-FIRST + OPTIONAL ONLINE EXTENSION
+
+One of the strongest recurring patterns is that the system’s core capabilities keep working without internet:
+- TPKX worlds
+- EarthStick
+- Earth Beacon
+- Sky Compass
+- PNG objects
+- batch KMZ object packs
+- local photos/info
+- training/scenario layers
+
+Internet should enhance objects, not make them useless when connectivity disappears.
+
+Preferred object design:
+
+### Embedded / Offline
+- title
+- description
+- coordinates
+- local icon/photo
+- instructions
+- local reference information
+
+### Optional Online
+- URL
+- live webcam
+- Street View
+- current incident page
+- weather page
+- agency page
+- training video
+- equipment manual
+- other web resource
+
+Core principle:
+
+> **Offline object = useful by itself. Connected object = potentially unlimited extension.**
+
+---
+
+# 23. LIVE WEBCAM / STREET VIEW CONCEPT
+
+A floating camera object could represent either:
+- live webcam, or
+- a Street View location/panorama link, or
+- another viewpoint resource
+
+Examples:
+- traffic camera
+- beach/weather camera
+- fire observation camera
+- airport camera
+- river/port camera
+- facility entrance
+- public street-level view
+
+Clicking/opening the object could launch the small always-on-top viewer while the user continues to fly ArcGIS Earth underneath.
+
+This creates a powerful sequence:
+
+> **air view → GIS context → ground/live view → continue navigation**
+
+This feature is conceptual and needs a dedicated POF.
+
+---
+
+# 24. 3D OBJECTS REMAIN AN IMPORTANT FUTURE BRANCH
+
+ArcGIS Earth supports standalone 3D models such as DAE/OBJ/GLTF/FBX/3DS and can geographically position/scale/orient them.
+
+Potential factory objects:
+- true 3D helicopter
+- tower
+- tree
+- vehicle
+- treasure chest
+- sign
+- aircraft
+- animal
+- training prop
+- fantasy object
+
+Difference from PNG sky object:
+- PNG = lightweight billboard/symbol
+- 3D model = real spatial object with physical world scale/orientation
+
+The PNG route should remain the easy/default path. 3D models are a later higher-complexity extension.
+
+---
+
+# 25. 3D GIS / DRAGONFLY MODE
+
+EarthStick has already been used in the public Frankfurt Integrated Mesh scene.
+
+Observed:
+- user flew through/around towers
+- hover/circle/climb/descend/re-approach worked
+- no collision; camera can pass through buildings
+- user described experience as flying around “like a dragonfly”
+
+The particular Frankfurt source scene was not visually/performance impressive enough to be the main showcase, but it proved EarthStick can navigate 3D GIS environments.
+
+---
+
+# 26. HARDWARE / PERFORMANCE — IMPORTANT CURRENT EVIDENCE
+
+A firefighter demo laptop is now fully prepared.
+
+Known laptop configuration:
+- Dell laptop
+- 32 GB RAM
+- Intel Core i7-1185G7 @ approximately 3 GHz
+- 4 GB graphics allocation/device memory as reported by user
+
+User reports:
+
+> **working like a champ, smooth as ice**
+
+The laptop also opens the map/project files noticeably faster than the home PC.
+
+Home PC comparison:
+- user reports only 128 MB graphics versus 4 GB on the Dell
+
+Important conclusion:
+
+> The current operational EarthStick/Beacon/object workflow does **not** require exotic gaming hardware to feel good.
+
+The Dell is especially valuable as a demo platform because it resembles plausible agency/business hardware rather than a laboratory gaming monster.
+
+Heavy 3D scene/mesh work may still benefit substantially from a discrete modern GPU.
+
+---
+
+# 27. GAMING-PC SHOPPING CONCLUSION
+
+Earlier discussion initially drifted too high in price. User correctly pointed out that many sub-$1,000 systems appear to be in the relevant performance ballpark.
+
+Current practical target for an affordable experimentation desktop:
+- Windows 11
+- RTX 4060 / RTX 5060-class discrete GPU or better
+- roughly 8 GB dedicated VRAM
+- 32 GB RAM preferred
+- 1 TB NVMe or larger
+- modern Ryzen 5 / Core i5 or better
+
+This is not a formal requirement; it is a sensible “see what ArcGIS Earth can do with real GPU headroom” target.
+
+A GMKtec M5 Ultra listing was reviewed:
+- Ryzen 7 7730U
+- 32 GB RAM
+- NVMe
+- integrated Radeon graphics
+
+Conclusion: good compact general-purpose PC, but **not** the ideal machine for testing the 3D/GPU ceiling because it lacks a true discrete RTX/Radeon-class GPU.
+
+Do not assume expensive hardware is required for the normal operational system—the Dell already disproves that.
+
+---
+
+# 28. FIREFIGHTER DEMO — CURRENT STATUS
+
+A firefighter demonstration is planned for Friday immediately following this continuity date.
+
+Current status:
+- Dell demo system fully up
+- software/data loaded
+- user reports smooth performance
+- several dry runs planned/performed
+- demo is ready
+
+Purpose:
+- judge real firefighter interest
+- watch for unsolicited use-case ideas
+- see whether people immediately start imagining operational uses
+
+High-value spontaneous questions to listen for:
+- Can it show hydrants?
+- Can it show our stations?
+- Can we use this for preplans?
+- Can it show parcel ownership?
+- Can we load our imagery?
+- Can I put this on my laptop?
+- Could we train with this?
+
+Important evaluation question:
+
+> **Does EarthStick merely impress people, or does it immediately make them start inventing uses for it?**
+
+The demo should let the system sell itself: real local map, joystick flight, hover/inspect, parcel/operational layer, basemap changes, beacon navigation, offline capability.
+
+---
+
+# 29. CLASSROOM / MULTI-PILOT CONCEPT
+
+Still active concept:
+- one shared ArcGIS Earth display
+- many joysticks
+- one active pilot at a time
+- instructor chooses pilot
+- neutral control = safe hover/handoff state
 
 Phrase:
 
 > **One Earth. One classroom. Twenty pilots.**
 
-No classroom selector GUI has been built yet.
+Possible network USB/Silex architecture was discussed previously, but no classroom selector has been built.
+
+Object Factory makes this classroom direction much stronger because students can also author the world themselves using coordinate lists and simple icons.
 
 ---
 
-## 9. CLASSROOM USB INFRASTRUCTURE CONCEPT
+# 30. FACILITY PHOTOS / AIR-TO-GROUND RECOGNITION
 
-Silex Technology network USB/device-server products were discussed as a practical way to bring many student USB joysticks back to one central Windows computer.
+Still important:
+- office/station/facility icon
+- click → local photo + address + entrance/gate information
 
-Possible architecture:
+Agency-owned still photos are attractive because the agency controls freshness, rights, framing, and operational relevance.
 
-Student joysticks  
-→ network USB / Silex device servers  
-→ central Windows PC  
-→ Python joystick-selector GUI  
-→ EarthStick control engine  
-→ ArcGIS Earth  
-→ classroom display/projector
-
-Preferred software concept:
-- Windows sees all joysticks
-- Python enumerates them
-- instructor chooses which joystick ID is currently listened to
-- all non-selected joysticks are ignored
-- USB connections do not need to be physically switched for every student handoff if all devices can remain available to Windows
-
-Possible GUI:
-- student name
-- joystick/device status
-- TAKE CONTROL
-- ACTIVE PILOT
-- INSTRUCTOR
-- STOP/HOVER
-
-This architecture is only conceptual. It has not been built or live-tested.
-
----
-
-## 10. ROUTE FAMILIARIZATION / HELICOPTER USE
-
-Important conceptual use:
-
-An experienced helicopter pilot could use EarthStick to rehearse a route through real GIS/map imagery.
-
-Useful sequence:
-1. labels/borders/roads/operational layers ON
-2. fly the intended route and learn names/features intellectually
-3. switch to imagery only
-4. fly the same route again
-5. verify visual recognition without textual cues
-6. optionally re-enable only mission-relevant overlays
-
-This creates:
-
-> **annotated pass → visual pass**
-
-and a learn/remove-cues/verify-recognition loop.
-
-Earth Beacon adds visible destinations and route legs to that process.
-
-Do not turn this into unnecessary aviation disclaimer language when the user is discussing conceptual map familiarization rather than asking for real flight instructions.
-
----
-
-## 11. “GTA OF MAPWORLD” CONCEPT
-
-User description:
-
-> **“It’s the GTA of mapworld.”**
-
-Useful meaning behind the joke:
-- free roaming
-- stop anywhere
-- choose destinations
-- follow beacons
-- switch labels/imagery
-- turn GIS layers on/off
-- inspect features
-- continue moving
-
-Difference from a game:
-- the world is the real GIS/map
-- the features and layers carry real operational meaning
-
-Useful framing:
-
-> **In a game, the world exists to support the game.  
-> Here, the real map is the world.**
-
----
-
-## 12. SCAVENGER-HUNT / GIS GAME CONCEPT — MAJOR NEW DIRECTION
-
-The next major idea came from realizing that ArcGIS Earth already provides most of the pieces of a game engine once EarthStick supplies intuitive movement.
-
-The key insight:
-
-> **GeoJSON or other GIS point features can become Easter eggs, clues, objectives, and information pickups.**
-
-A player can fly through the real map, recognize something interesting, stop/hover, click a feature, and discover information stored in the feature attributes.
-
-Potential hidden feature types:
-- point clues
-- parcel polygons
-- hydrants
-- offices
-- bridges
-- airports
-- landmarks
-- buildings
-- search zones
-- boundaries
-- special beacons
-
-A clicked feature could contain:
-- clue number
-- question
-- hint
-- discovery message
-- next objective
-- point value
-- trivia
-- historical information
-- instructions
-- a photo reference
-- optional coordinates for the next leg
-
-Example clue concept:
-
-> **CLUE #3**  
-> Nice find.  
-> Follow the river west until you reach the railroad bridge.  
-> Your next target is somewhere within two miles.
-
-The player then takes off again and continues the hunt.
-
-### Core game mapping
-
-A useful conceptual model is:
-
-> **world = GIS**  
-> **movement = EarthStick**  
-> **navigation = Earth Beacon**  
-> **objects = GeoJSON / GIS features**  
-> **missions = attributes + layers**  
-> **players = whoever has the joystick**
-
-This led to the observation:
-
-> **ArcGIS Earth already is the engine.**
-
-The goal is not to write a traditional game engine. The goal is to use ArcGIS Earth, GIS data, EarthStick, and beacons to create interactive exploration.
-
----
-
-## 13. SCAVENGER HUNT MAKER — SIMPLE AUTHORING TOOL CONCEPT
-
-The hunt-builder should feel like filling out clue cards, **not doing GIS**.
-
-### Coordinate input workflow
-The easiest student/teacher coordinate workflow observed is Google Maps:
-1. right-click a location
-2. the latitude/longitude pair appears at the top of the context menu
-3. click the coordinate pair
-4. Google Maps copies it to the Windows clipboard
-5. the Scavenger Hunt Maker reads the clipboard
-
-No manual coordinate typing should be required for ordinary use.
-
-### Proposed GUI
-Possible controls:
-
-- Hunt Name
-- `ADD CLUE FROM CLIPBOARD`
-- current latitude / longitude with validation
-- clue number
-- clue name
-- icon picker
-- color picker
-- point value
-- question
-- hint
-- discovery message
-- next clue / next objective text
-- `SAVE CLUE`
-- `NEXT CLUE`
-- clue count
-- `CREATE SCAVENGER HUNT`
-
-Example rough layout:
-
-```text
-SCAVENGER HUNT MAKER
-
-Hunt Name:  Jacksonville Treasure Hunt
-
-[ ADD CLUE FROM CLIPBOARD ]
-
-Clue #4
-Coordinates: 30.317887, -81.667561   ✓
-
-Name:          River Mystery
-Icon:          [ Treasure Chest ▼ ]
-Color:         [ Yellow ▼ ]
-Points:        100
-
-Question:
-What major river are you looking at?
-
-Hint:
-Look at the bridges and surrounding labels.
-
-Discovery Message:
-You found it! Now head toward the railroad bridge.
-
-[ SAVE CLUE ]      [ NEXT CLUE ]
-
-------------------------------------
-4 clues created
-
-[ CREATE SCAVENGER HUNT ]
-```
-
-### Possible fun icons
-- treasure
-- mystery / question mark
-- fire
-- hydrant / water
-- building
-- airport
-- forest
-- bridge
-- bonus star
-- finish flag
-
-The exact icon system has not been chosen.
-
-### Output format
-GeoPackage and GeoJSON were both discussed.
-
-Current thinking:
-- **GeoJSON** is extremely simple to generate and inspect.
-- **GeoPackage** has the attraction of keeping an entire hunt in a single portable GIS database file.
-- A prototype should test both in ArcGIS Earth before choosing a permanent format.
-
-No Scavenger Hunt Maker has been built yet.
-
----
-
-## 14. SCAVENGER-HUNT GAMEPLAY / REVEAL IDEAS
-
-Possible mechanics developed in discussion:
-
-### Hidden GIS Easter eggs
-Scatter clickable features around the map. They can be obvious, subtle, or nearly invisible depending on the exercise.
-
-### Parcel clues
-A particular parcel could contain a message, hint, or next objective in its attributes.
-
-### Hydrant clues
-One particular hydrant among many could hold the next clue.
-
-### Landmark / building clues
-Players may need to recognize a real object in imagery and click the correct GIS feature.
-
-### Beacon checkpoints
-A beacon can mark a major checkpoint or only appear after a clue is found.
-
-### Final beacon
-After the final clue:
-
-> **Turn on the GOLD beacon and fly to the finish.**
-
-### Search zones
-Boundaries or polygons could define the area in which the next clue is hidden.
-
-### Labels as an earned aid
-Possible exercise:
-- begin with labels off
-- player attempts visual recognition
-- later clue allows labels to be turned on
-
-### Layer progression
-Different layers could be enabled as the exercise progresses, creating a simple mission/reveal system without changing the foundation map.
-
-### Scoring
-Potential scoring fields:
-- points per clue
-- bonus points
-- time
-- optional penalties
-- alternate correct answers
-
-No scoring engine has been built. This remains conceptual.
-
----
-
-## 15. CLASSROOM SCAVENGER-HUNT EXPERIENCE
-
-The classroom idea becomes much stronger when combined with the scavenger hunt.
-
-Possible instructor setup:
-- one shared ArcGIS Earth screen
-- many student joysticks
-- one active joystick at a time
-- a prepared hunt layer
-- beacon checkpoints / final beacon
-
-Example classroom moment:
-
-> “There are ten hidden objects somewhere in this county. You have the aircraft.”
-
-One student flies while the whole class watches.
-
-Someone sees something interesting and calls out:
-
-> “STOP! What’s that?”
-
-The pilot releases the controls.
-
-EarthStick stops and hovers.
-
-The class clicks the object.
-
-The clue appears.
-
-Then the instructor transfers control to the next student.
-
-This produces a shared learning environment rather than twenty students separately clicking around twenty independent maps.
-
-The students learn spatial orientation, map reading, landmarks, distance, layer interpretation, and route choice while feeling like they are playing an exploration game.
-
----
-
-## 16. AI-GENERATED HUNTS — LONGER-TERM IDEA
-
-A major future possibility is using AI to make hunt authoring accessible to ordinary teachers or trainers.
-
-Instead of manually creating every clue, a teacher could eventually describe the desired exercise in ordinary language, for example:
-
-> “Make me a 30-minute scavenger hunt around our county for fifth graders. Ten stops. Mix geography, history, and map-reading. Don’t reveal the next location until they find the clue.”
-
-The AI-assisted authoring tool could then help create:
-- clue text
-- sequence/order
-- point attributes
-- beacon checkpoints
-- difficulty levels
-- age-appropriate questions
-- alternate versions for different classes
-- layer/reveal logic
-
-Important distinction:
-AI should not invent factual local-history or infrastructure claims when accuracy matters. It should use supplied/verified data or clearly mark fictional training content.
-
-The larger concept is:
-
-> **AI making GIS programmable by ordinary language.**
-
-The teacher should not need to learn QGIS, ArcGIS Pro, coordinate systems, or database schemas simply to create an educational map exercise.
-
----
-
-## 17. ADULT VERSION — FIREFIGHTER INCIDENT TRAINING TOOL
-
-The scavenger-hunt mechanism immediately suggested a much more serious adult version for first-responder training.
-
-Instead of treasure or trivia, trainees receive a simulated dispatch and must build situational awareness from the real map and operational layers.
-
-Possible opening information box:
-
-> **Wildland/structure fire reported at this location. Estimated size: 12 acres. Wind from the southwest. One structure threatened.**
-
-The trainee flies to the incident using EarthStick and then has to identify or choose the operational pieces that matter.
-
-Potential objectives:
-- correct access route
-- alternate access route
-- primary egress / escape route
-- secondary egress
-- hydrants / water sources
-- candidate landing zones
-- staging areas
-- nearby structures
-- parcel ownership
-- road choke points
-- road closures
-- jurisdiction boundaries
-- terrain / obstacles
-- search or safety zones
-
-The trainee can stop/hover, inspect GIS features, click parcels, examine hydrants, change layers, and continue.
-
-This is not simply a quiz. The purpose is to force spatial decision-making inside the actual geography.
-
----
-
-## 18. INCIDENT SCENARIO PROGRESSION
-
-The firefighter training tool could progress in stages:
-
-> **Dispatch → Recon → Choose access → Locate water → Select staging/LZ → Identify egress → Receive new incident update → Reassess**
-
-### Hidden / triggered information updates
-GIS points or polygons can act like scenario triggers.
-
-Examples:
-
-> **Recon update:** Fire has crossed the road to the east. Reevaluate your exit route.
-
-> **Hydrant:** 8-inch main, available.
-
-> **LZ candidate:** Open field. Check surrounding obstacles and access.
-
-> **Road update:** Access route blocked by apparatus congestion. Select an alternate.
-
-The exercise can reveal additional information only after the trainee reaches, selects, or correctly identifies a feature.
-
-### Choice-based evaluation
-Real incidents often have more than one defensible answer.
-
-Therefore the trainer should not necessarily enforce one rigid “correct” route.
-
-Better possibilities:
-- score the reasoning
-- compare choices after the exercise
-- identify missed information
-- allow multiple defensible solutions
-- replay from the same dispatch and try again
-
-### Reset / repetition
-One of the strongest advantages is repeatability:
-
-> **Reset. Try it again from the same dispatch.**
-
-A live training ground does not need to be restaged every time.
-
----
-
-## 19. WHY THE FIREFIGHTER TRAINER COULD BE CHEAP TO STAGE
-
-The traditional objections to live scenario exercises often include:
-- too many people to coordinate
-- apparatus tied up
-- travel time
-- site permissions
-- safety planning
-- props / signage
-- instructors positioned everywhere
-- weather
-- fuel
-- overtime
-- difficulty repeating the same scenario
-
-A virtual GIS scenario removes or greatly reduces many of those costs.
-
-A new scenario could be created by changing relatively small layers and attributes:
-- incident starting location
-- fire perimeter
-- access points
-- hydrants
-- landing-zone candidates
-- staging
-- road closures
-- ownership
-- hidden updates
-- scoring criteria
-
-The underlying imagery and basemaps do not have to be rebuilt.
-
-This led to a possible future product name:
-
-> **GIS Incident Scenario Builder**
-
-This would complement, not replace, hands-on field/fireground training. Its value would be frequent, inexpensive geographic familiarization and decision-making practice.
-
----
-
-## 20. FOUNDATION MAPS VS CHANGEABLE OPERATIONAL LAYERS
-
-A major architecture insight is to keep the expensive foundation maps stable and make almost everything else an independent overlay.
-
-### Foundation / durable world
-Examples:
-- Bing street map
-- Google/Esri imagery TPKX
-- Z20 detail blocks
-- terrain / topographic basemaps
-- other trusted offline map packages
-
-### Changeable layers
-Examples:
-- parcels
-- hydrants
-- office icons
-- facility photos
-- fire perimeters
-- landing zones
-- road closures
-- training clues
-- beacons
-- ownership information
-- incident points
-- district boundaries
-
-Core architectural phrase:
-
-> **Foundation = stable geography**  
-> **Layers = changing information**
-
-If a hydrant database changes, replace the hydrant layer.
-
-If an office gets a new photo, update the photo/facility layer.
-
-If a fire perimeter changes, replace the perimeter layer.
-
-Do **not** regenerate 25 Z20 blocks or rebuild a massive TPKX just because small operational information changed.
-
-This separation is central to keeping the system practical.
-
----
-
-## 21. FACILITY PHOTOS / STREET-LEVEL RECOGNITION LAYER
-
-A simple still-photo layer may be more useful than a full Street View system for many operational facilities.
-
-Possible facility point attributes:
-- facility name
-- street address
-- phone
-- office/station type
-- hours
-- notes
-- photo
-- entrance / gate information
-
-EarthStick workflow:
-
-> **see facility icon → stop/hover → click → street-level photo appears → recognize the building → continue flying**
-
-### Agency-owned photos
-Agency-owned still photos may be preferable to third-party street imagery because the agency controls:
-- freshness
-- permissions
-- framing
-- correct entrance
-- operational relevance
-
-Useful photos could include:
+Useful photos:
 - front entrance
 - apparatus entrance
 - gate
 - parking/access
 - helipad/LZ
 - fuel point
-- confusing approach features
+- confusing approach feature
 
-This becomes an **air-to-ground recognition layer**.
+Concept phrase:
 
-### Popup implementation
-The exact best container has not been proven yet.
+> **air-to-ground recognition layer**
 
-If direct image display from GeoJSON/GeoPackage popups is awkward in ArcGIS Earth, KML popup HTML with referenced images may be a practical alternative.
-
-Do not choose a permanent implementation until live-tested.
+KMZ remains a strong candidate because it can bundle supporting assets.
 
 ---
 
-## 22. EXTERNAL STREET-LEVEL IMAGERY NOTES
+# 31. BROADER OFFLINE MAP FOUNDATION — STILL VALID
 
-Ground-level imagery sources discussed:
-- Google Street View APIs
-- Mapillary
-- KartaView
-- agency-owned imagery
+The existing offline map ecosystem remains important and should not be rediscovered from scratch.
 
-### Google Street View
-Useful for on-demand views, but bulk/offline storage is restricted by Google’s terms. Do not design the offline system around bulk Street View downloading.
+Primary path:
+- QGIS → MBTiles JPG/75 → Python MBTiles→TPKX converter → ArcGIS Earth
 
-### Mapillary
-Mapillary has broad crowdsourced coverage and is increasingly integrated into the ArcGIS ecosystem, but ArcGIS Earth does not currently provide the same oriented-imagery experience as ArcGIS Pro/Map Viewer/Scene Viewer.
+Repository:
+https://github.com/Jim-dc95811/QGIS-Mbtile-to-ArcGIS-Earth-TPKX
 
-Potential future use:
-- Mapillary location points in Earth
-- links or image references in popups
-- external ground-level context when available
+Verified historical outcomes:
+- converter works
+- small proof tiles work
+- 4 GB MBTiles conversion works
+- approximately 40–50 GB MBTiles conversions worked
+- resulting TPKX opens in ArcGIS Earth and ArcGIS Pro
+- offline TPKX can render extremely quickly
+- JPG/75 MBTiles reduced size dramatically versus PNG while retaining useful visual clarity
 
-### Agency-owned imagery
-For fixed state offices, stations, gates, access points and similar facilities, simple agency-owned JPEGs may be the cleanest and most durable solution.
+ArcGIS Earth prefers uncompressed TIFF when using GeoTIFF directly; TPKX remains the stronger large-area operational format.
 
----
-
-## 23. MAPWORLDS / BASEMAP SWITCHING
-
-EarthStick does not fly one visual world. It flies whatever ArcGIS Earth can display.
-
-Possible mapworlds include:
-- satellite imagery
-- street maps
-- hybrid maps
-- terrain/topographic maps
-- imagery with labels
-- parcel/operational overlays
-- offline TPKX worlds
-- 3D scene layers / integrated meshes
-
-Useful phrase:
-
-> **Same Earth. Different mapworlds.**
-
-The operator can change the visual language of the place without changing position, heading, altitude, or route.
+The foundation-map work is what makes the newer object system especially powerful: the world can remain fully local/offline while objects are layered above it.
 
 ---
 
-## 24. 3D GIS / “DRAGONFLY” EXPLORATION
+# 32. CURRENT VERIFIED VS CONCEPTUAL STATUS
 
-EarthStick was tested in the public Frankfurt Integrated Mesh scene.
+## LIVE-PROVEN / ACCEPTED OR FUNCTIONALLY VERIFIED
+- EarthStick 1.0 direct joystick flight
+- neutral stop/hover
+- horizon navigation
+- parcel/feature interrogation while flying
+- Earth Beacon 1.0 long-range KML beacon
+- manual beacon layer show/hide
+- Frankfurt 3D EarthStick flight
+- offline TPKX world workflow
+- airborne PNG object at geographic altitude
+- generic flying fire-truck PNG test
+- no-label-until-click object behavior
+- click information on PNG object
+- batch object-list → multi-object KMZ
+- Mystery Bird click/reveal example
+- generated NSEW Sky Compass
+- giant directional sky letters visible in horizon view
+- Dell i7-1185G7 / 32 GB / 4 GB-graphics demo machine running the system smoothly
 
-User successfully flew through the 3D scene and described the experience as flying around Frankfurt “like a dragonfly.”
+## VERIFIED BUT NEEDS PRESENTATION TUNING
+- ArcGIS Earth native KML popup/info box works, but is larger than desired
 
-Observed behavior:
-- free flight through/around towers
-- camera can pass through buildings because the mesh does not enforce collision
-- ability to hover, circle, climb, descend, and re-approach
+## DESIGN LOCKED / USER-APPROVED BUT NOT YET INTEGRATED
+- preserve source PNG untouched
+- normalize KMZ working PNG to max 256 px dimension
+- preserve aspect ratio/transparency
+- do not unnecessarily upscale small clean images
+- no-label default for most world objects
+- generic object engine + presets
 
-The Frankfurt scene itself was somewhat disappointing visually and difficult to render quickly at speed, so it is not currently considered the strongest video showcase.
-
-Important conceptual insight:
-
-> **EarthStick doesn’t just fly maps. It flies 3D GIS worlds.**
-
-The no-collision behavior can actually be useful for unrestricted inspection because EarthStick is not trying to simulate aircraft physics.
-
----
-
-## 25. VIDEO / PUBLIC DEMO DIRECTION
-
-Current strong hook:
-
-> **ArcGIS Earth Flight Simulator Is Far Better Than Google Earth!**
-
-The target audience should not be only GIS professionals. There is a large existing audience around Google Earth flight/exploration videos.
-
-The demo can bridge two communities:
-- gamers / virtual-world explorers
-- GIS / mapping users
-
-Useful framing:
-
-> **game-like control over a real GIS world**
-
-Possible demo arc:
-1. briefly show conventional Google Earth flight
-2. cut to EarthStick in ArcGIS Earth
-3. demonstrate horizon cruise
-4. stop/hover
-5. inspect a parcel / ownership
-6. toggle labels/basemaps/operational layers
-7. get semi-lost
-8. ask “Which way is home?”
-9. turn the home beacon on
-10. rotate until it appears on the horizon
-11. fly home
-12. optionally show a quick 3D scene clip
-
-The strongest demo is likely real imagery + operational layers + beacon navigation, not the Frankfurt mesh.
-
----
-
-## 26. IMPORTANT PRESENTATION / PHILOSOPHY
-
-EarthStick should not be described merely as a joystick hack.
-
-Its deeper value is:
-
-> **continuous map observation under direct analog control**
-
-The operator can actually study the map while moving through it.
-
-Earth Beacon should not be described merely as a vertical KML line.
-
-Its deeper value is:
-
-> **turning a geographic coordinate into a long-range visual destination**
-
-The scavenger-hunt / training concept should not be described as “turning GIS into a toy.”
-
-Its deeper value is:
-
-> **using real GIS geography as an interactive world for exploration, learning and decision-making.**
-
-Together, these tools create an environment where the map can be flown, interrogated, navigated, and used as the setting for exercises.
-
----
-
-## 27. VERIFIED VS NOT YET VERIFIED
-
-### VERIFIED
-- EarthStick 1.0 live-tested and accepted.
-- Neutral controls stop/hover.
-- EarthStick provides clean direct map flight in ArcGIS Earth.
-- EarthStick supports practical horizon-view flying.
-- Earth Beacon v1.0 creates a working vertical KML beacon.
-- Beacon visible from very long range.
-- User observed beacon becomes effectively invisible when viewed parallel to the ground.
-- Beacon layer can be toggled on/off in ArcGIS Earth.
-- Clipboard coordinate import works in Beacon Maker.
-- ArcGIS Earth camera coordinate import exists in Beacon Maker.
-- User has used EarthStick to stop and interrogate parcel ownership in ArcGIS Earth.
-- User has used EarthStick to approach airports/runways and perform map-level “landings”/departures.
-- EarthStick was used successfully in the Frankfurt integrated-mesh 3D scene.
-- Earth Beacon repository published.
-- EarthStick repository published.
-
-### CONCEPTUAL / NOT BUILT
-- Beacon Tour Maker
-- district bulk beacon generator
-- automatic GIS feature → beacon conversion
-- hydrant beacon generator
-- beacon filtering by AOI/radius
-- multi-operator EarthStick
-- copilot control handoff
-- classroom joystick selector
-- Silex classroom joystick network
-- synchronized multiple ArcGIS Earth displays
-- multiple ArcGIS Earth instances on same PC using different API ports
-- Scavenger Hunt Maker
-- GeoPackage/GeoJSON hunt-builder GUI
-- AI-authored hunt generator
-- clue sequencing / reveal engine
+## CONCEPTUAL / NOT YET BUILT OR NOT YET LIVE-VERIFIED
+- integrated Object Factory GUI
+- Camera / Viewpoint object launcher
+- always-on-top Camera Viewer
+- live webcam launch/viewer
+- Street View viewpoint launch
+- 3D-model object factory branch
+- answer-triggered progressive object/beacon reveal
+- scenario state controller
 - scoring engine
-- final-beacon game progression
-- answer-triggered beacon reveal/controller
-- automated scenario-state → KML beacon show/load logic
+- AI-authored hunt generator
 - firefighter GIS Incident Scenario Builder
-- triggered incident updates
-- scenario scoring/evaluation framework
-- facility-photo popup layer
-- Mapillary/KartaView integration inside Earth
+- classroom joystick selector
+- multi-operator/coproilot handoff
+- synchronized multi-screen Earth views
+- bulk district object generator beyond current POF batch list
 
-Do not accidentally present these conceptual items as finished products.
-
----
-
-## 28. CURRENT REPOSITORIES
-
-### EarthStick
-https://github.com/Jim-dc95811/EarthStick
-
-### Earth Beacon
-https://github.com/Jim-dc95811/Earth-Beacon
-
-Related broader mapping ecosystem may include Parcel100, MBTiles→TPKX, offline ArcGIS Earth map generation and other tools, but those were not modified as part of this continuity update.
+Do not blur the above categories.
 
 ---
 
-## 29. NEXT-SESSION STARTING POINT
+# 33. OBJECT FACTORY BUILD PRIORITY FROM HERE
 
-When resuming, do not reinvent EarthStick or Earth Beacon.
+Because all three risky POF foundations worked, the next step should move from isolated proofs into the first real Object Factory build.
 
-Both current v1.0 products are accepted.
+Recommended integration order:
 
-The most fertile next directions are now:
+1. shared object schema
+2. generic airborne PNG creator
+3. PNG inspection + 256 px normalization
+4. no-label default
+5. concise Info / No Popup modes
+6. batch object-list importer
+7. preset library
+8. Sky Compass generator
+9. accepted Beacon functionality
+10. KMZ output packaging
+11. later: URL / viewpoint object support
+12. later: Camera Viewer POF
+13. later: standalone 3D model support
 
-1. **Scavenger Hunt Maker** — clipboard coordinate → clue card → progressive beacon reveal → GeoJSON/GeoPackage
-2. **Firefighter GIS Incident Scenario Builder**
-3. **Earth Beacon Tour Maker / Follow the Rainbow**
-4. **bulk beacons from GIS point datasets**
-5. **district facility beacon network**
-6. **hydrant beacons with controlled visibility**
-7. **facility-photo recognition layer**
-8. **classroom joystick-selector architecture**
-9. **copilot/local-pilot control handoff**
-10. **multi-screen synchronized ArcGIS Earth views**
-
-Before building anything, preserve the Minimal Build Rule:
-- implement only the requested function
-- do not refactor accepted tools without approval
-- preserve working filenames/paths/behavior
-- make new versions for functional code changes
-- do not call a version accepted until it is live-tested in ArcGIS Earth
+Do not overbuild the first integrated factory. The proven primitives are already enough to make a powerful useful product.
 
 ---
 
-## 30. CURRENT ONE-LINE SUMMARY
+# 34. IMPORTANT CURRENT PHRASES / FRAMING
 
-> **EarthStick lets you fly the real map. Earth Beacon gives you something to fly toward. GIS layers can now turn that world into an interactive game, classroom, or incident-training environment.**
+Keep these available because they capture the project accurately:
 
----
-
-## 31. ANSWER-TRIGGERED BEACONS — PROGRESSIVE REVEAL MECHANIC
-
-A major progression idea is to make beacons appear only after the player or trainee successfully completes the current objective.
-
-Core loop:
-
-> **find clue → stop/hover → click/inspect → answer or make a decision → correct/acceptable response → next beacon appears → fly toward it**
-
-This changes the beacon from a passive destination marker into both a **reward** and a **navigation mechanic**.
-
-The key phrase is:
-
-> **Knowledge unlocks geography.**
-
-The route should not necessarily be visible in advance. The next part of the world is revealed only when the current problem is solved.
-
-### Classroom / scavenger-hunt version
-A possible sequence:
-1. student finds the hidden clue
-2. EarthStick stops/hover
-3. class opens the clue and answers the question
-4. correct answer is accepted
-5. a new colored beacon suddenly becomes visible on the map/horizon
-6. the room can immediately see the next objective
-7. the active pilot, or the next student after a control handoff, flies toward it
-
-That creates a strong shared-room moment:
-
-> **“There it is!”**
-
-The beacon is not merely telling the student where to go. It is visual confirmation that the previous objective was completed successfully.
-
-### Possible color language
-Colors could carry meaning while still keeping the system simple:
-- **Yellow** — next clue / general objective
-- **Blue** — water source
-- **Green** — staging / safe access / approved objective
-- **Red** — incident / hazard / primary target
-- **Purple or Magenta** — bonus / optional objective
-- **Gold** — finish / home / final objective
-
-The exact color vocabulary should remain flexible by scenario.
-
-### Firefighter / incident-training version
-The same mechanic becomes more serious in an operational training scenario.
-
-Example progression:
-
-> **Select a defensible access route → staging beacon appears**
-
-Then:
-
-> **Identify an acceptable water source → water/hydrant beacon appears**
-
-Then a scenario update may occur:
-
-> **Wind shifts / fire crosses road → choose an alternate egress → escape/safety beacon appears**
-
-For adult incident scenarios, “correct” should often mean **acceptable or defensible**, not necessarily one rigid answer. Real incidents may have several valid decisions depending on the trainee’s reasoning and the scenario conditions.
-
-### Simple controller concept
-A first implementation does not need to alter the foundation imagery or rebuild map packages.
-
-A small scenario controller could maintain:
-- current stage
-- accepted answer(s) or decision(s)
-- current score if scoring is used
-- which clues are active
-- which beacon is currently visible
-- which beacon or layer becomes available next
-
-Conceptually:
-
-> **Foundation map stays fixed. Scenario state changes the small layers above it.**
-
-The controller would keep later beacons hidden/unloaded and reveal only the next earned beacon after the response is accepted.
-
-A reset command could return the exercise to stage one for immediate replay.
-
-### Important status
-This progression mechanic is **conceptual / not built**.
-
-Verified:
-- beacon KML works in ArcGIS Earth
-- beacon layers can be manually shown/hidden
-- EarthStick can fly toward a visible beacon and stop/hover for inspection
-
-Not yet verified:
-- automated answer checking
-- automated scenario-state management
-- automated KML beacon loading/showing/hiding in ArcGIS Earth
-- a complete clue → answer → beacon-reveal cycle
-
-Do not claim the automated reveal mechanism works until it has been built and live-tested.
-
----
-
-## 32. VISUAL SAMPLERS — PIN VS BEACON
-
-These are real ArcGIS Earth screenshots from the working project, included as quick visual references rather than polished marketing graphics.
-
-| Conventional 2D-style pin/drop | Earth Beacon in the 3D horizon view |
-| --- | --- |
-| ![Conventional map pin](assets/Pin_Drop_2D_Map_sampler.jpg) | ![Live-tested Earth Beacon](assets/Earth_Beacon_ArcGIS_Earth.jpg) |
-
-The contrast is intentionally simple:
+> **Fly the real map.**
 
 > **A pin marks a place. A beacon gives you something to aim at.**
 
-The pin is a conventional marker associated with a location on the map. The beacon is a true vertical line rising from the geography, giving the EarthStick pilot a horizon-visible geographic reference.
+> **Stop. Hover. Think. Then move.**
 
-That visual difference is also what makes progressive beacon unlocking potentially powerful: after a correct answer or acceptable decision, the next objective can become a large, immediately understandable feature in the world rather than another small pin the operator must hunt for on a flat map.
+> **EarthStick makes horizon flight practical. Earth Beacon makes horizon flight navigable.**
+
+> **A $90 joystick didn’t improve ArcGIS Earth. It activated it.**
+
+> **The map is not the answer. Choosing the right map is part of the answer.**
+
+> **See it → recognize it → click it → understand it.**
+
+> **Offline object = useful by itself. Connected object = potentially unlimited extension.**
+
+> **The mechanics can be universal while the world stays completely local.**
+
+> **The world is already built. We just add the objects.**
+
+User phrases worth preserving:
+
+> **We own the sky.**
+
+> **We control the sky.**
+
+> **Sky’s the limit.**
+
+---
+
+# 35. NEXT-SESSION STARTING POINT
+
+If a reset occurs immediately after this file:
+
+1. Do **not** rebuild or redesign EarthStick 1.0.
+2. Do **not** rebuild or redesign Earth Beacon 1.0 unless specifically asked.
+3. Read `MAPWORLD.md` for the existing ArcGIS Earth format inventory.
+4. Treat Object Factory as the active build.
+5. Remember that POF1, POF2, and POF3 have all been live-tested successfully.
+6. The only common visual complaint from POF1/2 is the oversized native popup box.
+7. Preserve the user-approved 256 px PNG normalization rule.
+8. The next likely development task is integrating the proven POF components into the first real factory GUI.
+9. Keep the architecture offline-first.
+10. Treat online/webcam/Street View links as optional object extensions, preferably through a separate small viewer rather than forcing media into ArcGIS Earth’s popup.
+11. The Friday firefighter demo system is already up and running smoothly on the Dell laptop.
+12. The umbrella public name is **not settled**; use “ArcGIS Earth + …” as the naming direction rather than assuming “Mapworld” is final.
+
+---
+
+# 36. CURRENT ONE-LINE SUMMARY
+
+> **EarthStick makes ArcGIS Earth navigable, Earth Beacon gives it long-range destinations, and the now-proven Object Factory primitives let ordinary users populate both the ground and sky with geographic objects—offline first, with online links opening an effectively unlimited second layer.**
