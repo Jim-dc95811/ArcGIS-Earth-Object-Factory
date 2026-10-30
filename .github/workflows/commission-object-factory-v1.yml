@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          gh api "repos/${GITHUB_REPOSITORY}/git/blobs/0afced6e4675f5df3b6a751958375a13228fd129" --jq .content | tr -d '\n' | base64 -d > /tmp/object_factory_icons.zip
+          gh api "repos/${GITHUB_REPOSITORY}/git/blobs/23c447249e7a5ee85314954c89e8ab168005fbd6" --jq .content | tr -d '\n' | base64 -d > /tmp/object_factory_icons.zip
           unzip -t /tmp/object_factory_icons.zip >/dev/null
           rm -rf icons
           mkdir -p icons
@@ -32,9 +32,10 @@ jobs:
             test -n "$src" || { echo "Missing required icon: ${name}.png"; exit 1; }
             cp "$src" "icons/${name}.png"
           done
-          echo "Preset icon archive verified: $(find icons -type f -name '*.png' | wc -l) PNG files installed."
+          test "$(find icons -type f -name '*.png' | wc -l)" -eq 15
+          echo "Preset icon archive verified: 15 PNG files installed."
 
-      - name: Promote accepted v0.2.2 behavior to v1.0 source
+      - name: Promote accepted v0.2.2 behavior to exact v1.0 source
         shell: bash
         run: |
           set -euo pipefail
@@ -43,7 +44,7 @@ jobs:
 
           src = Path('Object_Factory_v0.2_TEST.py')
           if not src.exists():
-              raise SystemExit('Expected accepted baseline source Object_Factory_v0.2_TEST.py is missing.')
+              raise SystemExit('Expected baseline source Object_Factory_v0.2_TEST.py is missing.')
           s = src.read_text(encoding='utf-8')
 
           def one(old, new, label):
@@ -54,9 +55,9 @@ jobs:
               s = s.replace(old, new, 1)
 
           one('VERSION = "0.2 TEST"', 'VERSION = "1.0"', 'version')
-          one('Object Factory v0.2 accepts PNG icons only.', 'Object Factory v1.0 accepts PNG icons only.', 'PNG message')
+          one('Object Factory v0.2 accepts PNG icons only.', 'Object Factory accepts PNG icons only.', 'PNG message')
           one('self.status = tk.StringVar(value="Factory ready. v0.2 UX simplified; proven object/batch/compass behavior preserved; awaiting live ArcGIS Earth acceptance.")',
-              'self.status = tk.StringVar(value="Object Factory v1.0 ready. Accepted ArcGIS Earth release.")', 'status')
+              'self.status = tk.StringVar(value="Factory ready. Object Factory v1.0 commissioned for ArcGIS Earth.")', 'status')
           one('ttk.Label(t,text="Info text").grid(row=r,column=0,sticky="nw",padx=(0,8),pady=4);self.object_desc=tk.Text(t,height=4,wrap="word");self.object_desc.grid(row=r,column=1,columnspan=3,sticky="nsew",pady=4);t.rowconfigure(r,weight=1);r+=1',
               'ttk.Label(t,text="Info text").grid(row=r,column=0,sticky="nw",padx=(0,8),pady=4);self.object_desc=tk.Text(t,height=2,wrap="word");self.object_desc.grid(row=r,column=1,columnspan=3,sticky="ew",pady=4);r+=1', 'Info-text layout')
           one('pf=max(1,math.ceil(max(w,h)/96));', 'pf=max(1,math.ceil(max(w,h)/72));', 'preview cap')
@@ -65,6 +66,8 @@ jobs:
 
           Path('Object_Factory_v1.0.py').write_text(s, encoding='utf-8', newline='\n')
           PY
+
+          echo "e77e1866e7a87b9824ed6bb1cd0f830f52adb1a2872efe48ede13a581018aa00  Object_Factory_v1.0.py" | sha256sum -c -
 
           cat > Run_Object_Factory.bat <<'BAT'
           @echo off
@@ -105,8 +108,8 @@ jobs:
           import re, textwrap
 
           source = Path('docs/OBJECT_FACTORY_GUIDE.md').read_text(encoding='utf-8')
-          lines = ['ArcGIS Earth Object Factory v1.0 — User Manual', '',
-                   'Official accepted release — 2026-10-29', '']
+          lines = ['ArcGIS Earth Object Factory v1.0 - User Manual', '',
+                   'Official accepted release - 2026-10-29', '']
           in_code = False
           for raw in source.splitlines():
               line = raw.rstrip()
@@ -118,12 +121,11 @@ jobs:
                   continue
               if line.startswith('#'):
                   line = line.lstrip('#').strip().upper()
-              line = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 — \2', line)
+              line = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 - \2', line)
               line = line.replace('**','').replace('`','')
               width = 88 if not in_code else 82
               lines.extend(textwrap.wrap(line, width=width, subsequent_indent='    ') or [''])
 
-          # Tiny dependency-free PDF writer using Helvetica.
           PAGE_W, PAGE_H = 612, 792
           LEFT, TOP, LEADING = 54, 742, 14
           per_page = 47
