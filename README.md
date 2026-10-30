@@ -1,176 +1,205 @@
-# Earth Beacon
+# ArcGIS Earth Object Factory
 
-**Turn any coordinate into a horizon-visible 3D beacon for ArcGIS Earth.**
+**Put objects into the real map.**
 
-A normal map pin is useful when you are close to it. From far away, it disappears into the map.
+ArcGIS Earth Object Factory is a Windows/Python authoring tool for creating geographic objects that open directly in **ArcGIS Earth**. It grew from the original Earth Beacon experiment into a general factory for sky objects, ground objects, batch object sets, horizon navigation markers, and clickable information.
 
-Earth Beacon creates a vertical KML pillar at the target coordinate so the location remains visually obvious from great distance.
+The goal is deliberately simple:
+
+> **Choose an object → choose where it lives → choose what it shows → create it.**
+
+No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is required for normal object creation.
+
+## Current build
+
+**ArcGIS Earth Object Factory v0.2 TEST**
+
+The v0.2 build is the current owner-tested factory build. It keeps the live-proven object-generation behavior from the earlier proof-of-function tests while simplifying the GUI.
+
+The active factory is organized around four tabs:
+
+### Objects
+Create one geographic PNG object at a time.
+
+- manual latitude/longitude or **From Clipboard**
+- built-in object presets
+- custom transparent PNG support
+- `relativeToGround`, `absolute`, or `clampToGround`
+- adjustable icon scale
+- optional vertical tether
+- labels off by default
+- Info popup or No Popup
+- optional clickable hyperlink
+- KMZ output
+
+### Batch
+Turn a simple text/CSV list into one object-set KMZ.
+
+Kid-simple shorthand works:
+
+```text
+fuel,30.410104,-81.922396
+helicopter,30.398210,-81.931440,300
+bird,30.402778,-81.918620,120,Mystery Bird
+home,30.385525,-81.930807
+```
+
+A full header format is also supported when altitude mode, scale, links, popup behavior, labels, tethers, descriptions, and custom icons need to be controlled per object.
+
+### Sky Compass
+Generate giant **N / E / S / W** horizon markers around a chosen center.
+
+The Sky Compass was live-tested in ArcGIS Earth and gives EarthStick pilots a persistent visual orientation system in horizon view.
+
+### Beacon
+The original Earth Beacon geometry is now built into the factory.
+
+A beacon turns a coordinate into a tall horizon-visible vertical KML target:
 
 > **A pin marks a place. A beacon gives you something to aim at.**
 
-![Earth Beacon live in ArcGIS Earth](assets/Earth_Beacon_ArcGIS_Earth.jpg)
+## PNG normalization
 
-The screenshot above is a live ArcGIS Earth test with the eye at roughly **102 km altitude**. The red beacon remains clearly visible on the horizon.
+The factory handles icon optimization automatically.
 
-## What it does
+When a PNG is selected:
 
-Beacon Maker v1.0 creates a standard KML file containing:
+- the original file is never modified
+- aspect ratio is preserved
+- transparency is preserved
+- images larger than 256 px are reduced for the packaged KMZ
+- smaller clean icons are not unnecessarily enlarged
+- duplicate source icons in a batch are packaged once and reused
 
-- a geographic point at the target location
-- a vertical `LineString` rising from that point
-- configurable beacon height
-- configurable line width
-- selectable beacon color
-- a visible label at the target
+This keeps object packs small without asking the operator to understand image optimization.
 
-The resulting `.kml` can be opened directly in ArcGIS Earth.
+## Object presets
 
-Earth Beacon does not modify ArcGIS Earth. It simply generates a small KML overlay using standard KML 3D geometry.
+Current built-in preset families include:
 
-## Coordinate sources
+- generic object
+- helicopter
+- fuel
+- bird
+- hazard
+- home/base
+- staging
+- water
+- fire truck
+- camera/viewpoint
+- medical
 
-You can create a beacon from:
+These are presets over one shared object engine, not separate hard-coded programs. A gas pump, bird, helicopter, or camera is simply a different geographic object definition.
 
-1. **Manual latitude / longitude entry**
-2. **Windows clipboard**
-3. **The current ArcGIS Earth camera coordinates** through the local Automation API
+## Clickable objects and links
 
-Clipboard examples accepted by v1.0 include:
+Most objects are intended to remain visually clean with **no visible label until clicked**.
 
-```text
-30.123, -81.456
--81.456 30.123
-Latitude: 30.123 Longitude: -81.456
-lat=30.123 lon=-81.456
-```
+A useful information hierarchy is:
 
-When an unlabeled pair is geographically ambiguous, Beacon Maker tells you how it interpreted the numbers and provides a **Swap Lat/Lon** button instead of silently pretending certainty.
+> **See it → recognize it → click it → understand it.**
 
-## Default beacon
+Info objects can include a concise description and an optional web hyperlink. This creates a clean offline-first model:
 
-The default v1.0 beacon is:
+> **Offline object = useful by itself. Connected object = potentially unlimited extension.**
 
-- **100 km tall**
-- **red**
-- **line width 6**
-- KML altitude mode: `relativeToGround`
+Future Camera/Viewpoint work can use those links to open live webcams, Street View, still photos, recorded video, or other location-specific resources in a separate viewer while ArcGIS Earth remains underneath.
 
-Available colors include red, yellow, cyan, green, magenta, white, and orange.
+## Live-proven foundations
 
-## Download
+The development sequence intentionally proved the risky pieces separately before integration.
 
-The official tested package is:
+- **POF1:** arbitrary airborne PNG object — live-proven in ArcGIS Earth
+- **POF2:** batch object list → multi-object KMZ — live-proven
+- **POF3:** generated NSEW Sky Compass — live-proven
+- **Earth Beacon:** long-range vertical KML navigation marker — live-proven
 
-[`releases/Beacon_Maker_v1.0.zip`](releases/Beacon_Maker_v1.0.zip)
+The v0.2 factory integrates those ideas into one GUI.
 
-SHA-256:
+## Fast coordinate workflow
 
-```text
-d53559ac33b84c148f97e14094a6a6f8249583ea068f1606ecf1add7f4b68535
-```
+The preferred authoring loop is intentionally ordinary-person friendly:
 
-The ZIP contains exactly:
+1. Find a location in the map/source you are using.
+2. Copy its latitude/longitude pair.
+3. Click **From Clipboard** in Object Factory.
+4. Verify Latitude and Longitude.
+5. Choose the object/preset.
+6. Create the KMZ/KML.
+7. Add it to ArcGIS Earth.
 
-- `Beacon_Maker.py`
-- `Beacon_Maker.bat`
-- `README.txt`
+This makes it practical to create an object list in minutes from ordinary map coordinates.
 
-No third-party Python packages are required.
+## Classroom and training possibilities
 
-## Quick start
+The same primitives can support very different worlds:
 
-1. Install Python 3 on Windows.
-2. Extract `Beacon_Maker_v1.0.zip`.
-3. Double-click `Beacon_Maker.bat`.
-4. Enter coordinates, copy coordinates to the Windows clipboard, or use **From ArcGIS Earth**.
-5. Choose the beacon height, width, and color.
-6. Click **Create Beacon KML**.
-7. Save the `.kml` file.
-8. If **Open KML after saving** is checked, Windows will open it using the associated KML application.
+- bird/tree/animal identification lessons
+- local-history hunts
+- scavenger hunts
+- route familiarization
+- firefighter incident scenarios
+- staging/LZ/water-source training
+- floating fuel or facility markers
+- giant sky-compass references
+- camera/viewpoint objects
+- future 3D objects
 
-For ArcGIS Earth camera pickup, enable the **Automation API** in ArcGIS Earth. Beacon Maker uses the default local endpoint:
+The world is the real geography; the factory adds objects and meaning.
 
-```text
-http://localhost:8000/arcgisearth/camera
-```
+## Relationship to EarthStick
 
-## Why this is useful
+[EarthStick](https://github.com/Jim-dc95811/EarthStick) provides direct joystick navigation through ArcGIS Earth.
 
-Earth Beacon is deliberately simple. Its purpose is long-range visual orientation.
+Useful combination:
 
-Possible uses include:
+> **EarthStick = movement**  
+> **Sky Compass = orientation**  
+> **Earth Beacon = destination**  
+> **Object Factory = objects and meaning**
 
-- destination beacon
-- incident location
-- staging area
-- landing-zone reference
-- home base
-- parcel or tract target
-- route checkpoint
-- any location that must remain visually obvious while navigating the globe
+## ArcGIS Earth Unlocked ecosystem
 
-The beacon can be especially useful in a tilted 3D view where an ordinary point marker may be hidden by distance, terrain, or visual clutter.
+Object Factory is the active object-authoring and experimentation center in the broader **ArcGIS Earth Unlocked** project family.
 
-## EarthStick companion use
+- **Foundation maps:** [QGIS MBTiles → ArcGIS Earth TPKX](https://github.com/Jim-dc95811/QGIS-Mbtile-to-ArcGIS-Earth-TPKX)
+- **Offline field-map workflows:** [ArcGIS Earth Offline Maps & Chartplotting](https://github.com/Jim-dc95811/ArcGIS-Earth-Offline-Maps-Chartplotting)
+- **Navigation:** [EarthStick](https://github.com/Jim-dc95811/EarthStick)
+- **Operational point layers:** [Point Maps / PointLayer](https://github.com/Jim-dc95811/Point-Maps)
+- **Parcel intelligence:** [Parcel100](https://github.com/Jim-dc95811/Parcel100)
+- **Objects / navigation markers / experiments:** this repository
 
-Earth Beacon works independently, but it pairs naturally with [EarthStick](https://github.com/Jim-dc95811/EarthStick).
+Read the full system map: **[ArcGIS Earth Unlocked](ARCGIS_EARTH_UNLOCKED.md)**.
 
-EarthStick makes the ArcGIS Earth camera directly flyable with a joystick. Earth Beacon gives that flyable map a long-range visual destination:
+## Earth Beacon legacy
 
-> **Drop a beacon anywhere on Earth, then fly the real map toward it.**
+This repository began as **Earth Beacon**. The standalone accepted Beacon Maker v1.0 is preserved rather than discarded:
 
-The two projects remain intentionally separate utilities.
+- [Beacon Maker v1.0 release](releases/Beacon_Maker_v1.0.zip)
+- legacy standalone source/documentation is preserved under `legacy/Earth_Beacon_v1.0/`
 
-## How it works
+The Beacon concept did not disappear; it became one of the four main Object Factory tools.
 
-The core KML geometry is intentionally uncomplicated. The base and top vertices use the same longitude and latitude, while the top vertex has a large altitude value:
+## Documentation / project brain
 
-```xml
-<LineString>
-  <altitudeMode>relativeToGround</altitudeMode>
-  <coordinates>
-    -81.00000000,30.00000000,0
-    -81.00000000,30.00000000,100000
-  </coordinates>
-</LineString>
-```
+- [Object Factory quick guide](docs/OBJECT_FACTORY_GUIDE.md)
+- [CONTINUITY.md](CONTINUITY.md) — current live-tested project state and next-session handoff
+- [MAPWORLD.md](MAPWORLD.md) — technical ArcGIS Earth format/object inventory; “Mapworld” is an internal working term, not the final public umbrella name
+- [CHANGELOG.md](CHANGELOG.md)
 
-That creates a geographic vertical line extending upward from the target.
+## Requirements
 
-This is standard KML geometry. Earth Beacon's value is turning that geometry into a fast operational beacon workflow.
+- Windows
+- Python 3 with Tkinter (standard Windows Python install)
+- ArcGIS Earth desktop for use/testing of generated files
 
-## Verified status
+Object Factory v0.2 TEST uses the Python standard library and Tkinter. No Pillow installation is required.
 
-**Beacon Maker v1.0 is live-verified in ArcGIS Earth.**
+## Independence and data responsibility
 
-Verified behavior:
+This is an independent project and is not an Esri product or official Esri distribution. ArcGIS, ArcGIS Pro, and ArcGIS Earth are Esri products and trademarks.
 
-- GUI launches on Windows
-- KML beacon is generated
-- generated beacon loads in ArcGIS Earth
-- vertical red pillar renders correctly
-- label/base point render correctly
-- beacon remains visible from long range in tilted 3D view
-- clipboard parser self-test passes
-- KML generation self-test passes
-
-The v1.0 source and release package are the accepted baseline for this repository.
-
-## Repository map
-
-- `Beacon_Maker.py` — Beacon Maker v1.0
-- `Beacon_Maker.bat` — Windows launcher
-- `releases/Beacon_Maker_v1.0.zip` — official tested package
-- `assets/Earth_Beacon_ArcGIS_Earth.jpg` — live ArcGIS Earth proof screenshot
-- `docs/USER_GUIDE.md` — operating guide
-- `docs/TECHNICAL_NOTES.md` — KML/API implementation notes
-- `CHANGELOG.md` — release record
-- `CONTINUITY.md` — accepted project state and modification rules
-- `LICENSE` — MIT License
-
-## Scope
-
-Earth Beacon is a visual map-navigation aid. It is not a certified aviation, maritime, surveying, dispatch, or safety-of-life navigation system.
+Users remain responsible for the rights, accuracy, currency, and suitability of imagery, icons, URLs, agency data, public services, and other third-party content they place into their own object packs.
 
 ## License
 
