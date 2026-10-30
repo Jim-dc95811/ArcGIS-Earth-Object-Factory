@@ -1,0 +1,371 @@
+# ArcGIS Earth Object Factory v1.0 - User Manual
+
+**Commissioned release: October 29, 2026**
+
+Create geographic objects without hand-writing KML.
+
+**Coordinates + PNG -> Object Factory -> KMZ/KML -> ArcGIS Earth**
+
+Object Factory v1.0 is the commissioned release of the accepted v0.2.2 TEST baseline. Airborne PNG objects, batch object sets, and the NSEW Sky Compass were live-proven in ArcGIS Earth. The integrated factory was then verified with visible Info text, a protected Create Object button, the complete preset list, and successful clickable object information.
+
+The v1.0 promotion does not redesign accepted object-generation behavior.
+
+> **Core PNG rule:** the original PNG is never modified. Packaged icon copies are normalized to a maximum dimension of 256 px while preserving aspect ratio and transparency.
+
+---
+
+## 1. Quick Start
+
+Object Factory is a Windows Python/Tkinter application. Normal use does not require ArcGIS Pro, QGIS, Pillow, or other third-party Python packages.
+
+### What you need
+
+- Windows with Python 3 installed, including Tkinter.
+- ArcGIS Earth desktop to view the generated KML/KMZ files.
+- PNG images only when you want custom icons. Preset icons are included.
+
+### Start the factory
+
+1. Extract the release ZIP to a normal folder.
+2. Keep `Object_Factory_v1.0.py`, `Run_Object_Factory.bat`, and the `icons` folder together.
+3. Double-click `Run_Object_Factory.bat`.
+4. Choose **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
+5. Create the output and open the resulting KML/KMZ in ArcGIS Earth.
+
+### Fastest first test
+
+Open **Objects**, choose the **firetruck** preset, enter a known coordinate, leave labels off, add short Info text, create the KMZ, and open it in ArcGIS Earth. This mirrors the live-proven first Object Factory primitive.
+
+### Main package files
+
+- `Object_Factory_v1.0.py` - main application.
+- `Run_Object_Factory.bat` - Windows launcher.
+- `icons/` - 11 object presets plus N/E/S/W compass PNGs.
+- `sample_objects.txt` - full-format batch example.
+- `simple_objects.txt` - shorthand batch example.
+- `SAMPLE_*.kmz` / `SAMPLE_*.kml` - ready-made outputs for inspection.
+- `RELEASE_NOTES.txt` - v1.0 release summary.
+- `RELEASE_VERIFICATION.txt` - verification record.
+- `ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf` - printable manual.
+
+---
+
+## 2. Main Window and Coordinate Entry
+
+The factory uses one object-generation engine behind four task tabs.
+
+### Coordinate entry
+
+**Manual** - type decimal latitude and longitude directly.
+
+**From Clipboard** - reads coordinates copied from Google Maps or other text. If both numbers could legally be latitude, the factory interprets them as **Latitude, Longitude** and warns that the pair is ambiguous so you can verify it.
+
+### Google Maps workflow
+
+1. Right-click a location in Google Maps.
+2. Click the coordinate pair to copy it.
+3. Return to Object Factory and press **From Clipboard**.
+4. Verify the latitude/longitude message.
+5. Create the object.
+
+Latitude must be between -90 and 90. Longitude must be between -180 and 180. The factory validates these ranges before output is built.
+
+---
+
+## 3. Objects Tab - Create One Geographic Object
+
+Use **Objects** for one floating or ground-level PNG object. The factory creates one KMZ containing the KML and the normalized icon copy.
+
+### Typical workflow
+
+1. Choose a preset or browse to your own PNG.
+2. Enter the object name and coordinate.
+3. Set altitude, altitude mode, and icon scale.
+4. Normally leave **Show label** off.
+5. Turn on **Show tether** only when you want a visible line to the ground.
+6. Choose **Info** or **None** for popup behavior.
+7. Enter optional Info text and hyperlink.
+8. Choose the output KMZ path.
+9. Press **CREATE OBJECT KMZ**.
+
+### Field reference
+
+- **Preset** - loads a built-in icon and starting altitude/scale. All fields remain editable.
+- **Object name** - KML Placemark name.
+- **Latitude / Longitude** - geographic anchor point.
+- **PNG icon** - preset or custom transparent PNG. Source is never modified.
+- **Altitude (m)** - altitude value in meters.
+- **Altitude mode** - `relativeToGround`, `absolute`, or `clampToGround`.
+- **Icon scale** - KML icon scale.
+- **Popup** - `Info` or `None`.
+- **Show tether** - adds a vertical line from ground to the object.
+- **Show label** - continuously displays the object name. Default is off.
+- **Info text** - short text shown after clicking.
+- **Link text / URL** - optional standard hyperlink in the KML information.
+- **Output KMZ** - output path.
+
+---
+
+## 4. PNG Handling, Altitude, Labels, and Links
+
+### Automatic PNG normalization
+
+When you select a PNG, the factory inspects its dimensions and packaged size. Oversized source images are reduced for the KMZ. Smaller clean icons are not needlessly enlarged.
+
+Locked behavior:
+
+- Maximum packaged dimension: **256 px**.
+- Aspect ratio is preserved.
+- Transparency is preserved.
+- The source PNG remains byte-for-byte untouched.
+- A wide helicopter stays wide; a tall object stays tall.
+- A clean 128 x 128 icon may remain 128 x 128.
+- Batch mode reuses a normalized icon rather than packing duplicate copies unnecessarily.
+
+### Altitude modes
+
+- **relativeToGround** - altitude above terrain. Normal choice for floating icons and sky objects.
+- **absolute** - absolute elevation. Use only when intentional.
+- **clampToGround** - places the object on the ground surface.
+
+### Labels and click information
+
+The project default is **no permanent label** for most objects. The icon carries the first layer of meaning; click only when more information is needed.
+
+> **See it -> recognize it -> click it -> understand it.**
+
+### Hyperlinks
+
+Enter link text such as `OPEN LIVE CAMERA`, `STREET VIEW`, `FACILITY PAGE`, or `OPEN MAP`, then enter a normal URL. The factory writes a standard HTML hyperlink into the KML description.
+
+Object Factory v1.0 writes the link structure; browser-launch behavior depends on ArcGIS Earth and Windows/browser configuration.
+
+---
+
+## 5. Preset Library
+
+Presets are convenience starting points. Every preset feeds the same generic PNG-object engine.
+
+| Preset | Default altitude | Scale | Typical meaning |
+|---|---:|---:|---|
+| object | 150 m | 1.4 | generic object / pin |
+| helicopter | 300 m | 1.5 | aviation marker |
+| fuel | 150 m | 1.4 | fuel stop |
+| bird | 120 m | 1.4 | lesson / wildlife object |
+| hazard | 200 m | 1.5 | warning / hazard |
+| home | 200 m | 1.5 | home / base |
+| staging | 150 m | 1.5 | staging point |
+| water | 150 m | 1.5 | water source |
+| firetruck | 150 m | 1.5 | apparatus / fire-service point |
+| camera | 180 m | 1.5 | viewpoint / camera |
+| medical | 180 m | 1.5 | hospital / medical point |
+
+The preset selection list is part of the accepted v1.0 interface.
+
+---
+
+## 6. Batch Tab
+
+Use **Batch** to create many objects in one KMZ. This is the fastest path for classrooms, training scenarios, operational object packs, or any repeated coordinate list.
+
+Two formats are supported:
+
+### Shorthand format
+
+```text
+fuel,30.410104,-81.922396
+heli,30.398210,-81.931440,300
+water,30.402778,-81.918620
+home,30.385525,-81.930807
+```
+
+The preset supplies icon, normal altitude, and scale when omitted.
+
+### Full pipe-delimited format
+
+```text
+type|name|lat|lon|alt_m|icon|description|url|link_text|scale|altitude_mode|tether|popup|label
+fuel|Fuel Stop|30.410104|-81.922396|150||Use this fuel stop.|||1.4|relativeToGround|no|Info|no
+camera|Viewpoint|30.394120|-81.927300|180||Another way to see this place.|https://www.google.com/maps|OPEN MAP|1.5|relativeToGround|no|Info|no
+```
+
+Blank lines and lines beginning with `#` may be used for readability and are ignored.
+
+The integrated self-test generated a **100-object batch KMZ** and verified duplicate-icon reuse.
+
+---
+
+## 7. Full Batch Field Reference
+
+- `type` - preset name or alias.
+- `name` - object name.
+- `lat` / `lon` - coordinate.
+- `alt_m` - altitude in meters.
+- `icon` - optional custom PNG path.
+- `description` - Info text.
+- `url` - optional URL.
+- `link_text` - hyperlink text.
+- `scale` - KML icon scale.
+- `altitude_mode` - `relativeToGround`, `absolute`, or `clampToGround`.
+- `tether` - yes/no, true/false, 1/0, on/off.
+- `popup` - `Info` or `None`.
+- `label` - yes/no. Normally no.
+
+Use `sample_objects.txt` for the full format and `simple_objects.txt` for the shorthand format.
+
+---
+
+## 8. Sky Compass
+
+Sky Compass creates four giant geographic PNG markers - **N, E, S, W** - around a center point. It was designed for EarthStick horizon flight, where the letters act as persistent orientation landmarks in the sky.
+
+Default starting values:
+
+- Radius: **100 km**.
+- Altitude AGL: **20,000 m**.
+- Icon scale: **6**.
+- Output: one `Sky_Compass.kmz` containing all four markers.
+
+### Create a Sky Compass
+
+1. Set the center manually or with **From Clipboard**.
+2. Set the radius.
+3. Set altitude AGL.
+4. Set icon scale.
+5. Create the Sky Compass and inspect it in ArcGIS Earth.
+
+The POF3 N/E/S/W geometry was live-tested successfully. Radius, altitude, and scale remain adjustable because the best values depend on the operating area and preferred view.
+
+> **Sky Compass = orientation. Earth Beacon = destination. EarthStick = movement.**
+
+---
+
+## 9. Beacon Tab
+
+Beacon preserves the accepted Earth Beacon geometry: a tall vertical KML line anchored to a geographic point so the destination remains visible from long range in an oblique/horizon view.
+
+### Standard starting values
+
+- Height: **100 km**.
+- Line width: **6**.
+- Default color: **Red**.
+- Available colors: Red, Yellow, Cyan, Green, Magenta, White, Orange.
+- Output: KML.
+
+### Standard workflow
+
+1. Enter the destination coordinate manually or use **From Clipboard**.
+2. Keep 100 km height and width 6 for the accepted baseline unless you intentionally want another presentation.
+3. Choose color.
+4. Press **CREATE BEACON KML**.
+5. Open the KML in ArcGIS Earth.
+
+Earth Beacon geometry is already live-tested and accepted. The Factory tab preserves it rather than redesigning it.
+
+---
+
+## 10. Using Factory Output in ArcGIS Earth
+
+- KMZ/KML objects appear under **My Data**.
+- Toggle the whole layer on/off from the Data panel.
+- Most factory objects are intended to show an icon without a permanent label.
+- Click an **Info** object to open its information.
+- Objects with links expose the hyperlink through KML information content.
+- ArcGIS Earth can edit KML object information after creation through object Properties / Info.
+
+A generated object is therefore not locked. You can edit its Rich Text or HTML information in ArcGIS Earth without rebuilding the foundation map.
+
+> **Offline object = useful by itself. Connected object = potentially unlimited extension.**
+
+### Camera / Viewpoint objects
+
+In v1.0, a camera object is a geographic camera PNG plus an optional link. It can point to a live webcam, Street View, photo page, video, or normal web resource. A separate always-on-top mini Camera Viewer is a future concept and is **not** part of v1.0.
+
+### Native popup size
+
+ArcGIS Earth presents KML information in a relatively large native panel. This is viewer behavior. Keep Info text concise or choose `Popup = None` for purely visual objects.
+
+---
+
+## 11. Troubleshooting and Verification
+
+### Factory does not start
+
+Confirm Python 3 is installed and includes Tkinter. Run the BAT from the extracted folder so the `icons` folder remains beside the Python script.
+
+### PNG not ready
+
+Confirm the file is a readable PNG. v1.0 intentionally does not require Pillow and does not accept arbitrary icon formats.
+
+### Object too small or large
+
+Adjust **Icon scale** and recreate the KMZ.
+
+### Object too high or low
+
+Check **Altitude** and **Altitude mode**. `relativeToGround` is the normal floating-object setting.
+
+### Large popup
+
+Use concise Info text or `Popup = None`. Popup size is an ArcGIS Earth presentation behavior.
+
+### Batch validation problem
+
+Check delimiter, coordinates, header spelling, icon paths, and that shorthand lines contain at least type, latitude, and longitude.
+
+### Clipboard coordinates not accepted
+
+Verify the copied text contains a normal decimal latitude/longitude pair. If necessary, enter the coordinate manually.
+
+### Operational verification checklist
+
+1. Create a known firetruck and confirm placement, Info text, and click behavior.
+2. Select an oversized PNG and verify the source remains unchanged.
+3. Create an object with a harmless URL and confirm the link appears.
+4. Choose `Popup = None` and inspect the result.
+5. Load `sample_objects.txt` and inspect mixed objects.
+6. Load `simple_objects.txt` and inspect the shorthand objects.
+7. Recreate the Sky Compass and inspect N/E/S/W behavior.
+8. Create a standard 100 km red Beacon and confirm accepted geometry remains unchanged.
+
+### Developer self-test
+
+```text
+py -3 Object_Factory_v1.0.py --selftest
+```
+
+The self-test covers PNG normalization/original preservation, single-object KMZ creation, hyperlink output, no-popup KML style, a 100-object batch, duplicate-icon reuse, shorthand parsing, Sky Compass generation, and Beacon generation.
+
+> **Release rule:** Object Factory v1.0 is the stable accepted baseline. Future functional changes receive a new version and should preserve known-good behavior unless the change specifically targets it.
+
+---
+
+## 12. Operating Philosophy
+
+Object Factory is deliberately not a GIS editor. It is a simple object-authoring bridge into ArcGIS Earth.
+
+> **Find a place -> copy coordinates -> choose an object -> create it -> open ArcGIS Earth.**
+
+Project rules:
+
+- Foundation maps stay stable; small information layers change.
+- The icon carries the first layer of meaning.
+- Most objects stay unlabeled until clicked.
+- Original PNGs are never modified.
+- Offline capability comes first; online links add an optional second layer.
+- Presets simplify common tasks, but all presets use the same generic object engine.
+- The sky is a programmable information layer, not empty background.
+
+> **See it -> recognize it -> click it -> understand it.**
+
+> **The world is already built. We just add the objects.**
+
+---
+
+## Related Project Family
+
+Object Factory is part of **ArcGIS Earth Unlocked**:
+
+https://github.com/Jim-dc95811/ArcGIS-Earth-Unlocked
+
+The umbrella connects the offline-map foundation, EarthStick navigation, Object Factory authoring, PointLayer public point data, and Parcel100 parcel intelligence while keeping each specialized tool independent.
