@@ -1,0 +1,70 @@
+name: Finalize exact Object Factory v1.0 distribution
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .release_exact/READY
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct and checksum exact accepted artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p releases docs
+          cat .release_exact/zip_*.b64 | tr -d '\n' | base64 -d > releases/ArcGIS_Earth_Object_Factory_v1.0.zip
+          cat .release_exact/pdf_*.b64 | tr -d '\n' | base64 -d > docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf
+          echo "4808f2a97a30466d42a81a246b4ce621af444348209305749eb057cd466e22c3  releases/ArcGIS_Earth_Object_Factory_v1.0.zip" | sha256sum -c -
+          echo "26a12f1c580d8b4659dd5e83f0e95c3669457b9ec949006f3139f8d99fd00187  docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf" | sha256sum -c -
+
+      - name: Restore exact accepted runnable root
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/object_factory_exact
+          mkdir -p /tmp/object_factory_exact
+          unzip -q releases/ArcGIS_Earth_Object_Factory_v1.0.zip -d /tmp/object_factory_exact
+          pkg=/tmp/object_factory_exact/Object_Factory_v1.0
+          test -f "$pkg/Object_Factory_v1.0.py"
+          echo "e77e1866e7a87b9824ed6bb1cd0f830f52adb1a2872efe48ede13a581018aa00  $pkg/Object_Factory_v1.0.py" | sha256sum -c -
+          cmp "$pkg/Object_Factory_v1.0.py" Object_Factory_v1.0.py
+          cp "$pkg/Object_Factory_v1.0.py" Object_Factory_v1.0.py
+          cp "$pkg/Run_Object_Factory.bat" Run_Object_Factory.bat
+          cp "$pkg/sample_objects.txt" sample_objects.txt
+          cp "$pkg/simple_objects.txt" simple_objects.txt
+          rm -rf icons
+          cp -R "$pkg/icons" icons
+          mkdir -p samples
+          cp "$pkg/SAMPLE_Beacon.kml" samples/
+          cp "$pkg/SAMPLE_Linked_Camera.kmz" samples/
+          cp "$pkg/SAMPLE_Object_Set.kmz" samples/
+          cp "$pkg/SAMPLE_Sky_Compass.kmz" samples/
+          test "$(find icons -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 15
+          printf '%s  %s\n' \
+            '4808f2a97a30466d42a81a246b4ce621af444348209305749eb057cd466e22c3' 'ArcGIS_Earth_Object_Factory_v1.0.zip' \
+            '26a12f1c580d8b4659dd5e83f0e95c3669457b9ec949006f3139f8d99fd00187' 'ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf' \
+            'e77e1866e7a87b9824ed6bb1cd0f830f52adb1a2872efe48ede13a581018aa00' 'Object_Factory_v1.0.py' \
+            > releases/SHA256SUMS.txt
+          python -m py_compile Object_Factory_v1.0.py
+
+      - name: Remove one-time staging and publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .release_exact
+          rm -f .github/workflows/finalize-object-factory-v1.yml
+          git config user.name "Jim Gaddy"
+          git config user.email "jimgdc95811@gmail.com"
+          git add -A
+          git commit -m "Finalize exact ArcGIS Earth Object Factory v1.0 distribution"
+          git push origin HEAD:main
