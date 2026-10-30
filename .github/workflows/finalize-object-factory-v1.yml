@@ -17,12 +17,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Reconstruct and checksum exact accepted artifacts
+      - name: Recover and checksum exact accepted artifacts
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p releases docs
-          cat .release_exact/zip_*.b64 | tr -d '\n' | base64 -d > releases/ArcGIS_Earth_Object_Factory_v1.0.zip
+          git show b46917ec9da0cf27a4ca0521335fe91928ee9209:.release_icons_00 | tr -d '\n' | base64 -d > releases/ArcGIS_Earth_Object_Factory_v1.0.zip
           cat .release_exact/pdf_*.b64 | tr -d '\n' | base64 -d > docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf
           echo "4808f2a97a30466d42a81a246b4ce621af444348209305749eb057cd466e22c3  releases/ArcGIS_Earth_Object_Factory_v1.0.zip" | sha256sum -c -
           echo "26a12f1c580d8b4659dd5e83f0e95c3669457b9ec949006f3139f8d99fd00187  docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf" | sha256sum -c -
