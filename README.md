@@ -16,6 +16,16 @@ No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is
 
 The v0.2 build is the current owner-tested factory build. It keeps the live-proven object-generation behavior from the earlier proof-of-function tests while simplifying the GUI.
 
+### Distribution note
+
+The exact tested Python source is mirrored at the repository root as [`Object_Factory_v0.2_TEST.py`](Object_Factory_v0.2_TEST.py).
+
+The **canonical runnable distribution** is the tested `ArcGIS_Earth_Object_Factory_v0.2_TEST.zip`, which also contains the preset PNG library, launcher, samples, and test checklist. The GitHub connector used during this reorganization can write source/documentation but cannot safely publish the binary ZIP/PDF/icon bundle, so **do not treat `Code → Download ZIP` of this repository as the packaged Object Factory release yet**.
+
+This distinction is intentional: the public source mirror is exact, while the tested packaged distribution remains the accepted operator package until the binary release assets are uploaded separately.
+
+The repository is currently still named `Earth-Beacon` because repository rename controls are not exposed through the connected GitHub tool. The intended repository name is **`ArcGIS-Earth-Object-Factory`**. See [`GITHUB_STRUCTURE.md`](GITHUB_STRUCTURE.md).
+
 The active factory is organized around four tabs:
 
 ### Objects
@@ -75,7 +85,7 @@ This keeps object packs small without asking the operator to understand image op
 
 ## Object presets
 
-Current built-in preset families include:
+Current built-in preset families in the packaged distribution include:
 
 - generic object
 - helicopter
@@ -183,6 +193,8 @@ The Beacon concept did not disappear; it became one of the four main Object Fact
 ## Documentation / project brain
 
 - [Object Factory quick guide](docs/OBJECT_FACTORY_GUIDE.md)
+- [ArcGIS Earth Unlocked master system map](ARCGIS_EARTH_UNLOCKED.md)
+- [GitHub organization / intended repository structure](GITHUB_STRUCTURE.md)
 - [CONTINUITY.md](CONTINUITY.md) — current live-tested project state and next-session handoff
 - [MAPWORLD.md](MAPWORLD.md) — technical ArcGIS Earth format/object inventory; “Mapworld” is an internal working term, not the final public umbrella name
 - [CHANGELOG.md](CHANGELOG.md)
