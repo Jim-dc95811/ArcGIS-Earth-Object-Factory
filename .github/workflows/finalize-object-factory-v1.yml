@@ -17,15 +17,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Recover and checksum exact accepted artifacts
+      - name: Recover exact owner-tested v1.0 ZIP
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p releases docs
           git show b46917ec9da0cf27a4ca0521335fe91928ee9209:.release_icons_00 | tr -d '\n' | base64 -d > releases/ArcGIS_Earth_Object_Factory_v1.0.zip
-          cat .release_exact/pdf_*.b64 | tr -d '\n' | base64 -d > docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf
           echo "4808f2a97a30466d42a81a246b4ce621af444348209305749eb057cd466e22c3  releases/ArcGIS_Earth_Object_Factory_v1.0.zip" | sha256sum -c -
-          echo "26a12f1c580d8b4659dd5e83f0e95c3669457b9ec949006f3139f8d99fd00187  docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf" | sha256sum -c -
 
       - name: Restore exact accepted runnable root
         shell: bash
@@ -42,7 +40,7 @@ jobs:
           cp "$pkg/Run_Object_Factory.bat" Run_Object_Factory.bat
           cp "$pkg/sample_objects.txt" sample_objects.txt
           cp "$pkg/simple_objects.txt" simple_objects.txt
-          rm -rf icons
+          rm -rf icons samples
           cp -R "$pkg/icons" icons
           mkdir -p samples
           cp "$pkg/SAMPLE_Beacon.kml" samples/
@@ -50,21 +48,105 @@ jobs:
           cp "$pkg/SAMPLE_Object_Set.kmz" samples/
           cp "$pkg/SAMPLE_Sky_Compass.kmz" samples/
           test "$(find icons -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 15
-          printf '%s  %s\n' \
-            '4808f2a97a30466d42a81a246b4ce621af444348209305749eb057cd466e22c3' 'ArcGIS_Earth_Object_Factory_v1.0.zip' \
-            '26a12f1c580d8b4659dd5e83f0e95c3669457b9ec949006f3139f8d99fd00187' 'ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf' \
-            'e77e1866e7a87b9824ed6bb1cd0f830f52adb1a2872efe48ede13a581018aa00' 'Object_Factory_v1.0.py' \
-            > releases/SHA256SUMS.txt
           python -m py_compile Object_Factory_v1.0.py
+          xvfb-run -a python Object_Factory_v1.0.py --selftest
 
-      - name: Remove one-time staging and publish
+      - name: Build complete v1.0 PDF user manual
         shell: bash
         run: |
           set -euo pipefail
+          python -m pip install --quiet reportlab
+          python - <<'PY'
+          from pathlib import Path
+          import html, re
+          from reportlab.lib import colors
+          from reportlab.lib.enums import TA_CENTER
+          from reportlab.lib.pagesizes import letter
+          from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+          from reportlab.lib.units import inch
+          from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, KeepTogether
+
+          src = Path('docs/OBJECT_FACTORY_USER_MANUAL.md').read_text(encoding='utf-8')
+          out = 'docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf'
+          styles = getSampleStyleSheet()
+          title = ParagraphStyle('Title2', parent=styles['Title'], fontName='Helvetica-Bold', fontSize=23, leading=28, alignment=TA_CENTER, spaceAfter=14)
+          h1 = ParagraphStyle('H1x', parent=styles['Heading1'], fontName='Helvetica-Bold', fontSize=16, leading=20, spaceBefore=12, spaceAfter=7)
+          h2 = ParagraphStyle('H2x', parent=styles['Heading2'], fontName='Helvetica-Bold', fontSize=12, leading=15, spaceBefore=9, spaceAfter=5)
+          body = ParagraphStyle('Bodyx', parent=styles['BodyText'], fontName='Helvetica', fontSize=9.5, leading=13, spaceAfter=6)
+          bullet = ParagraphStyle('Bulletx', parent=body, leftIndent=14, firstLineIndent=-8)
+          quote = ParagraphStyle('Quotex', parent=body, leftIndent=15, rightIndent=15, fontName='Helvetica-Bold', spaceBefore=4, spaceAfter=8)
+          code = ParagraphStyle('Codex', parent=body, fontName='Courier', fontSize=8, leading=10, leftIndent=12, backColor=colors.whitesmoke, borderPadding=6)
+
+          story=[]
+          lines=src.splitlines()
+          i=0
+          in_code=False
+          code_lines=[]
+          while i < len(lines):
+              raw=lines[i].rstrip()
+              if raw.startswith('```'):
+                  if in_code:
+                      txt='<br/>'.join(html.escape(x) if x else '&#160;' for x in code_lines)
+                      story.append(Paragraph(txt, code)); story.append(Spacer(1,5)); code_lines=[]; in_code=False
+                  else:
+                      in_code=True
+                  i+=1; continue
+              if in_code:
+                  code_lines.append(raw); i+=1; continue
+              if not raw.strip() or raw.strip()=='---':
+                  story.append(Spacer(1,4)); i+=1; continue
+              if raw.startswith('# '):
+                  story.append(Paragraph(html.escape(raw[2:]), title)); i+=1; continue
+              if raw.startswith('## '):
+                  story.append(Paragraph(html.escape(raw[3:]), h1)); i+=1; continue
+              if raw.startswith('### '):
+                  story.append(Paragraph(html.escape(raw[4:]), h2)); i+=1; continue
+              if raw.startswith('> '):
+                  story.append(Paragraph(html.escape(raw[2:]).replace('**',''), quote)); i+=1; continue
+              if raw.startswith('|'):
+                  rows=[]
+                  while i < len(lines) and lines[i].strip().startswith('|'):
+                      parts=[p.strip() for p in lines[i].strip().strip('|').split('|')]
+                      if not all(re.fullmatch(r':?-{3,}:?', p or '') for p in parts): rows.append(parts)
+                      i+=1
+                  if rows:
+                      cols=max(len(r) for r in rows); rows=[r+['']*(cols-len(r)) for r in rows]
+                      data=[[Paragraph(html.escape(c).replace('**',''), body) for c in r] for r in rows]
+                      t=Table(data, repeatRows=1, colWidths=[(7.1*inch)/cols]*cols)
+                      t.setStyle(TableStyle([('FONTNAME',(0,0),(-1,0),'Helvetica-Bold'),('BACKGROUND',(0,0),(-1,0),colors.whitesmoke),('GRID',(0,0),(-1,-1),0.35,colors.lightgrey),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),4),('RIGHTPADDING',(0,0),(-1,-1),4),('TOPPADDING',(0,0),(-1,-1),3),('BOTTOMPADDING',(0,0),(-1,-1),3)]))
+                      story.append(t); story.append(Spacer(1,7))
+                  continue
+              if raw.startswith('- '):
+                  story.append(Paragraph('&#8226; '+html.escape(raw[2:]).replace('**',''), bullet)); i+=1; continue
+              if re.match(r'^\d+\. ', raw):
+                  story.append(Paragraph(html.escape(raw).replace('**',''), body)); i+=1; continue
+              clean=html.escape(raw).replace('**','').replace('`','')
+              story.append(Paragraph(clean, body)); i+=1
+
+          def footer(canvas, doc):
+              canvas.saveState()
+              canvas.setFont('Helvetica', 8)
+              canvas.setFillColor(colors.grey)
+              canvas.drawString(0.65*inch, 0.42*inch, 'ArcGIS Earth Object Factory v1.0')
+              canvas.drawRightString(7.85*inch, 0.42*inch, f'User Manual | Page {doc.page}')
+              canvas.restoreState()
+
+          doc=SimpleDocTemplate(out, pagesize=letter, leftMargin=0.65*inch, rightMargin=0.65*inch, topMargin=0.62*inch, bottomMargin=0.62*inch, title='ArcGIS Earth Object Factory v1.0 - User Manual', author='Jim Gaddy')
+          doc.build(story, onFirstPage=footer, onLaterPages=footer)
+          print(out)
+          PY
+          test -s docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf
+
+      - name: Record release checksums and publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum releases/ArcGIS_Earth_Object_Factory_v1.0.zip docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf Object_Factory_v1.0.py > releases/SHA256SUMS.txt
+          cat releases/SHA256SUMS.txt
           rm -rf .release_exact
           rm -f .github/workflows/finalize-object-factory-v1.yml
           git config user.name "Jim Gaddy"
           git config user.email "jimgdc95811@gmail.com"
           git add -A
-          git commit -m "Finalize exact ArcGIS Earth Object Factory v1.0 distribution"
+          git commit -m "Finalize ArcGIS Earth Object Factory v1.0 distribution"
           git push origin HEAD:main
