@@ -1,7 +1,0 @@
-# Full-format example. PNG icons are optional; blank icon uses the TYPE preset.
-type|name|lat|lon|alt_m|icon|description|url|link_text|scale|altitude_mode|tether|popup|label
-fuel|Fuel Stop|30.410104|-81.922396|150||Use this fuel stop.|||1.4|relativeToGround|no|Info|no
-helicopter|Helicopter Point|30.398210|-81.931440|300||Aviation point.|||1.5|relativeToGround|no|Info|no
-bird|Mystery Bird|30.402778|-81.918620|120||Guess the species before clicking.|||1.4|relativeToGround|no|Info|no
-camera|Viewpoint|30.394120|-81.927300|180||Another way to see this place.|https://www.google.com/maps|OPEN MAP|1.5|relativeToGround|no|Info|no
-hazard|Hazard|30.407900|-81.936100|200||Avoid this area.|||1.5|relativeToGround|no|Info|no
