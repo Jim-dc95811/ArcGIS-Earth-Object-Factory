@@ -1,5 +1,0 @@
-# Shorthand: type,lat,lon[,alt_m][,name]
-fuel,30.410104,-81.922396
-heli,30.398210,-81.931440,300,Helicopter 1
-water,30.402778,-81.918620
-home,30.385525,-81.930807,200,Home Base
