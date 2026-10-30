@@ -1,4 +1,4 @@
-name: Commission Object Factory v1.0
+name: Promote exact Object Factory v1.0 source
 
 on:
   push:
@@ -8,32 +8,13 @@ permissions:
   contents: write
 
 jobs:
-  commission:
-    if: github.event.head_commit.message == 'Trigger Object Factory v1.0 commissioning'
+  promote:
+    if: github.event.head_commit.message == 'Trigger exact Object Factory v1.0 source promotion'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Restore exact accepted preset icons
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          gh api "repos/${GITHUB_REPOSITORY}/git/blobs/23c447249e7a5ee85314954c89e8ab168005fbd6" --jq .content | tr -d '\n' | base64 -d > /tmp/object_factory_icons.zip
-          unzip -t /tmp/object_factory_icons.zip >/dev/null
-          rm -rf icons
-          mkdir -p icons
-          unzip -q /tmp/object_factory_icons.zip -d /tmp/object_factory_icons
-          for name in object helicopter fuel bird hazard home staging water firetruck camera medical N E S W; do
-            src="$(find /tmp/object_factory_icons -type f -iname "${name}.png" -print -quit)"
-            test -n "$src" || { echo "Missing required icon: ${name}.png"; exit 1; }
-            cp "$src" "icons/${name}.png"
-          done
-          test "$(find icons -type f -name '*.png' | wc -l)" -eq 15
-          echo "Preset icon archive verified: 15 PNG files installed."
 
       - name: Promote accepted v0.2.2 behavior to exact v1.0 source
         shell: bash
@@ -68,6 +49,7 @@ jobs:
           PY
 
           echo "e77e1866e7a87b9824ed6bb1cd0f830f52adb1a2872efe48ede13a581018aa00  Object_Factory_v1.0.py" | sha256sum -c -
+          python -m py_compile Object_Factory_v1.0.py
 
           cat > Run_Object_Factory.bat <<'BAT'
           @echo off
@@ -76,120 +58,16 @@ jobs:
           if errorlevel 1 python Object_Factory_v1.0.py
           BAT
 
-          python -m py_compile Object_Factory_v1.0.py
-          xvfb-run -a python Object_Factory_v1.0.py --selftest
-
-      - name: Preserve pre-1.0 source and update continuity
-        shell: bash
-        run: |
-          set -euo pipefail
           mkdir -p legacy/Object_Factory_pre1
           cp Object_Factory_v0.2_TEST.py legacy/Object_Factory_pre1/Object_Factory_v0.2_TEST.py
           rm Object_Factory_v0.2_TEST.py
-          python - <<'PY'
-          from pathlib import Path
-          p = Path('CONTINUITY.md')
-          s = p.read_text(encoding='utf-8')
-          marker = '# CONTINUITY — ArcGIS Earth + EarthStick + Earth Beacon + Object Factory\n'
-          release = '''\n## RELEASE CHECKPOINT — OBJECT FACTORY v1.0 — 2026-10-29\n\n**ArcGIS Earth Object Factory v1.0 is commissioned and owner-accepted.** It is the accepted v0.2.2 behavior promoted to 1.0 without redesign.\n\nVerified release behavior includes:\n- Objects, Batch, Sky Compass, and Beacon tabs\n- 11 built-in object presets\n- manual and From Clipboard coordinate entry\n- visible two-line Info text field\n- optional hyperlink output\n- PNG normalization to a maximum 256 px working dimension while preserving the source PNG\n- protected Create Object button / bottom margin\n- batch KMZ creation and 100-object self-test\n- owner live-test in ArcGIS Earth, including clickable object Info content\n\n**Baseline rule:** v1.0 is now the stable factory baseline. Future functional changes require a new version and ArcGIS Earth live acceptance. Do not reintroduce the rejected v0.3/v0.3.1 layout experiments.\n\n---\n'''
-          if '## RELEASE CHECKPOINT — OBJECT FACTORY v1.0' not in s:
-              if marker not in s:
-                  raise SystemExit('CONTINUITY title marker not found')
-              s = s.replace(marker, marker + release, 1)
-              p.write_text(s, encoding='utf-8', newline='\n')
-          PY
 
-      - name: Generate PDF operator manual
+      - name: Commit exact accepted source
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-          import re, textwrap
-
-          source = Path('docs/OBJECT_FACTORY_GUIDE.md').read_text(encoding='utf-8')
-          lines = ['ArcGIS Earth Object Factory v1.0 - User Manual', '',
-                   'Official accepted release - 2026-10-29', '']
-          in_code = False
-          for raw in source.splitlines():
-              line = raw.rstrip()
-              if line.startswith('```'):
-                  in_code = not in_code
-                  continue
-              if not line:
-                  lines.append('')
-                  continue
-              if line.startswith('#'):
-                  line = line.lstrip('#').strip().upper()
-              line = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 - \2', line)
-              line = line.replace('**','').replace('`','')
-              width = 88 if not in_code else 82
-              lines.extend(textwrap.wrap(line, width=width, subsequent_indent='    ') or [''])
-
-          PAGE_W, PAGE_H = 612, 792
-          LEFT, TOP, LEADING = 54, 742, 14
-          per_page = 47
-          pages = [lines[i:i+per_page] for i in range(0, len(lines), per_page)] or [[]]
-
-          objects = []
-          def add(obj: bytes):
-              objects.append(obj); return len(objects)
-
-          catalog_id = add(b'')
-          pages_id = add(b'')
-          font_id = add(b'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>')
-          page_ids=[]
-          for page_lines in pages:
-              ops=['BT','/F1 10 Tf',f'{LEFT} {TOP} Td']
-              first=True
-              for line in page_lines:
-                  safe=(line.replace('\\','\\\\').replace('(','\\(').replace(')','\\)')
-                        .encode('latin-1','replace').decode('latin-1'))
-                  if not first: ops.append(f'0 -{LEADING} Td')
-                  ops.append(f'({safe}) Tj')
-                  first=False
-              ops.append('ET')
-              stream='\n'.join(ops).encode('latin-1')
-              contents_id=add(b'<< /Length '+str(len(stream)).encode()+b' >>\nstream\n'+stream+b'\nendstream')
-              page_id=add(f'<< /Type /Page /Parent {pages_id} 0 R /MediaBox [0 0 {PAGE_W} {PAGE_H}] /Resources << /Font << /F1 {font_id} 0 R >> >> /Contents {contents_id} 0 R >>'.encode())
-              page_ids.append(page_id)
-          objects[catalog_id-1]=f'<< /Type /Catalog /Pages {pages_id} 0 R >>'.encode()
-          kids=' '.join(f'{i} 0 R' for i in page_ids)
-          objects[pages_id-1]=f'<< /Type /Pages /Kids [{kids}] /Count {len(page_ids)} >>'.encode()
-
-          out=bytearray(b'%PDF-1.4\n%\xe2\xe3\xcf\xd3\n')
-          offsets=[0]
-          for i,obj in enumerate(objects,1):
-              offsets.append(len(out)); out += f'{i} 0 obj\n'.encode()+obj+b'\nendobj\n'
-          xref=len(out); out += f'xref\n0 {len(objects)+1}\n'.encode(); out += b'0000000000 65535 f \n'
-          for off in offsets[1:]: out += f'{off:010d} 00000 n \n'.encode()
-          out += f'trailer\n<< /Size {len(objects)+1} /Root {catalog_id} 0 R >>\nstartxref\n{xref}\n%%EOF\n'.encode()
-          Path('docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf').write_bytes(out)
-          PY
-
-      - name: Build official runnable v1.0 ZIP and checksums
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf /tmp/Object_Factory_v1.0
-          mkdir -p /tmp/Object_Factory_v1.0/icons
-          cp Object_Factory_v1.0.py Run_Object_Factory.bat sample_objects.txt simple_objects.txt /tmp/Object_Factory_v1.0/
-          cp icons/*.png /tmp/Object_Factory_v1.0/icons/
-          cp docs/OBJECT_FACTORY_GUIDE.md /tmp/Object_Factory_v1.0/README.md
-          cp docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf /tmp/Object_Factory_v1.0/
-          mkdir -p releases
-          (cd /tmp && zip -qr "${GITHUB_WORKSPACE}/releases/ArcGIS_Earth_Object_Factory_v1.0.zip" Object_Factory_v1.0)
-          sha256sum releases/ArcGIS_Earth_Object_Factory_v1.0.zip docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf Object_Factory_v1.0.py > releases/SHA256SUMS.txt
-          cat releases/SHA256SUMS.txt
-
-      - name: Remove one-time commissioning scaffolding and commit release
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -f .github/workflows/commission-object-factory-v1.yml .github/workflows/publish-object-factory-v1.yml .release_v1_TRIGGER
-          rm -rf .release_chunks
           git config user.name 'Jim Gaddy'
           git config user.email 'jimgdc95811@gmail.com'
-          git add -A
-          git commit -m 'Commission ArcGIS Earth Object Factory v1.0'
+          git add Object_Factory_v1.0.py Run_Object_Factory.bat legacy/Object_Factory_pre1/Object_Factory_v0.2_TEST.py Object_Factory_v0.2_TEST.py
+          git commit -m 'Promote exact accepted Object Factory v1.0 source'
           git push origin HEAD:main
