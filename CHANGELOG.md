@@ -1,6 +1,32 @@
 # Changelog
 
-## Object Factory v0.2 TEST — 2026-10-29
+## Object Factory v1.0 - 2026-10-29
+
+First commissioned Object Factory release.
+
+v1.0 is the accepted v0.2.2 TEST build promoted without feature redesign after live ArcGIS Earth verification.
+
+- Single-object PNG/KMZ creation.
+- 11 built-in object presets retained.
+- Manual coordinates and **From Clipboard** workflow.
+- Original PNG preservation and automatic <=256 px packaged normalization.
+- `relativeToGround`, `absolute`, and `clampToGround` modes.
+- Optional tether and label.
+- Visible multiline Info text.
+- Optional hyperlink in KML Info content.
+- Info / No Popup modes.
+- Batch object-list -> KMZ generation.
+- 100-object batch self-test and duplicate-icon reuse.
+- NSEW Sky Compass generator.
+- Earth Beacon generator.
+- Protected Create Object button area and visible Info-text field retained from the accepted v0.2.2 layout.
+- v1.0 PDF User Manual published.
+
+v1.0 source SHA-256:
+
+`e77e1866e7a87b9824ed6bb1cd0f830f52adb1a2872efe48ede13a581018aa00`
+
+## Object Factory v0.2 TEST - 2026-10-29
 
 Integrated Object Factory UX simplification pass.
 
@@ -14,9 +40,7 @@ Integrated Object Factory UX simplification pass.
 - Preserved optional hyperlink output.
 - Preserved batch duplicate-icon reuse and 100-object self-test.
 
-Owner reports v0.2 working very well in the current ArcGIS Earth test environment.
-
-## Object Factory v0.1 TEST — 2026-10-29
+## Object Factory v0.1 TEST - 2026-10-29
 
 First integrated factory build from three separately live-tested proof-of-function scripts.
 
@@ -31,11 +55,11 @@ First integrated factory build from three separately live-tested proof-of-functi
 - optional hyperlink output
 - batch stress test
 
-## Proof-of-function stage — 2026-10-29
+## Proof-of-function stage - 2026-10-29
 
-- **POF1:** generic airborne PNG object — live-tested in ArcGIS Earth.
-- **POF2:** batch object-list → multi-object KMZ — live-tested.
-- **POF3:** generated NSEW Sky Compass — live-tested.
+- **POF1:** generic airborne PNG object - live-tested in ArcGIS Earth.
+- **POF2:** batch object-list -> multi-object KMZ - live-tested.
+- **POF3:** generated NSEW Sky Compass - live-tested.
 
 ## Earth Beacon v1.0
 
