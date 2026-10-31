@@ -16,11 +16,19 @@ ArcGIS Earth Object Factory is a Windows/Python authoring tool for creating geog
 
 No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is required for normal object creation.
 
-## Current release
+## Quick start
+
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip`](releases/ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip).
+2. Double-click `Run_Object_Factory.bat`.
+3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
+4. Open the generated KML/KMZ in ArcGIS Earth.
+
+No third-party Python packages are required.
+
+## Release details
 
 **ArcGIS Earth Object Factory v1.0 - commissioned 2026-10-29**
 
-- **[Download the verified v1.0 operator package](releases/ArcGIS_Earth_Object_Factory_v1.0.zip)**
 - **[Open the v1.0 Python source](Object_Factory_v1.0.py)**
 - **[Open the v1.0 PDF User Manual](docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf)**
 
@@ -120,15 +128,6 @@ The risky pieces were proved separately before integration:
 - **Earth Beacon:** long-range vertical KML navigation marker - live-proven
 
 v1.0 integrates those primitives into one factory.
-
-## Start
-
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.0.zip`](releases/ArcGIS_Earth_Object_Factory_v1.0.zip).
-2. Double-click `Run_Object_Factory.bat`.
-3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
-4. Open the generated KML/KMZ in ArcGIS Earth.
-
-No third-party Python packages are required.
 
 ## Developer self-test
 
