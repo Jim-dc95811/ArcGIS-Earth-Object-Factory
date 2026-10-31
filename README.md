@@ -16,6 +16,10 @@ ArcGIS Earth Object Factory is a Windows/Python authoring tool for creating geog
 
 No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is required for normal object creation.
 
+![Earth Beacon in ArcGIS Earth](assets/Earth_Beacon_ArcGIS_Earth.jpg)
+
+*Earth Beacon running in ArcGIS Earth: a long-range visual destination marker inside the real map.*
+
 ## Quick start
 
 1. Download and extract [`ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip`](releases/ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip).
