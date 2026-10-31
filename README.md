@@ -1,5 +1,13 @@
 # ArcGIS Earth Object Factory
 
+## Download the tools
+
+### **⬇️ [DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.0](releases/ArcGIS_Earth_Object_Factory_v1.0.zip)**
+Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth.
+
+### **⬇️ [DOWNLOAD BEACON MAKER v1.0](releases/Beacon_Maker_v1.0.zip)**
+Create the standalone Earth Beacon navigation marker package.
+
 **Put objects into the real map.**
 
 ArcGIS Earth Object Factory is a Windows/Python authoring tool for creating geographic objects that open directly in **ArcGIS Earth**. It grew from the original Earth Beacon experiment into a general factory for sky objects, ground objects, batch object sets, horizon navigation markers, and clickable information.
