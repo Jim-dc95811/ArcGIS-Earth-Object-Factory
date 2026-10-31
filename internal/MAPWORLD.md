@@ -2,7 +2,7 @@
 
 **Date established:** 2026-10-27  
 **Primary application:** ArcGIS Earth desktop, current 3.0 / 3.0.1-era behavior  
-**Repository:** `Jim-dc95811/Earth-Beacon`  
+**Repository:** `Jim-dc95811/ArcGIS-Earth-Object-Factory` (formerly `Jim-dc95811/Earth-Beacon`)  
 **Purpose:** This file is written by ChatGPT for future ChatGPT sessions. It is a technical working reference for the emerging **Mapworld** idea: treating ArcGIS Earth not merely as a GIS viewer, but as a virtual world into which stable foundation maps, GIS features, clickable objects, media, 3D objects, beacons, scenarios, and eventually live or rule-driven content can be introduced.
 
 This is not a marketing document. It is a continuity and architecture document. Future ChatGPT should use it to avoid rediscovering the same format questions and to distinguish verified ArcGIS Earth capabilities from concepts that still need testing.

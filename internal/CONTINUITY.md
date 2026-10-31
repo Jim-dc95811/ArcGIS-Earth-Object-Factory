@@ -3,6 +3,12 @@
 **Date:** 2026-10-29  
 **Purpose:** This file is written by ChatGPT for future ChatGPT sessions. It is the current reset-proof project state. Read this before proposing changes, rebuilding tools, or interpreting the project from scratch.
 
+> **Update 2026-10-31 — read first.** Several statements below have been superseded since this file was written:
+> - **Object Factory v1.0 was commissioned on 2026-10-29** (the accepted v0.2.2 TEST build, promoted without redesign). The integrated GUI is no longer conceptual. See `CHANGELOG.md`.
+> - **The umbrella name is now ArcGIS Earth Unlocked**: https://github.com/Jim-dc95811/ArcGIS-Earth-Unlocked
+> - The former **Earth-Beacon** repository became this repository (**ArcGIS-Earth-Object-Factory**). The standalone Beacon Maker v1.0 is preserved under `legacy/Earth_Beacon_v1.0/` and `releases/Beacon_Maker_v1.0.zip`.
+> - The original sections are kept below unchanged as the historical record.
+
 The project has moved beyond EarthStick + Earth Beacon into a broader ArcGIS Earth interaction system built around offline worlds, direct joystick navigation, programmable geographic objects, simple authoring, training, games, classroom use, and public-safety workflows.
 
 Important naming note:

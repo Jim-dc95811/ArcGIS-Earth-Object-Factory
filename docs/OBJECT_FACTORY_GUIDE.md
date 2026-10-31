@@ -2,7 +2,7 @@
 
 ## Start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.0.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.0.zip).
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip`](../releases/ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip) (the accepted build promoted to v1.0).
 2. Double-click `Run_Object_Factory.bat`.
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 
@@ -80,7 +80,7 @@ ArcGIS Earth's native KML information box can be visually large. Keep Info conte
 ## Self-test
 
 ```text
-py -3 Object_Factory_v1.0.py --selftest
+py -3 Object_Factory_v0.2.2_TEST.py --selftest
 ```
 
 The self-test checks PNG normalization, original preservation, single objects, hyperlinks, no-popup KML, a 100-object batch, duplicate icon reuse, shorthand parsing, Sky Compass generation, and Beacon generation.

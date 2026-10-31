@@ -14,7 +14,7 @@ ArcGIS Earth Object Factory is a Windows/Python authoring tool for creating geog
 
 > **Choose an object -> choose where it lives -> choose what it shows -> create it.**
 
-No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is required for normal object
+No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is required for normal object creation.
 
 ## Quick start
 
@@ -29,7 +29,7 @@ No third-party Python packages are required.
 
 **ArcGIS Earth Object Factory v1.0 - commissioned 2026-10-29**
 
-- **[Open the v1.0 Python source](Object_Factory_v1.0.py)**
+- **[Open the v1.0 Python source](https://github.com/Jim-dc95811/ArcGIS-Earth-Object-Factory/blob/b65a54cdda4349343ea2e92dd3f9a8c8cf1463b8/Object_Factory_v1.0.py)** (as promoted in commit `b65a54c`)
 - **[Open the v1.0 PDF User Manual](docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf)**
 
 Source SHA-256: `e77e1866e7a87b9824ed6bb1cd0f830f52adb1a2872efe48ede13a581018aa00`
@@ -132,7 +132,7 @@ v1.0 integrates those primitives into one factory.
 ## Developer self-test
 
 ```text
-py -3 Object_Factory_v1.0.py --selftest
+py -3 Object_Factory_v0.2.2_TEST.py --selftest
 ```
 
 The self-test covers PNG normalization/original preservation, single-object KMZ, hyperlink output, no-popup KML style, a 100-object batch pack, duplicate icon reuse, shorthand parsing, Sky Compass generation, and Beacon generation.
@@ -170,8 +170,8 @@ The Beacon concept did not disappear; it became one of the four main Object Fact
 
 - [v1.0 PDF User Manual](docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf)
 - [Quick operator guide](docs/OBJECT_FACTORY_GUIDE.md)
-- [CONTINUITY.md](CONTINUITY.md) - project handoff and verified/conceptual status
-- [MAPWORLD.md](MAPWORLD.md) - technical ArcGIS Earth format/object inventory; "Mapworld" remains an internal working term
+- [CONTINUITY.md](internal/CONTINUITY.md) - project handoff and verified/conceptual status
+- [MAPWORLD.md](internal/MAPWORLD.md) - technical ArcGIS Earth format/object inventory; "Mapworld" remains an internal working term
 - [CHANGELOG.md](CHANGELOG.md)
 - [ArcGIS Earth Unlocked master umbrella](https://github.com/Jim-dc95811/ArcGIS-Earth-Unlocked)
 
