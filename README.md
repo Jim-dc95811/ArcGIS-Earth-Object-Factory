@@ -7,6 +7,10 @@
 
 Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth.
 
+![Object Factory objects in ArcGIS Earth: a tall yellow Jacksonville beacon and an airborne fire-truck object above the horizon](assets/object_factory_beacon_and_object_arcgis_earth.jpg)
+
+*Made with the Object Factory: a Jacksonville beacon on the horizon and an airborne fire-truck object, live in ArcGIS Earth.*
+
 **Put objects into the real map.**
 
 ArcGIS Earth Object Factory is a Windows/Python authoring tool for creating geographic objects that open directly in **ArcGIS Earth**. It grew from the original Earth Beacon experiment into a general factory for sky objects, ground objects, batch object sets, horizon navigation markers, and clickable information.
