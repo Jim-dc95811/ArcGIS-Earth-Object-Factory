@@ -5,9 +5,6 @@
 ### **⬇️ [DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.0](releases/ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip)**
 Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth.
 
-### **⬇️ [DOWNLOAD BEACON MAKER v1.0](releases/Beacon_Maker_v1.0.zip)**
-Create the standalone Earth Beacon navigation marker package.
-
 **Put objects into the real map.**
 
 ArcGIS Earth Object Factory is a Windows/Python authoring tool for creating geographic objects that open directly in **ArcGIS Earth**. It grew from the original Earth Beacon experiment into a general factory for sky objects, ground objects, batch object sets, horizon navigation markers, and clickable information.
@@ -88,7 +85,7 @@ The original Earth Beacon geometry is integrated directly into the factory.
 
 > **A pin marks a place. A beacon gives you something to aim at.**
 
-The standalone accepted Beacon Maker v1.0 remains preserved at [`releases/Beacon_Maker_v1.0.zip`](releases/Beacon_Maker_v1.0.zip).
+Earth Beacon started this project; its beacon is now the Beacon tab.
 
 ## Fast coordinate workflow
 
@@ -159,10 +156,9 @@ Object Factory is the active object-authoring and experimentation center in the 
 
 ## Earth Beacon legacy
 
-This repository began as **Earth Beacon**. The standalone accepted Beacon Maker v1.0 is preserved rather than discarded:
+This repository began as **Earth Beacon**. Earth Beacon started this project; its beacon is now the Beacon tab, which makes the same beacon.
 
-- [Beacon Maker v1.0 release](releases/Beacon_Maker_v1.0.zip)
-- legacy standalone source/documentation under `legacy/Earth_Beacon_v1.0/`
+The original standalone Beacon Maker v1.0 is preserved rather than discarded: its source and documentation are kept under [`legacy/Earth_Beacon_v1.0/`](legacy/Earth_Beacon_v1.0/). It is no longer offered as a separate download (retired 2026-10-31); its last package remains in the repository history.
 
 The Beacon concept did not disappear; it became one of the four main Object Factory tools.
 

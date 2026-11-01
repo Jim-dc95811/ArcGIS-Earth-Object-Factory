@@ -65,8 +65,6 @@ First integrated factory build from three separately live-tested proof-of-functi
 
 Original standalone Beacon Maker accepted and live-tested in ArcGIS Earth.
 
-The standalone release remains preserved at:
-
-`releases/Beacon_Maker_v1.0.zip`
-
 Earth Beacon subsequently became one of the main Object Factory tools rather than being discarded.
+
+**Retired as a separate download on 2026-10-31.** The Factory's Beacon tab makes the same beacon. The source and documentation remain under `legacy/Earth_Beacon_v1.0/`, and `releases/Beacon_Maker_v1.0.zip` remains in the repository history.
