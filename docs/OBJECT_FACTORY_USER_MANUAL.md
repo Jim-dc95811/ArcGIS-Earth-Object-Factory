@@ -1,4 +1,6 @@
-# ArcGIS Earth Object Factory v1.0 - User Manual
+# ArcGIS Earth Object Factory v1.1 - User Manual
+
+> **v1.1 (2026-10-31):** file names below are updated for v1.1. New behavior: From Clipboard understands N/S/E/W letters and degrees-minutes-seconds and states how it read the coordinate; the factory asks before replacing a file, keeps the previous file if a build fails, and names the line of any batch-list problem. See [OBJECT_FACTORY_V1.1_CHANGES.md](OBJECT_FACTORY_V1.1_CHANGES.md).
 
 **Commissioned release: October 29, 2026**
 
@@ -27,7 +29,7 @@ Object Factory is a Windows Python/Tkinter application. Normal use does not requ
 ### Start the factory
 
 1. Extract the release ZIP to a normal folder.
-2. Keep `Object_Factory_v1.0.py`, `Run_Object_Factory.bat`, and the `icons` folder together.
+2. Keep `Object_Factory_v1.1.py`, `Run_Object_Factory.bat`, and the `icons` folder together.
 3. Double-click `Run_Object_Factory.bat`.
 4. Choose **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 5. Create the output and open the resulting KML/KMZ in ArcGIS Earth.
@@ -38,15 +40,15 @@ Open **Objects**, choose the **firetruck** preset, enter a known coordinate, lea
 
 ### Main package files
 
-- `Object_Factory_v1.0.py` - main application.
+- `Object_Factory_v1.1.py` - main application.
 - `Run_Object_Factory.bat` - Windows launcher.
 - `icons/` - 11 object presets plus N/E/S/W compass PNGs.
 - `sample_objects.txt` - full-format batch example.
 - `simple_objects.txt` - shorthand batch example.
 - `SAMPLE_*.kmz` / `SAMPLE_*.kml` - ready-made outputs for inspection.
-- `RELEASE_NOTES.txt` - v1.0 release summary.
-- `RELEASE_VERIFICATION.txt` - verification record.
-- `ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf` - printable manual.
+- `README.txt` - quick start and release summary.
+
+The printable v1.0 PDF manual is in the repository's `docs` folder; its workflow still applies.
 
 ---
 
@@ -58,14 +60,14 @@ The factory uses one object-generation engine behind four task tabs.
 
 **Manual** - type decimal latitude and longitude directly.
 
-**From Clipboard** - reads coordinates copied from Google Maps or other text. If both numbers could legally be latitude, the factory interprets them as **Latitude, Longitude** and warns that the pair is ambiguous so you can verify it.
+**From Clipboard** - reads coordinates copied from Google Maps or other text. Google Maps' `30.40098, -81.93471` (latitude first) is the reference format. N/S/E/W letters (`30.4009768°N 81.9347098°W`) and degrees-minutes-seconds (`30°24'03.5"N 81°56'05.0"W`) are also understood. The line under the button states exactly what was read, e.g. `Read as Latitude 30.400980 N, Longitude 81.934710 W`.
 
 ### Google Maps workflow
 
 1. Right-click a location in Google Maps.
 2. Click the coordinate pair to copy it.
 3. Return to Object Factory and press **From Clipboard**.
-4. Verify the latitude/longitude message.
+4. Check the `Read as Latitude ... Longitude ...` line.
 5. Create the object.
 
 Latitude must be between -90 and 90. Longitude must be between -180 and 180. The factory validates these ranges before output is built.
@@ -311,11 +313,11 @@ Use concise Info text or `Popup = None`. Popup size is an ArcGIS Earth presentat
 
 ### Batch validation problem
 
-Check delimiter, coordinates, header spelling, icon paths, and that shorthand lines contain at least type, latitude, and longitude.
+The message names the line (and, for header lists, the object), e.g. `Line 4: latitude '30.4O' is not a number.` Line numbers count every line in the file, including comments and blank lines. Also check the delimiter, header spelling (`lat` and `lon` columns), icon paths, and that shorthand lines contain at least type, latitude, and longitude.
 
 ### Clipboard coordinates not accepted
 
-Verify the copied text contains a normal decimal latitude/longitude pair. If necessary, enter the coordinate manually.
+The message explains why. Copy just one coordinate pair; extra numbers such as `Pin 1:` are rejected. If necessary, enter the coordinate manually.
 
 ### Operational verification checklist
 
@@ -331,12 +333,12 @@ Verify the copied text contains a normal decimal latitude/longitude pair. If nec
 ### Developer self-test
 
 ```text
-py -3 Object_Factory_v1.0.py --selftest
+py -3 Object_Factory_v1.1.py --selftest
 ```
 
 The self-test covers PNG normalization/original preservation, single-object KMZ creation, hyperlink output, no-popup KML style, a 100-object batch, duplicate-icon reuse, shorthand parsing, Sky Compass generation, and Beacon generation.
 
-> **Release rule:** Object Factory v1.0 is the stable accepted baseline. Future functional changes receive a new version and should preserve known-good behavior unless the change specifically targets it.
+> **Release rule:** Object Factory v1.1 is the stable accepted baseline. Future functional changes receive a new version and should preserve known-good behavior unless the change specifically targets it.
 
 ---
 

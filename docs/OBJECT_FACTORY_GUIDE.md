@@ -1,8 +1,8 @@
-# ArcGIS Earth Object Factory v1.0 - Quick Operator Guide
+# ArcGIS Earth Object Factory v1.1 - Quick Operator Guide
 
 ## Start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip`](../releases/ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip) (the accepted build promoted to v1.0).
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.1.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.1.zip).
 2. Double-click `Run_Object_Factory.bat`.
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 
@@ -12,8 +12,8 @@ For the full guide, use the **[v1.0 PDF User Manual](ArcGIS_Earth_Object_Factory
 
 ## Objects
 
-1. Enter Latitude and Longitude manually, or copy a coordinate pair and click **From Clipboard**.
-2. Verify the displayed coordinate.
+1. Enter Latitude and Longitude manually, or right-click the spot in Google Maps, click the coordinate to copy it, and click **From Clipboard**.
+2. Check the `Read as Latitude ... Longitude ...` line under the button.
 3. Choose a preset or custom PNG.
 4. Set altitude / altitude mode / icon scale if needed.
 5. Leave labels off unless you intentionally want a permanent label.
@@ -80,7 +80,7 @@ ArcGIS Earth's native KML information box can be visually large. Keep Info conte
 ## Self-test
 
 ```text
-py -3 Object_Factory_v0.2.2_TEST.py --selftest
+py -3 Object_Factory_v1.1.py --selftest
 ```
 
 The self-test checks PNG normalization, original preservation, single objects, hyperlinks, no-popup KML, a 100-object batch, duplicate icon reuse, shorthand parsing, Sky Compass generation, and Beacon generation.

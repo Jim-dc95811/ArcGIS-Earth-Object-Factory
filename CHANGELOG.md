@@ -1,5 +1,22 @@
 # Changelog
 
+## Object Factory v1.1 - 2026-10-31
+
+Hardening release; everything the factory creates is identical to v1.0.
+
+- From Clipboard honors N/S/E/W letters and degrees-minutes-seconds and shows exactly how it read the coordinate (v1.0 put `30.40°N 81.93°W` in Tibet).
+- Asks before replacing an existing output file.
+- Builds outputs under a temporary name; a failed build keeps the previous file. The Sky Compass checks its icons first.
+- Batch header detected by real `lat`/`lon` column names (a name like "Palatka Colony" no longer breaks shorthand lists).
+- Batch errors name the line and object.
+- Clean `ArcGIS_Earth_Object_Factory_v1.1.zip` package replaces the v0.2.2 TEST zip; source published at `source/Object_Factory_v1.1.py`.
+- Unused ArcGIS Earth camera-coordinate code removed.
+- Live-accepted in ArcGIS Earth by Jim Gaddy. Details: [docs/OBJECT_FACTORY_V1.1_CHANGES.md](docs/OBJECT_FACTORY_V1.1_CHANGES.md).
+
+v1.1 source SHA-256:
+
+`f94a2034a9e3348d81a2a2061619201fd795d36930c2b64797ebb2611f5b6b70`
+
 ## Object Factory v1.0 - 2026-10-29
 
 First commissioned Object Factory release.

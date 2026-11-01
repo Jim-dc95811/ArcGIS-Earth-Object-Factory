@@ -2,7 +2,7 @@
 
 ## Download the tools
 
-### **⬇️ [DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.0](releases/ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip)**
+### **⬇️ [DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.1](releases/ArcGIS_Earth_Object_Factory_v1.1.zip)**
 Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth.
 
 **Put objects into the real map.**
@@ -15,7 +15,7 @@ No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is
 
 ## Quick start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip`](releases/ArcGIS_Earth_Object_Factory_v0.2.2_TEST.zip).
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.1.zip`](releases/ArcGIS_Earth_Object_Factory_v1.1.zip).
 2. Double-click `Run_Object_Factory.bat`.
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 4. Open the generated KML/KMZ in ArcGIS Earth.
@@ -24,14 +24,16 @@ No third-party Python packages are required.
 
 ## Release details
 
-**ArcGIS Earth Object Factory v1.0 - commissioned 2026-10-29**
+**ArcGIS Earth Object Factory v1.1 - released 2026-10-31**
 
-- **[Open the v1.0 Python source](https://github.com/Jim-dc95811/ArcGIS-Earth-Object-Factory/blob/b65a54cdda4349343ea2e92dd3f9a8c8cf1463b8/Object_Factory_v1.0.py)** (as promoted in commit `b65a54c`)
-- **[Open the v1.0 PDF User Manual](docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf)**
+- **[Open the v1.1 Python source](source/Object_Factory_v1.1.py)**
+- **[What changed in v1.1](docs/OBJECT_FACTORY_V1.1_CHANGES.md)**
+- **[Open the v1.0 PDF User Manual](docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf)** (the workflow is unchanged)
 
-Source SHA-256: `e77e1866e7a87b9824ed6bb1cd0f830f52adb1a2872efe48ede13a581018aa00`
+Source SHA-256: `f94a2034a9e3348d81a2a2061619201fd795d36930c2b64797ebb2611f5b6b70`  
+ZIP SHA-256: `927ed4bf589395708a171784503ca8338380c1746860200c4a4bd2db12f0608b`
 
-v1.0 is the accepted v0.2.2 TEST build promoted without redesign after live ArcGIS Earth verification. The exact source promotion was independently SHA-256 checked in GitHub before publication.
+v1.1 is a hardening release. From Clipboard now understands N/S/E/W letters and degrees-minutes-seconds and states exactly how it read the coordinate. The factory asks before replacing a file, keeps the previous file if a build fails, and names the line of any batch-list problem. Everything it creates is identical to v1.0. v1.0 (commissioned 2026-10-29) remains in the repository history.
 
 ## Four tools in one factory
 
@@ -89,15 +91,14 @@ Earth Beacon started this project; its beacon is now the Beacon tab.
 
 ## Fast coordinate workflow
 
-1. Find a location in the map/source you are using.
-2. Copy its latitude/longitude pair.
-3. Click **From Clipboard**.
-4. Verify Latitude and Longitude.
-5. Choose the object/preset.
-6. Create the KMZ/KML.
-7. Add it to ArcGIS Earth.
+1. In Google Maps, right-click the location and click the coordinate at the top of the menu (e.g. `30.40098, -81.93471`) to copy it.
+2. Click **From Clipboard**.
+3. Read the line under the button, e.g. `Read as Latitude 30.400980 N, Longitude 81.934710 W`, and check it is the place you meant.
+4. Choose the object/preset.
+5. Create the KMZ/KML.
+6. Add it to ArcGIS Earth.
 
-The factory intentionally does **not** provide coordinate swapping or ArcGIS-camera pickup controls. Placement remains explicit.
+From Clipboard also understands N/S/E/W letters (`30.4009768°N 81.9347098°W`) and degrees-minutes-seconds. The factory intentionally does **not** take coordinates from the ArcGIS Earth camera; placement stays explicit.
 
 ## PNG rule
 
@@ -124,15 +125,17 @@ The risky pieces were proved separately before integration:
 - **POF3:** generated NSEW Sky Compass - live-proven
 - **Earth Beacon:** long-range vertical KML navigation marker - live-proven
 
-v1.0 integrates those primitives into one factory.
+v1.0 integrated those primitives into one factory; v1.1 hardened it.
 
 ## Developer self-test
 
 ```text
-py -3 Object_Factory_v0.2.2_TEST.py --selftest
+py -3 Object_Factory_v1.1.py --selftest
 ```
 
-The self-test covers PNG normalization/original preservation, single-object KMZ, hyperlink output, no-popup KML style, a 100-object batch pack, duplicate icon reuse, shorthand parsing, Sky Compass generation, and Beacon generation.
+The self-test covers PNG normalization/original preservation, single-object KMZ, hyperlink output, no-popup KML style, a 100-object batch pack, duplicate icon reuse, shorthand parsing, Sky Compass generation, Beacon generation, and (v1.1) the clipboard reader, batch header detection, line-numbered errors and safe output.
+
+Run it from inside the extracted `Object_Factory_v1.1` folder (in File Explorer, type `cmd` in the address bar and press Enter).
 
 ## Relationship to EarthStick
 
@@ -166,6 +169,7 @@ The Beacon concept did not disappear; it became one of the four main Object Fact
 
 - [v1.0 PDF User Manual](docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf)
 - [Quick operator guide](docs/OBJECT_FACTORY_GUIDE.md)
+- [v1.1 change document](docs/OBJECT_FACTORY_V1.1_CHANGES.md)
 - [CONTINUITY.md](internal/CONTINUITY.md) - project handoff and verified/conceptual status
 - [MAPWORLD.md](internal/MAPWORLD.md) - technical ArcGIS Earth format/object inventory; "Mapworld" remains an internal working term
 - [CHANGELOG.md](CHANGELOG.md)
@@ -177,7 +181,7 @@ The Beacon concept did not disappear; it became one of the four main Object Fact
 - Python 3 with Tkinter
 - ArcGIS Earth desktop for use/testing of generated files
 
-Object Factory v1.0 uses the Python standard library and Tkinter. No Pillow installation is required.
+Object Factory v1.1 uses the Python standard library and Tkinter. No Pillow installation is required.
 
 ## Human-AI engineering collaboration
 

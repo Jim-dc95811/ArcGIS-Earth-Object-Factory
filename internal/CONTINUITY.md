@@ -7,6 +7,7 @@
 > - **Object Factory v1.0 was commissioned on 2026-10-29** (the accepted v0.2.2 TEST build, promoted without redesign). The integrated GUI is no longer conceptual. See `CHANGELOG.md`.
 > - **The umbrella name is now ArcGIS Earth Unlocked**: https://github.com/Jim-dc95811/ArcGIS-Earth-Unlocked
 > - The former **Earth-Beacon** repository became this repository (**ArcGIS-Earth-Object-Factory**). The standalone Beacon Maker v1.0 source and docs are preserved under `legacy/Earth_Beacon_v1.0/`. On 2026-10-31 Jim retired it as a separate download (the Factory's Beacon tab makes the same beacon); its release zip remains only in git history.
+> - **Object Factory v1.1 released 2026-10-31** (hardening: clipboard reads N/S/E/W and DMS with a readback, overwrite prompt, safe .partial writes, batch header/line-number fixes, clean v1.1 package, unused ArcGIS Earth camera code removed). Outputs identical to v1.0. See `docs/OBJECT_FACTORY_V1.1_CHANGES.md`.
 > - The original sections are kept below unchanged as the historical record.
 
 The project has moved beyond EarthStick + Earth Beacon into a broader ArcGIS Earth interaction system built around offline worlds, direct joystick navigation, programmable geographic objects, simple authoring, training, games, classroom use, and public-safety workflows.
