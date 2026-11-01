@@ -34,7 +34,7 @@ No third-party Python packages are required.
 
 - **[Open the v1.1 Python source](source/Object_Factory_v1.1.py)**
 - **[What changed in v1.1](docs/OBJECT_FACTORY_V1.1_CHANGES.md)**
-- **[Open the v1.0 PDF User Manual](docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf)** (the workflow is unchanged)
+- **[Open the v1.1 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf))
 
 Source SHA-256: `f94a2034a9e3348d81a2a2061619201fd795d36930c2b64797ebb2611f5b6b70`  
 ZIP SHA-256: `927ed4bf589395708a171784503ca8338380c1746860200c4a4bd2db12f0608b`
@@ -173,7 +173,7 @@ The Beacon concept did not disappear; it became one of the four main Object Fact
 
 ## Documentation / project brain
 
-- [v1.0 PDF User Manual](docs/ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf)
+- [v1.1 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md) ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf))
 - [Quick operator guide](docs/OBJECT_FACTORY_GUIDE.md)
 - [v1.1 change document](docs/OBJECT_FACTORY_V1.1_CHANGES.md)
 - [CONTINUITY.md](internal/CONTINUITY.md) - project handoff and verified/conceptual status

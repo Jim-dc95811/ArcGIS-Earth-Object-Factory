@@ -2,15 +2,13 @@
 
 > **v1.1 (2026-10-31):** file names below are updated for v1.1. New behavior: From Clipboard understands N/S/E/W letters and degrees-minutes-seconds and states how it read the coordinate; the factory asks before replacing a file, keeps the previous file if a build fails, and names the line of any batch-list problem. See [OBJECT_FACTORY_V1.1_CHANGES.md](OBJECT_FACTORY_V1.1_CHANGES.md).
 
-**Commissioned release: October 29, 2026**
+A printable copy of this manual is available as [ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf](ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf).
 
 Create geographic objects without hand-writing KML.
 
 **Coordinates + PNG -> Object Factory -> KMZ/KML -> ArcGIS Earth**
 
-Object Factory v1.0 is the commissioned release of the accepted v0.2.2 TEST baseline. Airborne PNG objects, batch object sets, and the NSEW Sky Compass were live-proven in ArcGIS Earth. The integrated factory was then verified with visible Info text, a protected Create Object button, the complete preset list, and successful clickable object information.
-
-The v1.0 promotion does not redesign accepted object-generation behavior.
+v1.0 was commissioned on October 29, 2026. Airborne PNG objects, batch object sets, the N/E/S/W Sky Compass and the Beacon were live-proven in ArcGIS Earth. v1.1 (October 31, 2026) is a hardening release: everything it creates is identical to v1.0.
 
 > **Core PNG rule:** the original PNG is never modified. Packaged icon copies are normalized to a maximum dimension of 256 px while preserving aspect ratio and transparency.
 
@@ -28,7 +26,7 @@ Object Factory is a Windows Python/Tkinter application. Normal use does not requ
 
 ### Start the factory
 
-1. Extract the release ZIP to a normal folder.
+1. Download [`ArcGIS_Earth_Object_Factory_v1.1.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.1.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.1` folder.
 2. Keep `Object_Factory_v1.1.py`, `Run_Object_Factory.bat`, and the `icons` folder together.
 3. Double-click `Run_Object_Factory.bat`.
 4. Choose **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
@@ -36,7 +34,7 @@ Object Factory is a Windows Python/Tkinter application. Normal use does not requ
 
 ### Fastest first test
 
-Open **Objects**, choose the **firetruck** preset, enter a known coordinate, leave labels off, add short Info text, create the KMZ, and open it in ArcGIS Earth. This mirrors the live-proven first Object Factory primitive.
+Open **Objects**, choose the **firetruck** preset, enter a known coordinate, leave labels off, add short Info text, press **CREATE OBJECT KMZ**, and open the KMZ (saved to your Desktop by default) in ArcGIS Earth. This mirrors the live-proven first Object Factory primitive.
 
 ### Main package files
 
@@ -45,16 +43,16 @@ Open **Objects**, choose the **firetruck** preset, enter a known coordinate, lea
 - `icons/` - 11 object presets plus N/E/S/W compass PNGs.
 - `sample_objects.txt` - full-format batch example.
 - `simple_objects.txt` - shorthand batch example.
-- `SAMPLE_*.kmz` / `SAMPLE_*.kml` - ready-made outputs for inspection.
+- `SAMPLE_Object_Set.kmz`, `SAMPLE_Linked_Camera.kmz`, `SAMPLE_Sky_Compass.kmz`, `SAMPLE_Beacon.kml` - ready-made outputs to open in ArcGIS Earth.
 - `README.txt` - quick start and release summary.
 
-The printable v1.0 PDF manual is in the repository's `docs` folder; its workflow still applies.
+Every output path has a **Browse** button. By default, files are saved to your Desktop.
 
 ---
 
 ## 2. Main Window and Coordinate Entry
 
-The factory uses one object-generation engine behind four task tabs.
+The factory uses one object-generation engine behind four task tabs: **Objects**, **Batch**, **Sky Compass** and **Beacon**. A status line at the bottom reports what the factory just did.
 
 ### Coordinate entry
 
@@ -80,14 +78,14 @@ Use **Objects** for one floating or ground-level PNG object. The factory creates
 
 ### Typical workflow
 
-1. Choose a preset or browse to your own PNG.
+1. Choose a preset or **Browse** to your own PNG. The PNG inspection box shows its size and what will be packaged.
 2. Enter the object name and coordinate.
 3. Set altitude, altitude mode, and icon scale.
 4. Normally leave **Show label** off.
 5. Turn on **Show tether** only when you want a visible line to the ground.
 6. Choose **Info** or **None** for popup behavior.
 7. Enter optional Info text and hyperlink.
-8. Choose the output KMZ path.
+8. Choose the output KMZ path (default `ArcGIS_Earth_Object.kmz` on your Desktop). If the file already exists, the factory asks before replacing it.
 9. Press **CREATE OBJECT KMZ**.
 
 ### Field reference
@@ -140,7 +138,7 @@ The project default is **no permanent label** for most objects. The icon carries
 
 Enter link text such as `OPEN LIVE CAMERA`, `STREET VIEW`, `FACILITY PAGE`, or `OPEN MAP`, then enter a normal URL. The factory writes a standard HTML hyperlink into the KML description.
 
-Object Factory v1.0 writes the link structure; browser-launch behavior depends on ArcGIS Earth and Windows/browser configuration.
+The factory writes the link structure; browser-launch behavior depends on ArcGIS Earth and Windows/browser configuration.
 
 ---
 
@@ -162,7 +160,7 @@ Presets are convenience starting points. Every preset feeds the same generic PNG
 | camera | 180 m | 1.5 | viewpoint / camera |
 | medical | 180 m | 1.5 | hospital / medical point |
 
-The preset selection list is part of the accepted v1.0 interface.
+In batch lists, these alternative names also work: `pin` (object), `heli` (helicopter), `gas` / `gas_pump` (fuel), `warning` (hazard), `base` (home), `truck` (firetruck), `viewpoint` (camera), `hospital` (medical). An unrecognized type becomes a generic `object`.
 
 ---
 
@@ -170,18 +168,29 @@ The preset selection list is part of the accepted v1.0 interface.
 
 Use **Batch** to create many objects in one KMZ. This is the fastest path for classrooms, training scenarios, operational object packs, or any repeated coordinate list.
 
-Two formats are supported:
+### Batch workflow
+
+1. **Browse** to the object list (a `.txt` file). The default is the included `sample_objects.txt`.
+2. Press **VALIDATE LIST**. The summary line reports how many objects were read, or names the line with a problem.
+3. Choose the output KMZ (default `Object_Set.kmz` on your Desktop).
+4. Press **CREATE OBJECT SET**.
+
+Two list formats are supported:
 
 ### Shorthand format
 
 ```text
+type,lat,lon[,alt_m][,name]
+```
+
+```text
 fuel,30.410104,-81.922396
 heli,30.398210,-81.931440,300
-water,30.402778,-81.918620
+bird,30.402778,-81.918620,120,Mystery Bird
 home,30.385525,-81.930807
 ```
 
-The preset supplies icon, normal altitude, and scale when omitted.
+The preset supplies icon, normal altitude, and scale when omitted. Without a name, the object is named after its type.
 
 ### Full pipe-delimited format
 
@@ -203,7 +212,7 @@ The integrated self-test generated a **100-object batch KMZ** and verified dupli
 - `name` - object name.
 - `lat` / `lon` - coordinate.
 - `alt_m` - altitude in meters.
-- `icon` - optional custom PNG path.
+- `icon` - optional custom PNG path. Blank uses the preset icon; a relative path is looked up beside the list file.
 - `description` - Info text.
 - `url` - optional URL.
 - `link_text` - hyperlink text.
@@ -234,7 +243,8 @@ Default starting values:
 2. Set the radius.
 3. Set altitude AGL.
 4. Set icon scale.
-5. Create the Sky Compass and inspect it in ArcGIS Earth.
+5. Choose the output KMZ (default `Sky_Compass.kmz` on your Desktop).
+6. Press **CREATE SKY COMPASS** and open the KMZ in ArcGIS Earth.
 
 The POF3 N/E/S/W geometry was live-tested successfully. Radius, altitude, and scale remain adjustable because the best values depend on the operating area and preferred view.
 
@@ -252,11 +262,12 @@ Beacon preserves the accepted Earth Beacon geometry: a tall vertical KML line an
 - Line width: **6**.
 - Default color: **Red**.
 - Available colors: Red, Yellow, Cyan, Green, Magenta, White, Orange.
-- Output: KML.
+- Beacon name: **EarthStick Beacon** (shown as the label at the base).
+- Output: KML (default `EarthStick_Beacon.kml` on your Desktop).
 
 ### Standard workflow
 
-1. Enter the destination coordinate manually or use **From Clipboard**.
+1. Enter a beacon name and the destination coordinate, manually or with **From Clipboard**.
 2. Keep 100 km height and width 6 for the accepted baseline unless you intentionally want another presentation.
 3. Choose color.
 4. Press **CREATE BEACON KML**.
@@ -281,7 +292,7 @@ A generated object is therefore not locked. You can edit its Rich Text or HTML i
 
 ### Camera / Viewpoint objects
 
-In v1.0, a camera object is a geographic camera PNG plus an optional link. It can point to a live webcam, Street View, photo page, video, or normal web resource. A separate always-on-top mini Camera Viewer is a future concept and is **not** part of v1.0.
+A camera object is a geographic camera PNG plus an optional link. It can point to a live webcam, Street View, photo page, video, or normal web resource. A separate always-on-top mini Camera Viewer is a future concept and is **not** part of the factory.
 
 ### Native popup size
 
@@ -297,7 +308,7 @@ Confirm Python 3 is installed and includes Tkinter. Run the BAT from the extract
 
 ### PNG not ready
 
-Confirm the file is a readable PNG. v1.0 intentionally does not require Pillow and does not accept arbitrary icon formats.
+Confirm the file is a readable PNG. The factory intentionally does not require Pillow and does not accept other icon formats.
 
 ### Object too small or large
 

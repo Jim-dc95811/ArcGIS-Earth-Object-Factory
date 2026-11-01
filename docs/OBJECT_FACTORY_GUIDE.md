@@ -8,7 +8,7 @@
 
 No third-party Python packages are required.
 
-For the full guide, use the **[v1.0 PDF User Manual](ArcGIS_Earth_Object_Factory_v1.0_User_Manual.pdf)**.
+For the full guide, use the **[v1.1 User Manual](OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf)).
 
 ## Objects
 
@@ -17,10 +17,10 @@ For the full guide, use the **[v1.0 PDF User Manual](ArcGIS_Earth_Object_Factory
 3. Choose a preset or custom PNG.
 4. Set altitude / altitude mode / icon scale if needed.
 5. Leave labels off unless you intentionally want a permanent label.
-6. Choose **Info** or **No Popup**.
+6. Choose **Info** or **None** for the popup.
 7. Enter optional multiline **Info text**.
 8. Optionally add Link text and a URL.
-9. Create the KMZ.
+9. Press **CREATE OBJECT KMZ**. If the file already exists, the factory asks before replacing it.
 
 Built-in presets:
 
@@ -53,6 +53,8 @@ Format:
 type,lat,lon[,alt_m][,name]
 ```
 
+Then press **VALIDATE LIST** and **CREATE OBJECT SET**.
+
 Full format:
 
 ```text
@@ -63,14 +65,14 @@ type|name|lat|lon|alt_m|icon|description|url|link_text|scale|altitude_mode|tethe
 
 1. Enter/copy the center coordinate.
 2. Choose radius, altitude, and icon scale.
-3. Build the KMZ.
+3. Press **CREATE SKY COMPASS**.
 4. Add it to ArcGIS Earth.
 
 ## Beacon
 
-1. Enter/copy the target coordinate.
+1. Enter a beacon name and enter/copy the target coordinate.
 2. Choose height, line width, and color.
-3. Create the KML.
+3. Press **CREATE BEACON KML**.
 4. Add it to ArcGIS Earth.
 
 ## Popup note
