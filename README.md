@@ -3,6 +3,8 @@
 ## Download the tools
 
 ### **⬇️ [DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.1](releases/ArcGIS_Earth_Object_Factory_v1.1.zip)**
+**📖 [User manual](docs/OBJECT_FACTORY_USER_MANUAL.md)**
+
 Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth.
 
 **Put objects into the real map.**
