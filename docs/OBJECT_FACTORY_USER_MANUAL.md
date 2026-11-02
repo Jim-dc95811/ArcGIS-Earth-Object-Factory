@@ -1,14 +1,14 @@
-# ArcGIS Earth Object Factory v1.1 - User Manual
+# ArcGIS Earth Object Factory v1.2 - User Manual
 
-> **v1.1 (2026-10-31):** file names below are updated for v1.1. New behavior: From Clipboard understands N/S/E/W letters and degrees-minutes-seconds and states how it read the coordinate; the factory asks before replacing a file, keeps the previous file if a build fails, and names the line of any batch-list problem. See [OBJECT_FACTORY_V1.1_CHANGES.md](OBJECT_FACTORY_V1.1_CHANGES.md).
+> **v1.2 (2026-11-02):** new **Hide above (ft)** setting (section 4) so objects stop cluttering the view from high above; the Objects tab takes **Altitude in feet**; an Info popup with nothing in it now shows the object's name. See [OBJECT_FACTORY_V1.2_CHANGES.md](OBJECT_FACTORY_V1.2_CHANGES.md). v1.1 (2026-10-31) added the coordinate readback, overwrite prompt and safe writes ([OBJECT_FACTORY_V1.1_CHANGES.md](OBJECT_FACTORY_V1.1_CHANGES.md)).
 
-A printable copy of this manual is available as [ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf](ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf).
+A printable copy of this manual is available as [ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf](ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf).
 
 Create geographic objects without hand-writing KML.
 
 **Coordinates + PNG -> Object Factory -> KMZ/KML -> ArcGIS Earth**
 
-v1.0 was commissioned on October 29, 2026. Airborne PNG objects, batch object sets, the N/E/S/W Sky Compass and the Beacon were live-proven in ArcGIS Earth. v1.1 (October 31, 2026) is a hardening release: everything it creates is identical to v1.0.
+v1.0 was commissioned on October 29, 2026. Airborne PNG objects, batch object sets, the N/E/S/W Sky Compass and the Beacon were live-proven in ArcGIS Earth. v1.1 (October 31, 2026) was a hardening release. v1.2 (November 2, 2026) adds Hide above and altitude in feet.
 
 > **Core PNG rule:** the original PNG is never modified. Packaged icon copies are normalized to a maximum dimension of 256 px while preserving aspect ratio and transparency.
 
@@ -26,8 +26,8 @@ Object Factory is a Windows Python/Tkinter application. Normal use does not requ
 
 ### Start the factory
 
-1. Download [`ArcGIS_Earth_Object_Factory_v1.1.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.1.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.1` folder.
-2. Keep `Object_Factory_v1.1.py`, `Run_Object_Factory.bat`, and the `icons` folder together.
+1. Download [`ArcGIS_Earth_Object_Factory_v1.2.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.2.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.2` folder.
+2. Keep `Object_Factory_v1.2.py`, `Run_Object_Factory.bat`, and the `icons` folder together.
 3. Double-click `Run_Object_Factory.bat`.
 4. Choose **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 5. Create the output and open the resulting KML/KMZ in ArcGIS Earth.
@@ -38,7 +38,7 @@ Open **Objects**, choose the **firetruck** preset, enter a known coordinate, lea
 
 ### Main package files
 
-- `Object_Factory_v1.1.py` - main application.
+- `Object_Factory_v1.2.py` - main application.
 - `Run_Object_Factory.bat` - Windows launcher.
 - `icons/` - 11 object presets plus N/E/S/W compass PNGs.
 - `sample_objects.txt` - full-format batch example.
@@ -80,13 +80,14 @@ Use **Objects** for one floating or ground-level PNG object. The factory creates
 
 1. Choose a preset or **Browse** to your own PNG. The PNG inspection box shows its size and what will be packaged.
 2. Enter the object name and coordinate.
-3. Set altitude, altitude mode, and icon scale.
-4. Normally leave **Show label** off.
-5. Turn on **Show tether** only when you want a visible line to the ground.
-6. Choose **Info** or **None** for popup behavior.
-7. Enter optional Info text and hyperlink.
-8. Choose the output KMZ path (default `ArcGIS_Earth_Object.kmz` on your Desktop). If the file already exists, the factory asks before replacing it.
-9. Press **CREATE OBJECT KMZ**.
+3. Set altitude (feet), altitude mode, and icon scale.
+4. Optionally set **Hide above (ft)** so the object disappears when you are far away (section 4).
+5. Normally leave **Show label** off.
+6. Turn on **Show tether** only when you want a visible line to the ground.
+7. Choose **Info** or **None** for popup behavior.
+8. Enter optional Info text and hyperlink.
+9. Choose the output KMZ path (default `ArcGIS_Earth_Object.kmz` on your Desktop). If the file already exists, the factory asks before replacing it.
+10. Press **CREATE OBJECT KMZ**.
 
 ### Field reference
 
@@ -94,10 +95,11 @@ Use **Objects** for one floating or ground-level PNG object. The factory creates
 - **Object name** - KML Placemark name.
 - **Latitude / Longitude** - geographic anchor point.
 - **PNG icon** - preset or custom transparent PNG. Source is never modified.
-- **Altitude (m)** - altitude value in meters.
+- **Altitude (ft)** - altitude in feet (converted to metres inside the KMZ). Presets fill in their altitude rounded to 10 ft.
 - **Altitude mode** - `relativeToGround`, `absolute`, or `clampToGround`.
 - **Icon scale** - KML icon scale.
-- **Popup** - `Info` or `None`.
+- **Popup** - `Info` or `None`. With `Info` and no Info text or link, the popup shows the object's name.
+- **Hide above (ft)** - the object shows only while you are within about this distance; blank = always visible. See section 4.
 - **Show tether** - adds a vertical line from ground to the object.
 - **Show label** - continuously displays the object name. Default is off.
 - **Info text** - short text shown after clicking.
@@ -106,7 +108,7 @@ Use **Objects** for one floating or ground-level PNG object. The factory creates
 
 ---
 
-## 4. PNG Handling, Altitude, Labels, and Links
+## 4. PNG Handling, Altitude, Hide Above, Labels, and Links
 
 ### Automatic PNG normalization
 
@@ -128,6 +130,18 @@ Locked behavior:
 - **absolute** - absolute elevation. Use only when intentional.
 - **clampToGround** - places the object on the ground surface.
 
+### Hide above (ft)
+
+Many objects over a city turn into a pile of giant icons when you are high above it. **Hide above** fixes that: type a distance in feet, and the object shows only while you are within about that distance of it.
+
+- **Looking straight down,** the number is the **eye alt** ArcGIS Earth shows in the bar at the bottom of the map. `3000` = the object shows below about 3,000 ft eye alt.
+- **Flying low,** you still see the object off in the distance, out to roughly the same distance (measured: about a third farther sideways).
+- **Blank** = always visible.
+
+Suggested starting values: a few thousand feet for street-level objects (hydrants, cameras at an intersection); 20,000-40,000 ft for objects you want to see across a county. Adjust after a look in ArcGIS Earth.
+
+In ArcGIS Earth the object appears inside a folder of its own name in My Data; that folder carries the Hide above setting. Popups and links work as normal. The cutoff is approximate and was measured on a full-screen ArcGIS Earth window; a smaller window hides objects a little sooner.
+
 ### Labels and click information
 
 The project default is **no permanent label** for most objects. The icon carries the first layer of meaning; click only when more information is needed.
@@ -146,19 +160,19 @@ The factory writes the link structure; browser-launch behavior depends on ArcGIS
 
 Presets are convenience starting points. Every preset feeds the same generic PNG-object engine.
 
-| Preset | Default altitude | Scale | Typical meaning |
+| Preset | Default altitude (Objects tab / Batch) | Scale | Typical meaning |
 |---|---:|---:|---|
-| object | 150 m | 1.4 | generic object / pin |
-| helicopter | 300 m | 1.5 | aviation marker |
-| fuel | 150 m | 1.4 | fuel stop |
-| bird | 120 m | 1.4 | lesson / wildlife object |
-| hazard | 200 m | 1.5 | warning / hazard |
-| home | 200 m | 1.5 | home / base |
-| staging | 150 m | 1.5 | staging point |
-| water | 150 m | 1.5 | water source |
-| firetruck | 150 m | 1.5 | apparatus / fire-service point |
-| camera | 180 m | 1.5 | viewpoint / camera |
-| medical | 180 m | 1.5 | hospital / medical point |
+| object | 490 ft / 150 m | 1.4 | generic object / pin |
+| helicopter | 980 ft / 300 m | 1.5 | aviation marker |
+| fuel | 490 ft / 150 m | 1.4 | fuel stop |
+| bird | 390 ft / 120 m | 1.4 | lesson / wildlife object |
+| hazard | 660 ft / 200 m | 1.5 | warning / hazard |
+| home | 660 ft / 200 m | 1.5 | home / base |
+| staging | 490 ft / 150 m | 1.5 | staging point |
+| water | 490 ft / 150 m | 1.5 | water source |
+| firetruck | 490 ft / 150 m | 1.5 | apparatus / fire-service point |
+| camera | 590 ft / 180 m | 1.5 | viewpoint / camera |
+| medical | 590 ft / 180 m | 1.5 | hospital / medical point |
 
 In batch lists, these alternative names also work: `pin` (object), `heli` (helicopter), `gas` / `gas_pump` (fuel), `warning` (hazard), `base` (home), `truck` (firetruck), `viewpoint` (camera), `hospital` (medical). An unrecognized type becomes a generic `object`.
 
@@ -195,12 +209,12 @@ The preset supplies icon, normal altitude, and scale when omitted. Without a nam
 ### Full pipe-delimited format
 
 ```text
-type|name|lat|lon|alt_m|icon|description|url|link_text|scale|altitude_mode|tether|popup|label
-fuel|Fuel Stop|30.410104|-81.922396|150||Use this fuel stop.|||1.4|relativeToGround|no|Info|no
-camera|Viewpoint|30.394120|-81.927300|180||Another way to see this place.|https://www.google.com/maps|OPEN MAP|1.5|relativeToGround|no|Info|no
+type|name|lat|lon|alt_m|icon|description|url|link_text|scale|altitude_mode|tether|popup|label|hide_above_ft
+fuel|Fuel Stop|30.410104|-81.922396|150||Use this fuel stop.|||1.4|relativeToGround|no|Info|no|
+camera|Viewpoint|30.394120|-81.927300|180||Another way to see this place.|https://www.google.com/maps|OPEN MAP|1.5|relativeToGround|no|Info|no|5000
 ```
 
-Blank lines and lines beginning with `#` may be used for readability and are ignored.
+Blank lines and lines beginning with `#` may be used for readability and are ignored. The `hide_above_ft` column is optional; lists without it work as before.
 
 The integrated self-test generated a **100-object batch KMZ** and verified duplicate-icon reuse.
 
@@ -211,7 +225,7 @@ The integrated self-test generated a **100-object batch KMZ** and verified dupli
 - `type` - preset name or alias.
 - `name` - object name.
 - `lat` / `lon` - coordinate.
-- `alt_m` - altitude in meters.
+- `alt_m` - altitude in **metres** (the Objects tab uses feet; batch lists keep metres so existing lists still work).
 - `icon` - optional custom PNG path. Blank uses the preset icon; a relative path is looked up beside the list file.
 - `description` - Info text.
 - `url` - optional URL.
@@ -221,6 +235,7 @@ The integrated self-test generated a **100-object batch KMZ** and verified dupli
 - `tether` - yes/no, true/false, 1/0, on/off.
 - `popup` - `Info` or `None`.
 - `label` - yes/no. Normally no.
+- `hide_above_ft` - optional Hide above distance in feet (section 4). Blank = always visible.
 
 Use `sample_objects.txt` for the full format and `simple_objects.txt` for the shorthand format.
 
@@ -314,6 +329,10 @@ Confirm the file is a readable PNG. The factory intentionally does not require P
 
 Adjust **Icon scale** and recreate the KMZ.
 
+### Object disappears too early or too late
+
+Raise **Hide above (ft)** if it disappears too soon; lower it if it clutters the view too long. Leave it blank for always visible.
+
 ### Object too high or low
 
 Check **Altitude** and **Altitude mode**. `relativeToGround` is the normal floating-object setting.
@@ -338,18 +357,19 @@ The message explains why. Copy just one coordinate pair; extra numbers such as `
 4. Choose `Popup = None` and inspect the result.
 5. Load `sample_objects.txt` and inspect mixed objects.
 6. Load `simple_objects.txt` and inspect the shorthand objects.
+6a. Create an object with Hide above 3000, climb straight over it and check it disappears near 3,000 ft eye alt.
 7. Recreate the Sky Compass and inspect N/E/S/W behavior.
 8. Create a standard 100 km red Beacon and confirm accepted geometry remains unchanged.
 
 ### Developer self-test
 
 ```text
-py -3 Object_Factory_v1.1.py --selftest
+py -3 Object_Factory_v1.2.py --selftest
 ```
 
-The self-test covers PNG normalization/original preservation, single-object KMZ creation, hyperlink output, no-popup KML style, a 100-object batch, duplicate-icon reuse, shorthand parsing, Sky Compass generation, and Beacon generation.
+The self-test covers PNG normalization/original preservation, single-object KMZ creation, hyperlink output, no-popup KML style, a 100-object batch, duplicate-icon reuse, shorthand parsing, Sky Compass generation, Beacon generation, and (v1.2) Hide above and name popups.
 
-> **Release rule:** Object Factory v1.1 is the stable accepted baseline. Future functional changes receive a new version and should preserve known-good behavior unless the change specifically targets it.
+> **Release rule:** Object Factory v1.2 is the stable accepted baseline. Future functional changes receive a new version and should preserve known-good behavior unless the change specifically targets it.
 
 ---
 

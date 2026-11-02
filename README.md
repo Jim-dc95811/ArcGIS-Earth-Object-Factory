@@ -2,7 +2,7 @@
 
 ## Download the tools
 
-### **⬇️ [DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.1](releases/ArcGIS_Earth_Object_Factory_v1.1.zip)**
+### **⬇️ [DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.2](releases/ArcGIS_Earth_Object_Factory_v1.2.zip)**
 **📖 [User manual](docs/OBJECT_FACTORY_USER_MANUAL.md)**
 
 Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth.
@@ -21,7 +21,7 @@ No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is
 
 ## Quick start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.1.zip`](releases/ArcGIS_Earth_Object_Factory_v1.1.zip).
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.2.zip`](releases/ArcGIS_Earth_Object_Factory_v1.2.zip).
 2. Double-click `Run_Object_Factory.bat`.
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 4. Open the generated KML/KMZ in ArcGIS Earth.
@@ -30,16 +30,18 @@ No third-party Python packages are required.
 
 ## Release details
 
-**ArcGIS Earth Object Factory v1.1 - released 2026-10-31**
+**ArcGIS Earth Object Factory v1.2 - released 2026-11-02**
 
-- **[Open the v1.1 Python source](source/Object_Factory_v1.1.py)**
-- **[What changed in v1.1](docs/OBJECT_FACTORY_V1.1_CHANGES.md)**
-- **[Open the v1.1 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf))
+- **[Open the v1.2 Python source](source/Object_Factory_v1.2.py)**
+- **[What changed in v1.2](docs/OBJECT_FACTORY_V1.2_CHANGES.md)**
+- **[Open the v1.2 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf))
 
-Source SHA-256: `f94a2034a9e3348d81a2a2061619201fd795d36930c2b64797ebb2611f5b6b70`  
-ZIP SHA-256: `927ed4bf589395708a171784503ca8338380c1746860200c4a4bd2db12f0608b`
+Source SHA-256: `1310743e2f129d70dd85291efe1922c2f275bedbb9a91f45759d5925b4640ff9`  
+ZIP SHA-256: `531d4e0e54e38a0608052ba4140c51534101e40a16d75af6842532701c2fe1c4`
 
-v1.1 is a hardening release. From Clipboard now understands N/S/E/W letters and degrees-minutes-seconds and states exactly how it read the coordinate. The factory asks before replacing a file, keeps the previous file if a build fails, and names the line of any batch-list problem. Everything it creates is identical to v1.0. v1.0 (commissioned 2026-10-29) remains in the repository history.
+v1.2 adds **Hide above (ft)**: objects show only while you are within about that distance (straight down, the eye alt ArcGIS Earth shows), so a city full of objects no longer clutters the view from high above, while flying low you still see them in the distance. The Objects tab now takes altitude in feet, and an empty Info popup shows the object's name. The previous release, v1.1, stays at `releases/ArcGIS_Earth_Object_Factory_v1.1.zip`.
+
+v1.1 was a hardening release. From Clipboard now understands N/S/E/W letters and degrees-minutes-seconds and states exactly how it read the coordinate. The factory asks before replacing a file, keeps the previous file if a build fails, and names the line of any batch-list problem. Everything it creates is identical to v1.0. v1.0 (commissioned 2026-10-29) remains in the repository history.
 
 ## Four tools in one factory
 
@@ -52,7 +54,8 @@ Create one geographic PNG object at a time.
 - automatic PNG inspection
 - packaged working copy normalized to a maximum 256 px dimension
 - source PNG never modified
-- `relativeToGround`, `absolute`, or `clampToGround`
+- altitude in feet; `relativeToGround`, `absolute`, or `clampToGround`
+- **Hide above (ft)**: disappears when you are far away, so many objects don't clutter the view (v1.2)
 - adjustable icon scale
 - optional vertical tether
 - labels off by default
@@ -78,8 +81,10 @@ home,30.385525,-81.930807
 Full format:
 
 ```text
-type|name|lat|lon|alt_m|icon|description|url|link_text|scale|altitude_mode|tether|popup|label
+type|name|lat|lon|alt_m|icon|description|url|link_text|scale|altitude_mode|tether|popup|label|hide_above_ft
 ```
+
+`alt_m` is in metres; the `hide_above_ft` column (feet) is optional.
 
 Duplicate source icons are normalized once and reused inside the KMZ.
 
@@ -131,17 +136,17 @@ The risky pieces were proved separately before integration:
 - **POF3:** generated NSEW Sky Compass - live-proven
 - **Earth Beacon:** long-range vertical KML navigation marker - live-proven
 
-v1.0 integrated those primitives into one factory; v1.1 hardened it.
+v1.0 integrated those primitives into one factory; v1.1 hardened it; v1.2 added Hide above.
 
 ## Developer self-test
 
 ```text
-py -3 Object_Factory_v1.1.py --selftest
+py -3 Object_Factory_v1.2.py --selftest
 ```
 
-The self-test covers PNG normalization/original preservation, single-object KMZ, hyperlink output, no-popup KML style, a 100-object batch pack, duplicate icon reuse, shorthand parsing, Sky Compass generation, Beacon generation, and (v1.1) the clipboard reader, batch header detection, line-numbered errors and safe output.
+The self-test covers PNG normalization/original preservation, single-object KMZ, hyperlink output, no-popup KML style, a 100-object batch pack, duplicate icon reuse, shorthand parsing, Sky Compass generation, Beacon generation, (v1.1) the clipboard reader, batch header detection, line-numbered errors and safe output, and (v1.2) Hide above and name popups.
 
-Run it from inside the extracted `Object_Factory_v1.1` folder (in File Explorer, type `cmd` in the address bar and press Enter).
+Run it from inside the extracted `Object_Factory_v1.2` folder (in File Explorer, type `cmd` in the address bar and press Enter).
 
 ## Relationship to EarthStick
 
@@ -173,8 +178,9 @@ The Beacon concept did not disappear; it became one of the four main Object Fact
 
 ## Documentation / project brain
 
-- [v1.1 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md) ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf))
+- [v1.2 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md) ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf))
 - [Quick operator guide](docs/OBJECT_FACTORY_GUIDE.md)
+- [v1.2 change document](docs/OBJECT_FACTORY_V1.2_CHANGES.md)
 - [v1.1 change document](docs/OBJECT_FACTORY_V1.1_CHANGES.md)
 - [CONTINUITY.md](internal/CONTINUITY.md) - project handoff and verified/conceptual status
 - [MAPWORLD.md](internal/MAPWORLD.md) - technical ArcGIS Earth format/object inventory; "Mapworld" remains an internal working term
@@ -187,7 +193,7 @@ The Beacon concept did not disappear; it became one of the four main Object Fact
 - Python 3 with Tkinter
 - ArcGIS Earth desktop for use/testing of generated files
 
-Object Factory v1.1 uses the Python standard library and Tkinter. No Pillow installation is required.
+Object Factory v1.2 uses the Python standard library and Tkinter. No Pillow installation is required.
 
 ## Human-AI engineering collaboration
 

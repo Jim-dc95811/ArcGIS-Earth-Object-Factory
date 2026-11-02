@@ -1,23 +1,24 @@
-# ArcGIS Earth Object Factory v1.1 - Quick Operator Guide
+# ArcGIS Earth Object Factory v1.2 - Quick Operator Guide
 
 ## Start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.1.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.1.zip).
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.2.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.2.zip).
 2. Double-click `Run_Object_Factory.bat`.
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 
 No third-party Python packages are required.
 
-For the full guide, use the **[v1.1 User Manual](OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](ArcGIS_Earth_Object_Factory_v1.1_User_Manual.pdf)).
+For the full guide, use the **[v1.2 User Manual](OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf)).
 
 ## Objects
 
 1. Enter Latitude and Longitude manually, or right-click the spot in Google Maps, click the coordinate to copy it, and click **From Clipboard**.
 2. Check the `Read as Latitude ... Longitude ...` line under the button.
 3. Choose a preset or custom PNG.
-4. Set altitude / altitude mode / icon scale if needed.
+4. Set altitude (feet) / altitude mode / icon scale if needed.
+4a. Optional: **Hide above (ft)** - the object disappears when you are farther away than this (straight down = eye alt). Blank = always visible.
 5. Leave labels off unless you intentionally want a permanent label.
-6. Choose **Info** or **None** for the popup.
+6. Choose **Info** or **None** for the popup. An empty Info popup shows the object's name.
 7. Enter optional multiline **Info text**.
 8. Optionally add Link text and a URL.
 9. Press **CREATE OBJECT KMZ**. If the file already exists, the factory asks before replacing it.
@@ -58,8 +59,10 @@ Then press **VALIDATE LIST** and **CREATE OBJECT SET**.
 Full format:
 
 ```text
-type|name|lat|lon|alt_m|icon|description|url|link_text|scale|altitude_mode|tether|popup|label
+type|name|lat|lon|alt_m|icon|description|url|link_text|scale|altitude_mode|tether|popup|label|hide_above_ft
 ```
+
+`alt_m` is in metres; `hide_above_ft` (feet) is optional.
 
 ## Sky Compass
 
@@ -82,7 +85,7 @@ ArcGIS Earth's native KML information box can be visually large. Keep Info conte
 ## Self-test
 
 ```text
-py -3 Object_Factory_v1.1.py --selftest
+py -3 Object_Factory_v1.2.py --selftest
 ```
 
 The self-test checks PNG normalization, original preservation, single objects, hyperlinks, no-popup KML, a 100-object batch, duplicate icon reuse, shorthand parsing, Sky Compass generation, and Beacon generation.

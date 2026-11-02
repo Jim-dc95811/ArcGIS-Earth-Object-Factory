@@ -1,5 +1,17 @@
 # Changelog
 
+## Object Factory v1.2 - 2026-11-02
+
+- **Hide above (ft)** on the Objects tab and an optional `hide_above_ft` Batch column: the object shows only while you are within about that distance (straight down = ArcGIS Earth's eye alt). KML Region with a 300 m cube, calibrated live. Blank = always visible.
+- Objects tab **Altitude in feet** (presets shown rounded to 10 ft); Batch `alt_m` unchanged.
+- Popup = Info with no Info text and no URL now shows the object's name.
+- Tighter window layout so CREATE OBJECT KMZ fits on a maximised window.
+- Live-accepted in ArcGIS Earth by Jim Gaddy. Details: [docs/OBJECT_FACTORY_V1.2_CHANGES.md](docs/OBJECT_FACTORY_V1.2_CHANGES.md).
+
+v1.2 source SHA-256:
+
+`1310743e2f129d70dd85291efe1922c2f275bedbb9a91f45759d5925b4640ff9`
+
 ## Object Factory v1.1 - 2026-10-31
 
 Hardening release; everything the factory creates is identical to v1.0.
