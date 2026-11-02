@@ -1,8 +1,12 @@
 # ArcGIS Earth Object Factory
 
-## Download the tools
+## Get everything you need
 
-### **⬇️ [DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.2](releases/ArcGIS_Earth_Object_Factory_v1.2.zip)**
+**1. ⬇️ [ArcGIS Earth](https://www.esri.com/en-us/arcgis/products/arcgis-earth/downloads)** - free 3D globe from Esri (Windows desktop version).
+
+**2. ⬇️ [Python 3](https://www.python.org/downloads/windows/)** - free; install with the default options.
+
+### **⬇️ [3. DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.2](releases/ArcGIS_Earth_Object_Factory_v1.2.zip)**
 **📖 [User manual](docs/OBJECT_FACTORY_USER_MANUAL.md)**
 
 Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth.
