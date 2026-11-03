@@ -6,6 +6,11 @@
 
 **2. ⬇️ [Python 3](https://www.python.org/downloads/windows/)** - free; install with the default options.
 
+> **First time? Three quick tips**
+> 1. **Extract the zip first:** right-click the downloaded zip > **Extract All**, then open the new folder. Double-clicking files while they are still inside the zip does not work.
+> 2. **Windows security warning:** Windows may warn about any program downloaded from the internet. Click **More info > Run anyway** (blue "Windows protected your PC" screen) or **Run**. To avoid the warning, right-click the zip > **Properties** > tick **Unblock** > **OK** before extracting.
+> 3. **Installing Python:** if the installer shows **"Add python.exe to PATH"**, tick it.
+
 ### **⬇️ [3. DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.2](releases/ArcGIS_Earth_Object_Factory_v1.2.zip)**
 **📖 [User manual](docs/OBJECT_FACTORY_USER_MANUAL.md)**
 
@@ -14,6 +19,17 @@ Create geographic objects, batches, sky compass markers, and beacons for ArcGIS 
 [![Object Factory objects in ArcGIS Earth: a tall yellow Jacksonville beacon and an airborne fire-truck object above the horizon](assets/object_factory_beacon_and_object_arcgis_earth.jpg)](https://www.youtube.com/watch?v=5Wn14qlC7n4)
 
 *Made with the Object Factory: a Jacksonville beacon on the horizon and an airborne fire-truck object, live in ArcGIS Earth. ▶️ [Watch the video](https://www.youtube.com/watch?v=5Wn14qlC7n4) (YouTube).*
+
+## See what it makes - try it in 2 minutes - no Python needed
+
+Install **[ArcGIS Earth](https://www.esri.com/en-us/arcgis/products/arcgis-earth/downloads)**, then download any of these and drag it onto the ArcGIS Earth map (or use the **+** Add data button). They are all near Jacksonville, Florida.
+
+- 📡 **[Live traffic camera](https://github.com/Jim-dc95811/ArcGIS-Earth-Object-Factory/raw/main/samples/SAMPLE_Live_Traffic_Camera.kmz)** - click the floating camera: a live FL511 traffic camera opens and refreshes every 10 seconds.
+- 🔴 **[Beacon](https://github.com/Jim-dc95811/ArcGIS-Earth-Object-Factory/raw/main/samples/SAMPLE_Beacon.kmz)** - a tall red beacon you can see and fly to from far away.
+- 🧭 **[Sky Compass](https://github.com/Jim-dc95811/ArcGIS-Earth-Object-Factory/raw/main/samples/SAMPLE_Sky_Compass.kmz)** - giant N / E / S / W letters in the sky around the area.
+- 🚁 **[Object set](https://github.com/Jim-dc95811/ArcGIS-Earth-Object-Factory/raw/main/samples/SAMPLE_Object_Set.kmz)** - floating fuel, helicopter, bird, camera and hazard objects; click them for their information.
+
+Make your own with the Object Factory download above.
 
 **Put objects into the real map.**
 
