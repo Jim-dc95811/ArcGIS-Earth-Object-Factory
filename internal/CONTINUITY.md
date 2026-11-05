@@ -1,5 +1,7 @@
 # CONTINUITY — ArcGIS Earth + EarthStick + Earth Beacon + Object Factory
 
+**2026-11-04 update (Claude):** 'What's in the zip' sheet `assets/object_factory_whats_in_the_zip*.png` - every file in the download explained in plain words (Jim's idea), linked under the download heading on the README and the front page and shown in the user manual (PDF rebuilt). Made by `tools/graphics/make_zip_sheets.py` in ArcGIS-Earth-Unlocked; **if the zip contents change, update its card list there and re-render.**
+
 **Date:** 2026-10-29  
 **Purpose:** This file is written by ChatGPT for future ChatGPT sessions. It is the current reset-proof project state. Read this before proposing changes, rebuilding tools, or interpreting the project from scratch.
 
