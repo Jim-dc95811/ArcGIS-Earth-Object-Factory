@@ -32,6 +32,10 @@ Object Factory is a Windows Python/Tkinter application. Normal use does not requ
 4. Choose **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 5. Create the output and open the resulting KML/KMZ in ArcGIS Earth.
 
+### What's in the zip
+
+![What's in the Object Factory folder: Run_Object_Factory.bat opens it, the .py is the program, icons holds the pictures, README.txt, example lists for the Batch tab, and sample files to drag onto the map](../assets/object_factory_whats_in_the_zip.png)
+
 ### Fastest first test
 
 Open **Objects**, choose the **firetruck** preset, enter a known coordinate, leave labels off, add short Info text, press **CREATE OBJECT KMZ**, and open the KMZ (saved to your Desktop by default) in ArcGIS Earth. This mirrors the live-proven first Object Factory primitive.
