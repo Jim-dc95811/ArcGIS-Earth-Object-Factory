@@ -218,9 +218,9 @@ Object Factory v1.2 uses the Python standard library and Tkinter. No Pillow inst
 
 ## Human-AI engineering collaboration
 
-Object Factory was conceived, directed, and live-tested by **Jim Gaddy**, working with **OpenAI's ChatGPT** as an AI coding and documentation partner. Jim supplied the operational concepts, ArcGIS Earth acceptance tests, UX decisions, and field feedback; ChatGPT assisted with implementation, regression testing, packaging, and documentation.
+Object Factory was conceived, directed, and live-tested by **Jim Gaddy**, working with **OpenAI's ChatGPT** and **Anthropic's Claude** as AI coding and documentation partners. Jim supplied the operational concepts, ArcGIS Earth acceptance tests, UX decisions, and field feedback; ChatGPT assisted with the original implementation (v1.0), regression testing, packaging, and documentation; Claude built v1.1 (hardening) and v1.2 (Hide above, calibrated from Jim's live screenshots), the try-it samples, the user manual and the 'What's in the zip' sheet.
 
-This acknowledgment is not a claim of OpenAI sponsorship or endorsement.
+This acknowledgment is not a claim of OpenAI or Anthropic sponsorship or endorsement.
 
 ## Independence and data responsibility
 
