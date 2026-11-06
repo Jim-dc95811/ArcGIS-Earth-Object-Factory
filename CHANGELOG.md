@@ -1,5 +1,10 @@
 # Changelog
 
+## Object Factory v1.3 - 2026-11-06
+
+- One obvious file: the folder holds `Run_Object_Factory.bat` and `System Files` (program, icons, sample lists, sample files). `README.txt` removed.
+- Outputs unchanged. See [docs/OBJECT_FACTORY_V1.3_CHANGES.md](docs/OBJECT_FACTORY_V1.3_CHANGES.md).
+
 ## Object Factory v1.2 - 2026-11-02
 
 - **Hide above (ft)** on the Objects tab and an optional `hide_above_ft` Batch column: the object shows only while you are within about that distance (straight down = ArcGIS Earth's eye alt). KML Region with a 300 m cube, calibrated live. Blank = always visible.

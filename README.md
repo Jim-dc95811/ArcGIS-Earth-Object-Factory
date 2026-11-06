@@ -11,7 +11,7 @@
 > 2. **Windows security warning:** Windows may warn about any program downloaded from the internet. Click **More info > Run anyway** (blue "Windows protected your PC" screen) or **Run**. To avoid the warning, right-click the zip > **Properties** > tick **Unblock** > **OK** before extracting.
 > 3. **Installing Python:** if the installer shows **"Add python.exe to PATH"**, tick it.
 
-### **⬇️ [3. DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.2](releases/ArcGIS_Earth_Object_Factory_v1.2.zip)**
+### **⬇️ [3. DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.3](releases/ArcGIS_Earth_Object_Factory_v1.3.zip)**
 **📖 [User manual](docs/OBJECT_FACTORY_USER_MANUAL.md)**
 **🗂️ [What's in the zip - every file explained](assets/object_factory_whats_in_the_zip_full.png)**
 
@@ -42,8 +42,8 @@ No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is
 
 ## Quick start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.2.zip`](releases/ArcGIS_Earth_Object_Factory_v1.2.zip).
-2. Double-click `Run_Object_Factory.bat`.
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.3.zip`](releases/ArcGIS_Earth_Object_Factory_v1.3.zip).
+2. Double-click `Run_Object_Factory.bat` (the other item, `System Files`, holds the program, icons and samples - leave it alone).
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 4. Open the generated KML/KMZ in ArcGIS Earth.
 
@@ -51,16 +51,16 @@ No third-party Python packages are required.
 
 ## Release details
 
-**ArcGIS Earth Object Factory v1.2 - released 2026-11-02**
+**ArcGIS Earth Object Factory v1.3 - released 2026-11-06**
 
-- **[Open the v1.2 Python source](source/Object_Factory_v1.2.py)**
-- **[What changed in v1.2](docs/OBJECT_FACTORY_V1.2_CHANGES.md)**
-- **[Open the v1.2 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf))
+- **[Open the v1.3 Python source](source/Object_Factory_v1.3.py)**
+- **[What changed in v1.3](docs/OBJECT_FACTORY_V1.3_CHANGES.md)** (one obvious file) and **[in v1.2](docs/OBJECT_FACTORY_V1.2_CHANGES.md)** (Hide above)
+- **[Open the v1.3 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.3_User_Manual.pdf))
 
-Source SHA-256: `1310743e2f129d70dd85291efe1922c2f275bedbb9a91f45759d5925b4640ff9`  
-ZIP SHA-256: `531d4e0e54e38a0608052ba4140c51534101e40a16d75af6842532701c2fe1c4`
+Source SHA-256: `676a258e5e7aaeb2ca7cee97e5b5c37c1fe7d8d6c59aa7c3dc5647705ffd2e12`  
+ZIP SHA-256: `cd1c1a755b04df606d48f62aabba9e37a0cbb5b1afcb0e34e9125a268dd03621`
 
-v1.2 adds **Hide above (ft)**: objects show only while you are within about that distance (straight down, the eye alt ArcGIS Earth shows), so a city full of objects no longer clutters the view from high above, while flying low you still see them in the distance. The Objects tab now takes altitude in feet, and an empty Info popup shows the object's name. The previous release, v1.1, stays at `releases/ArcGIS_Earth_Object_Factory_v1.1.zip`.
+v1.3 tidies the folder: `Run_Object_Factory.bat` plus `System Files` (program, icons, sample lists and sample files). Objects come out exactly as in v1.2. v1.2 added **Hide above (ft)**: objects show only while you are within about that distance (straight down, the eye alt ArcGIS Earth shows), so a city full of objects no longer clutters the view from high above, while flying low you still see them in the distance. The Objects tab now takes altitude in feet, and an empty Info popup shows the object's name. The previous releases, v1.2 and v1.1, stay in `releases/`.
 
 v1.1 was a hardening release. From Clipboard now understands N/S/E/W letters and degrees-minutes-seconds and states exactly how it read the coordinate. The factory asks before replacing a file, keeps the previous file if a build fails, and names the line of any batch-list problem. Everything it creates is identical to v1.0. v1.0 (commissioned 2026-10-29) remains in the repository history.
 
@@ -162,12 +162,12 @@ v1.0 integrated those primitives into one factory; v1.1 hardened it; v1.2 added 
 ## Developer self-test
 
 ```text
-py -3 Object_Factory_v1.2.py --selftest
+py -3 Object_Factory_v1.3.py --selftest
 ```
 
 The self-test covers PNG normalization/original preservation, single-object KMZ, hyperlink output, no-popup KML style, a 100-object batch pack, duplicate icon reuse, shorthand parsing, Sky Compass generation, Beacon generation, (v1.1) the clipboard reader, batch header detection, line-numbered errors and safe output, and (v1.2) Hide above and name popups.
 
-Run it from inside the extracted `Object_Factory_v1.2` folder (in File Explorer, type `cmd` in the address bar and press Enter).
+Run it from inside the extracted folder's `System Files` (in File Explorer, type `cmd` in the address bar and press Enter).
 
 ## Relationship to EarthStick
 
@@ -199,9 +199,9 @@ The Beacon concept did not disappear; it became one of the four main Object Fact
 
 ## Documentation / project brain
 
-- [v1.2 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md) ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf))
+- [v1.3 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md) ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.3_User_Manual.pdf))
 - [Quick operator guide](docs/OBJECT_FACTORY_GUIDE.md)
-- [v1.2 change document](docs/OBJECT_FACTORY_V1.2_CHANGES.md)
+- [v1.3 change document](docs/OBJECT_FACTORY_V1.3_CHANGES.md), [v1.2 change document](docs/OBJECT_FACTORY_V1.2_CHANGES.md)
 - [v1.1 change document](docs/OBJECT_FACTORY_V1.1_CHANGES.md)
 - [CONTINUITY.md](internal/CONTINUITY.md) - project handoff and verified/conceptual status
 - [MAPWORLD.md](internal/MAPWORLD.md) - technical ArcGIS Earth format/object inventory; "Mapworld" remains an internal working term

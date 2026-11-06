@@ -1,8 +1,10 @@
-# ArcGIS Earth Object Factory v1.2 - User Manual
+# ArcGIS Earth Object Factory v1.3 - User Manual
+
+> **v1.3 (2026-11-06):** a tidy folder - `Run_Object_Factory.bat` plus `System Files`. Nothing else changed.
 
 > **v1.2 (2026-11-02):** new **Hide above (ft)** setting (section 4) so objects stop cluttering the view from high above; the Objects tab takes **Altitude in feet**; an Info popup with nothing in it now shows the object's name. See [OBJECT_FACTORY_V1.2_CHANGES.md](OBJECT_FACTORY_V1.2_CHANGES.md). v1.1 (2026-10-31) added the coordinate readback, overwrite prompt and safe writes ([OBJECT_FACTORY_V1.1_CHANGES.md](OBJECT_FACTORY_V1.1_CHANGES.md)).
 
-A printable copy of this manual is available as [ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf](ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf).
+A printable copy of this manual is available as [ArcGIS_Earth_Object_Factory_v1.3_User_Manual.pdf](ArcGIS_Earth_Object_Factory_v1.3_User_Manual.pdf).
 
 Create geographic objects without hand-writing KML.
 
@@ -26,15 +28,15 @@ Object Factory is a Windows Python/Tkinter application. Normal use does not requ
 
 ### Start the factory
 
-1. Download [`ArcGIS_Earth_Object_Factory_v1.2.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.2.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.2` folder.
-2. Keep `Object_Factory_v1.2.py`, `Run_Object_Factory.bat`, and the `icons` folder together.
+1. Download [`ArcGIS_Earth_Object_Factory_v1.3.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.3.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.3` folder.
+2. Inside are just two things: `Run_Object_Factory.bat` and `System Files`. Keep them together.
 3. Double-click `Run_Object_Factory.bat`.
 4. Choose **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 5. Create the output and open the resulting KML/KMZ in ArcGIS Earth.
 
 ### What's in the zip
 
-![What's in the Object Factory folder: Run_Object_Factory.bat opens it, the .py is the program, icons holds the pictures, README.txt, example lists for the Batch tab, and sample files to drag onto the map](../assets/object_factory_whats_in_the_zip.png)
+![What's in the Object Factory folder: Run_Object_Factory.bat opens it; System Files holds the program, the icons, example lists for the Batch tab and sample files](../assets/object_factory_whats_in_the_zip.png)
 
 ### Fastest first test
 
@@ -42,13 +44,13 @@ Open **Objects**, choose the **firetruck** preset, enter a known coordinate, lea
 
 ### Main package files
 
-- `Object_Factory_v1.2.py` - main application.
-- `Run_Object_Factory.bat` - Windows launcher.
+- `Run_Object_Factory.bat` - Windows launcher (the one to double-click).
+- `System Files\` - everything below:
+- `Object_Factory_v1.3.py` - main application.
 - `icons/` - 11 object presets plus N/E/S/W compass PNGs.
 - `sample_objects.txt` - full-format batch example.
 - `simple_objects.txt` - shorthand batch example.
-- `SAMPLE_Object_Set.kmz`, `SAMPLE_Linked_Camera.kmz`, `SAMPLE_Sky_Compass.kmz`, `SAMPLE_Beacon.kml` - ready-made outputs to open in ArcGIS Earth.
-- `README.txt` - quick start and release summary.
+- `SAMPLE_Object_Set.kmz`, `SAMPLE_Linked_Camera.kmz`, `SAMPLE_Sky_Compass.kmz`, `SAMPLE_Beacon.kml` - ready-made outputs to open in ArcGIS Earth (also downloadable one by one from the GitHub page).
 
 Every output path has a **Browse** button. By default, files are saved to your Desktop.
 
@@ -188,7 +190,7 @@ Use **Batch** to create many objects in one KMZ. This is the fastest path for cl
 
 ### Batch workflow
 
-1. **Browse** to the object list (a `.txt` file). The default is the included `sample_objects.txt`.
+1. **Browse** to the object list (a `.txt` file). The default is the included `sample_objects.txt` (in `System Files`).
 2. Press **VALIDATE LIST**. The summary line reports how many objects were read, or names the line with a problem.
 3. Choose the output KMZ (default `Object_Set.kmz` on your Desktop).
 4. Press **CREATE OBJECT SET**.
@@ -367,8 +369,10 @@ The message explains why. Copy just one coordinate pair; extra numbers such as `
 
 ### Developer self-test
 
+From a command prompt in the `System Files` folder:
+
 ```text
-py -3 Object_Factory_v1.2.py --selftest
+py -3 Object_Factory_v1.3.py --selftest
 ```
 
 The self-test covers PNG normalization/original preservation, single-object KMZ creation, hyperlink output, no-popup KML style, a 100-object batch, duplicate-icon reuse, shorthand parsing, Sky Compass generation, Beacon generation, and (v1.2) Hide above and name popups.

@@ -1,14 +1,14 @@
-# ArcGIS Earth Object Factory v1.2 - Quick Operator Guide
+# ArcGIS Earth Object Factory v1.3 - Quick Operator Guide
 
 ## Start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.2.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.2.zip).
-2. Double-click `Run_Object_Factory.bat`.
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.3.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.3.zip).
+2. Double-click `Run_Object_Factory.bat` (leave `System Files` alone).
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 
 No third-party Python packages are required.
 
-For the full guide, use the **[v1.2 User Manual](OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](ArcGIS_Earth_Object_Factory_v1.2_User_Manual.pdf)).
+For the full guide, use the **[v1.3 User Manual](OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](ArcGIS_Earth_Object_Factory_v1.3_User_Manual.pdf)).
 
 ## Objects
 
@@ -84,8 +84,10 @@ ArcGIS Earth's native KML information box can be visually large. Keep Info conte
 
 ## Self-test
 
+From a command prompt in the `System Files` folder:
+
 ```text
-py -3 Object_Factory_v1.2.py --selftest
+py -3 Object_Factory_v1.3.py --selftest
 ```
 
 The self-test checks PNG normalization, original preservation, single objects, hyperlinks, no-popup KML, a 100-object batch, duplicate icon reuse, shorthand parsing, Sky Compass generation, and Beacon generation.
