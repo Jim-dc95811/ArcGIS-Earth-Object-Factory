@@ -27,5 +27,5 @@ Everything the factory makes. Checked here, v1.2 against v1.3: both sample objec
 ## Files
 
 - `archive/ArcGIS_Earth_Object_Factory_v1.3.zip` (folder `Object_Factory_v1.3/`) SHA-256 `cd1c1a755b04df606d48f62aabba9e37a0cbb5b1afcb0e34e9125a268dd03621`
-- `source/Object_Factory_v1.3.py` SHA-256 `676a258e5e7aaeb2ca7cee97e5b5c37c1fe7d8d6c59aa7c3dc5647705ffd2e12`
+- `archive/source/Object_Factory_v1.3.py` SHA-256 `676a258e5e7aaeb2ca7cee97e5b5c37c1fe7d8d6c59aa7c3dc5647705ffd2e12`
 - v1.2 and v1.1 zips and sources kept.

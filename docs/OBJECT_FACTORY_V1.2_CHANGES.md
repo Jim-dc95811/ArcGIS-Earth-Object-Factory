@@ -2,7 +2,7 @@
 
 **Released:** 2026-11-02
 **Type:** feature release (Jim's request): Hide above, altitude in feet, popup never blank, roomier layout.
-**Download:** [`archive/ArcGIS_Earth_Object_Factory_v1.2.zip`](../archive/ArcGIS_Earth_Object_Factory_v1.2.zip) - **Source:** [`source/Object_Factory_v1.2.py`](../source/Object_Factory_v1.2.py)
+**Download:** [`archive/ArcGIS_Earth_Object_Factory_v1.2.zip`](../archive/ArcGIS_Earth_Object_Factory_v1.2.zip) - **Source:** [`archive/source/Object_Factory_v1.2.py`](../archive/source/Object_Factory_v1.2.py)
 
 Sky Compass, Beacon, PNG handling, presets and the coordinate reader are unchanged.
 
@@ -53,4 +53,4 @@ The description now sits on the title line, the title and tabs are slightly smal
 | `Object_Factory_v1.2.py` | `1310743e2f129d70dd85291efe1922c2f275bedbb9a91f45759d5925b4640ff9` |
 | `ArcGIS_Earth_Object_Factory_v1.2.zip` | `531d4e0e54e38a0608052ba4140c51534101e40a16d75af6842532701c2fe1c4` |
 
-`archive/ArcGIS_Earth_Object_Factory_v1.1.zip` and `source/Object_Factory_v1.1.py` stay in the repository so existing links keep working.
+`archive/ArcGIS_Earth_Object_Factory_v1.1.zip` and `archive/source/Object_Factory_v1.1.py` stay in the repository so existing links keep working.

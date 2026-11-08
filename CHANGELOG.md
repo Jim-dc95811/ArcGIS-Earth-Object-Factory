@@ -39,7 +39,7 @@ Hardening release; everything the factory creates is identical to v1.0.
 - Builds outputs under a temporary name; a failed build keeps the previous file. The Sky Compass checks its icons first.
 - Batch header detected by real `lat`/`lon` column names (a name like "Palatka Colony" no longer breaks shorthand lists).
 - Batch errors name the line and object.
-- Clean `ArcGIS_Earth_Object_Factory_v1.1.zip` package replaces the v0.2.2 TEST zip; source published at `source/Object_Factory_v1.1.py`.
+- Clean `ArcGIS_Earth_Object_Factory_v1.1.zip` package replaces the v0.2.2 TEST zip; source published at `archive/source/Object_Factory_v1.1.py`.
 - Unused ArcGIS Earth camera-coordinate code removed.
 - Live-accepted in ArcGIS Earth by Jim Gaddy. Details: [docs/OBJECT_FACTORY_V1.1_CHANGES.md](docs/OBJECT_FACTORY_V1.1_CHANGES.md).
 
