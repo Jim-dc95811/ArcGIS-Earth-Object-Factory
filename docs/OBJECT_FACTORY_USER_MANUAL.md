@@ -1,4 +1,17 @@
-# ArcGIS Earth Object Factory v1.3 - User Manual
+# ArcGIS Earth Object Factory v1.3.1 - User Manual
+
+<!-- install-blurb:start -->
+> ### Installing Object Factory - read this first
+>
+> 1. **Extract All first:** right-click the downloaded zip > **Extract All**, then open the new folder. (Double-clicking files while they are still inside the zip does not work.)
+> 2. **Double-click `Run_Object_Factory.bat`** - the only .bat in the folder. This manual sits right next to it. The **System Files** folder holds the program - leave it alone.
+> 3. **Blue "Windows protected your PC" box?** Click **More info**, then **Run anyway**. It only asks the first time. (Or, before extracting: right-click the zip > **Properties** > tick **Unblock** > **OK**.)
+> 4. **Python - nothing to install by hand.** If Python is missing, the window asks **Install Python now? [Y/N]**: type **Y** and press Enter. It installs just for you (no admin needed). On an older PC this can take several minutes and Windows Defender may make the PC look frozen - **do not close the window**.
+> 5. To see your objects you need **ArcGIS Earth** (free from Esri: https://www.esri.com/en-us/arcgis/products/arcgis-earth/downloads): drag the KMZ it makes onto the map.
+>
+> Something stops it? The window says what to do in plain words, and keeps a log in `System Files\Ready_To_Fly_log.txt`. On a work computer that blocks installs, ask IT to install Python 3 from python.org.
+<!-- install-blurb:end -->
+
 
 > **v1.3 (2026-11-06):** a tidy folder - `Run_Object_Factory.bat` plus `System Files`. Nothing else changed.
 
@@ -29,7 +42,7 @@ Object Factory is a Windows Python/Tkinter application. Normal use does not requ
 ### Start the factory
 
 1. Download [`ArcGIS_Earth_Object_Factory_v1.3.1.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.3.1.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.3.1` folder.
-2. Inside are just two things: `Run_Object_Factory.bat` and `System Files`. Keep them together.
+2. Inside are just three things: `Run_Object_Factory.bat`, this manual as a PDF, and `System Files`. Keep them together.
 3. Double-click `Run_Object_Factory.bat`.
 4. Choose **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 5. Create the output and open the resulting KML/KMZ in ArcGIS Earth.
