@@ -1,4 +1,4 @@
-# ArcGIS Earth Object Factory 2.0 - User Manual
+# ArcGIS Earth Object Factory 2.1 - User Manual
 
 <!-- install-blurb:start -->
 > ### Installing Object Factory - read this first
@@ -13,13 +13,15 @@
 <!-- install-blurb:end -->
 
 
-> **2.0 (2026-11-08):** the whole ArcGIS Earth Unlocked family moved to 2.0 as one reference point. Objects come out exactly as in v1.3; the program file is now `Object_Factory_v2.0.py`.
+> **2.1 (2026-11-08):** batch lists saved from Excel work even with accents, quote marks and empty rows; wrong numbers get a plain message naming the box; files save to the Desktop you really see; the window fits small laptops (scroll bars). Objects come out exactly as in 2.0. See [OBJECT_FACTORY_V2.1_CHANGES.md](OBJECT_FACTORY_V2.1_CHANGES.md).
+>
+> **2.0 (2026-11-08):** the whole ArcGIS Earth Unlocked family moved to 2.0 as one reference point. Objects come out exactly as in v1.3; the program file is now `Object_Factory_v2.1.py`.
 >
 > **v1.3 (2026-11-06):** a tidy folder - `Run_Object_Factory.bat` plus `System Files`. Nothing else changed.
 
 > **v1.2 (2026-11-02):** new **Hide above (ft)** setting (section 4) so objects stop cluttering the view from high above; the Objects tab takes **Altitude in feet**; an Info popup with nothing in it now shows the object's name. See [OBJECT_FACTORY_V1.2_CHANGES.md](OBJECT_FACTORY_V1.2_CHANGES.md). v1.1 (2026-10-31) added the coordinate readback, overwrite prompt and safe writes ([OBJECT_FACTORY_V1.1_CHANGES.md](OBJECT_FACTORY_V1.1_CHANGES.md)).
 
-A printable copy of this manual is available as [ArcGIS_Earth_Object_Factory_v2.0_User_Manual.pdf](ArcGIS_Earth_Object_Factory_v2.0_User_Manual.pdf).
+A printable copy of this manual is available as [ArcGIS_Earth_Object_Factory_v2.1_User_Manual.pdf](ArcGIS_Earth_Object_Factory_v2.1_User_Manual.pdf).
 
 Create geographic objects without hand-writing KML.
 
@@ -43,7 +45,7 @@ Object Factory is a Windows Python/Tkinter application. Normal use does not requ
 
 ### Start the factory
 
-1. Download [`ArcGIS_Earth_Object_Factory_v2.0.zip`](../releases/ArcGIS_Earth_Object_Factory_v2.0.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.3.1` folder.
+1. Download [`ArcGIS_Earth_Object_Factory_v2.1.zip`](../releases/ArcGIS_Earth_Object_Factory_v2.1.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.3.1` folder.
 2. Inside are just three things: `Run_Object_Factory.bat`, this manual as a PDF, and `System Files`. Keep them together.
 3. Double-click `Run_Object_Factory.bat`.
 4. Choose **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
@@ -61,7 +63,7 @@ Open **Objects**, choose the **firetruck** preset, enter a known coordinate, lea
 
 - `Run_Object_Factory.bat` - Windows launcher (the one to double-click).
 - `System Files\` - everything below:
-- `Object_Factory_v2.0.py` - main application.
+- `Object_Factory_v2.1.py` - main application.
 - `icons/` - 11 object presets plus N/E/S/W compass PNGs.
 - `sample_objects.txt` - full-format batch example.
 - `simple_objects.txt` - shorthand batch example.
@@ -205,7 +207,7 @@ Use **Batch** to create many objects in one KMZ. This is the fastest path for cl
 
 ### Batch workflow
 
-1. **Browse** to the object list (a `.txt` file). The default is the included `sample_objects.txt` (in `System Files`).
+1. **Browse** to the object list (a `.txt` file, or a `.csv` saved from Excel - accents, commas inside quoted cells and empty rows are fine). The default is the included `sample_objects.txt` (in `System Files`).
 2. Press **VALIDATE LIST**. The summary line reports how many objects were read, or names the line with a problem.
 3. Choose the output KMZ (default `Object_Set.kmz` on your Desktop).
 4. Press **CREATE OBJECT SET**.
@@ -364,7 +366,7 @@ Use concise Info text or `Popup = None`. Popup size is an ArcGIS Earth presentat
 
 ### Batch validation problem
 
-The message names the line (and, for header lists, the object), e.g. `Line 4: latitude '30.4O' is not a number.` Line numbers count every line in the file, including comments and blank lines. Also check the delimiter, header spelling (`lat` and `lon` columns), icon paths, and that shorthand lines contain at least type, latitude, and longitude.
+The message names the line (and, for header lists, the object), e.g. `Line 4: latitude '30.4O' is not a number.` Line numbers count every line in the file, including comments and blank lines. In a `|` list a quote mark is just a character; in a comma (Excel) list a quote mark that opens a cell must close on the same line - the message names the line if it does not. Also check the delimiter, header spelling (`lat` and `lon` columns), icon paths, and that shorthand lines contain at least type, latitude, and longitude.
 
 ### Clipboard coordinates not accepted
 
@@ -387,7 +389,7 @@ The message explains why. Copy just one coordinate pair; extra numbers such as `
 From a command prompt in the `System Files` folder:
 
 ```text
-py -3 Object_Factory_v2.0.py --selftest
+py -3 Object_Factory_v2.1.py --selftest
 ```
 
 The self-test covers PNG normalization/original preservation, single-object KMZ creation, hyperlink output, no-popup KML style, a 100-object batch, duplicate-icon reuse, shorthand parsing, Sky Compass generation, Beacon generation, and (v1.2) Hide above and name popups.

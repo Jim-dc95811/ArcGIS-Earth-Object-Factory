@@ -1,6 +1,10 @@
 # Changelog
 
 
+## 2.1 - re-hardening (2026-11-08)
+
+- Excel lists (plain CSV / Unicode Text) with accented names are read; a quote mark in a `|` list no longer swallows the next row (comma lists: an unclosed quote stops with the line number); Excel's empty rows are skipped; number boxes give plain messages naming the box and refuse nan / scale <= 0 / radius <= 0; default output = the real (OneDrive) Desktop; the window fits small screens with scroll bars; plain clipboard message. Objects from good input identical to 2.0. Live-tested by Jim 2026-11-08. Details: [docs/OBJECT_FACTORY_V2.1_CHANGES.md](docs/OBJECT_FACTORY_V2.1_CHANGES.md). Zip `releases/ArcGIS_Earth_Object_Factory_v2.1.zip`; the 2.0 zip moved to `archive/`.
+
 ## 2.0 - the 2.0 Reference (2026-11-08)
 
 - The whole ArcGIS Earth Unlocked family moved to 2.0 as one reference point (Jim). Program = v1.3 with only the version text changed (diff-checked); the program file is now `Object_Factory_v2.0.py`. Zip `releases/ArcGIS_Earth_Object_Factory_v2.0.zip`; older zips moved to `archive/`.
