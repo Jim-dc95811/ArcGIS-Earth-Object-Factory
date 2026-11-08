@@ -13,11 +13,12 @@
 > 2. **Windows security warning:** Windows may warn about any program downloaded from the internet. Click **More info > Run anyway** (blue "Windows protected your PC" screen) or **Run**. To avoid the warning, right-click the zip > **Properties** > tick **Unblock** > **OK** before extracting.
 > 3. **Installing Python:** if the installer shows **"Add python.exe to PATH"**, tick it.
 
-### **⬇️ [3. DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.3](releases/ArcGIS_Earth_Object_Factory_v1.3.zip)**
+### **⬇️ [3. DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.3.1](releases/ArcGIS_Earth_Object_Factory_v1.3.1.zip)**
 **📖 [User manual](docs/OBJECT_FACTORY_USER_MANUAL.md)**
 **🗂️ [What's in the zip - every file explained](assets/object_factory_whats_in_the_zip_full.png)**
+**📦 [Download the Whole ArcGIS Earth Unlocked Series of Tools - all 10 in one zip](https://github.com/Jim-dc95811/ArcGIS-Earth-Unlocked/raw/main/downloads/ArcGIS_Earth_Unlocked_All_Tools.zip)**
 
-Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth.
+Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth. **New in 1.3.1 (Ready to Fly):** the .bat installs Python for you if it is missing - answer **Y**, no admin needed.
 
 [![Object Factory objects in ArcGIS Earth: a tall yellow Jacksonville beacon and an airborne fire-truck object above the horizon](assets/object_factory_beacon_and_object_arcgis_earth.jpg)](https://www.youtube.com/watch?v=5Wn14qlC7n4)
 
@@ -44,7 +45,7 @@ No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is
 
 ## Quick start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.3.zip`](releases/ArcGIS_Earth_Object_Factory_v1.3.zip).
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.3.1.zip`](releases/ArcGIS_Earth_Object_Factory_v1.3.1.zip).
 2. Double-click `Run_Object_Factory.bat` (the other item, `System Files`, holds the program, icons and samples - leave it alone).
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 4. Open the generated KML/KMZ in ArcGIS Earth.

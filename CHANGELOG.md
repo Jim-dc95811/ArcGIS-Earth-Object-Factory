@@ -1,5 +1,9 @@
 # Changelog
 
+## Object Factory v1.3.1 - 2026-11-08
+
+- Ready to Fly: `Run_Object_Factory.bat` - the launcher now gets the PC ready first: it finds Python or installs it for you (just for you, no admin - answer **Y**), then starts the tool. New file `System Files\Ready_To_Fly.ps1` (log: `System Files\Ready_To_Fly_log.txt`). Program byte-identical to the previous release. Live-tested by Jim 2026-11-08.
+
 ## Object Factory v1.3 - 2026-11-06
 
 - One obvious file: the folder holds `Run_Object_Factory.bat` and `System Files` (program, icons, sample lists, sample files). `README.txt` removed.

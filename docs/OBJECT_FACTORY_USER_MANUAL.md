@@ -22,13 +22,13 @@ Object Factory is a Windows Python/Tkinter application. Normal use does not requ
 
 ### What you need
 
-- Windows with Python 3 installed, including Tkinter.
+- Windows with Python 3, including Tkinter - since 1.3.1 `Run_Object_Factory.bat` installs Python for you if it is missing (answer **Y**; no admin needed).
 - ArcGIS Earth desktop to view the generated KML/KMZ files.
 - PNG images only when you want custom icons. Preset icons are included.
 
 ### Start the factory
 
-1. Download [`ArcGIS_Earth_Object_Factory_v1.3.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.3.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.3` folder.
+1. Download [`ArcGIS_Earth_Object_Factory_v1.3.1.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.3.1.zip) and extract it to a normal folder. It contains an `Object_Factory_v1.3.1` folder.
 2. Inside are just two things: `Run_Object_Factory.bat` and `System Files`. Keep them together.
 3. Double-click `Run_Object_Factory.bat`.
 4. Choose **Objects**, **Batch**, **Sky Compass**, or **Beacon**.

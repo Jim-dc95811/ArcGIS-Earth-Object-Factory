@@ -2,7 +2,7 @@
 
 ## Start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.3.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.3.zip).
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.3.1.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.3.1.zip).
 2. Double-click `Run_Object_Factory.bat` (leave `System Files` alone).
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 
