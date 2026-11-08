@@ -13,12 +13,12 @@
 > 2. **Windows security warning:** Windows may warn about any program downloaded from the internet. Click **More info > Run anyway** (blue "Windows protected your PC" screen) or **Run**. To avoid the warning, right-click the zip > **Properties** > tick **Unblock** > **OK** before extracting.
 > 3. **Installing Python:** if the installer shows **"Add python.exe to PATH"**, tick it.
 
-### **⬇️ [3. DOWNLOAD ARCGIS EARTH OBJECT FACTORY v1.3.1](releases/ArcGIS_Earth_Object_Factory_v1.3.1.zip)**
+### **⬇️ [3. DOWNLOAD ARCGIS EARTH OBJECT FACTORY v2.0](releases/ArcGIS_Earth_Object_Factory_v2.0.zip)**
 **📖 [User manual](docs/OBJECT_FACTORY_USER_MANUAL.md)**
 **🗂️ [What's in the zip - every file explained](assets/object_factory_whats_in_the_zip_full.png)**
 **📦 [Download the Whole ArcGIS Earth Unlocked Series of Tools - all 10 in one zip](https://github.com/Jim-dc95811/ArcGIS-Earth-Unlocked/raw/main/downloads/ArcGIS_Earth_Unlocked_All_Tools.zip)**
 
-Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth. **New in 1.3.1 (Ready to Fly):** the .bat installs Python for you if it is missing - answer **Y**, no admin needed.
+Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth. **2.0 (8 Nov 2026):** the whole ArcGIS Earth Unlocked family moved to 2.0 as one reference point - objects come out exactly as before. New in 1.3.1 (Ready to Fly): the .bat installs Python for you if it is missing - answer **Y**, no admin needed.
 
 [![Object Factory objects in ArcGIS Earth: a tall yellow Jacksonville beacon and an airborne fire-truck object above the horizon](assets/object_factory_beacon_and_object_arcgis_earth.jpg)](https://www.youtube.com/watch?v=5Wn14qlC7n4)
 
@@ -45,7 +45,7 @@ No ArcGIS Pro project, QGIS project, KML hand-editing, or GIS database design is
 
 ## Quick start
 
-1. Download and extract [`ArcGIS_Earth_Object_Factory_v1.3.1.zip`](releases/ArcGIS_Earth_Object_Factory_v1.3.1.zip).
+1. Download and extract [`ArcGIS_Earth_Object_Factory_v2.0.zip`](releases/ArcGIS_Earth_Object_Factory_v2.0.zip).
 2. Double-click `Run_Object_Factory.bat` (the other item, `System Files`, holds the program, icons and samples - leave it alone).
 3. Use **Objects**, **Batch**, **Sky Compass**, or **Beacon**.
 4. Open the generated KML/KMZ in ArcGIS Earth.
@@ -54,11 +54,11 @@ No third-party Python packages are required.
 
 ## Release details
 
-**ArcGIS Earth Object Factory v1.3 - released 2026-11-06**
+**ArcGIS Earth Object Factory 2.0 - released 2026-11-08 (the [2.0 Reference](https://github.com/Jim-dc95811/ArcGIS-Earth-Unlocked/blob/main/REFERENCE_2.0.md); program = v1.3 with the version text changed)**
 
-- **[Open the v1.3 Python source](source/Object_Factory_v1.3.py)**
+- **[Open the 2.0 Python source](source/Object_Factory_v2.0.py)**
 - **[What changed in v1.3](docs/OBJECT_FACTORY_V1.3_CHANGES.md)** (one obvious file) and **[in v1.2](docs/OBJECT_FACTORY_V1.2_CHANGES.md)** (Hide above)
-- **[Open the v1.3 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.3_User_Manual.pdf))
+- **[Open the 2.0 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md)** ([PDF](docs/ArcGIS_Earth_Object_Factory_v2.0_User_Manual.pdf))
 
 Source SHA-256: `676a258e5e7aaeb2ca7cee97e5b5c37c1fe7d8d6c59aa7c3dc5647705ffd2e12`  
 ZIP SHA-256: `cd1c1a755b04df606d48f62aabba9e37a0cbb5b1afcb0e34e9125a268dd03621`
@@ -165,7 +165,7 @@ v1.0 integrated those primitives into one factory; v1.1 hardened it; v1.2 added 
 ## Developer self-test
 
 ```text
-py -3 Object_Factory_v1.3.py --selftest
+py -3 Object_Factory_v2.0.py --selftest
 ```
 
 The self-test covers PNG normalization/original preservation, single-object KMZ, hyperlink output, no-popup KML style, a 100-object batch pack, duplicate icon reuse, shorthand parsing, Sky Compass generation, Beacon generation, (v1.1) the clipboard reader, batch header detection, line-numbered errors and safe output, and (v1.2) Hide above and name popups.
@@ -202,7 +202,7 @@ The Beacon concept did not disappear; it became one of the four main Object Fact
 
 ## Documentation / project brain
 
-- [v1.3 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md) ([PDF](docs/ArcGIS_Earth_Object_Factory_v1.3_User_Manual.pdf))
+- [2.0 User Manual](docs/OBJECT_FACTORY_USER_MANUAL.md) ([PDF](docs/ArcGIS_Earth_Object_Factory_v2.0_User_Manual.pdf))
 - [Quick operator guide](docs/OBJECT_FACTORY_GUIDE.md)
 - [v1.3 change document](docs/OBJECT_FACTORY_V1.3_CHANGES.md), [v1.2 change document](docs/OBJECT_FACTORY_V1.2_CHANGES.md)
 - [v1.1 change document](docs/OBJECT_FACTORY_V1.1_CHANGES.md)

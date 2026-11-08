@@ -2,7 +2,7 @@
 
 **Released:** 2026-10-31
 **Type:** hardening release. Coordinate reading, file safety, batch-list checks and packaging.
-**Download:** [`releases/ArcGIS_Earth_Object_Factory_v1.1.zip`](../releases/ArcGIS_Earth_Object_Factory_v1.1.zip) - **Source:** [`source/Object_Factory_v1.1.py`](../source/Object_Factory_v1.1.py)
+**Download:** [`archive/ArcGIS_Earth_Object_Factory_v1.1.zip`](../archive/ArcGIS_Earth_Object_Factory_v1.1.zip) - **Source:** [`source/Object_Factory_v1.1.py`](../source/Object_Factory_v1.1.py)
 
 **What it makes is unchanged.** Objects, batch object sets, the Sky Compass and Earth Beacons are generated exactly as in v1.0. So are PNG normalization (original never modified, packaged copy no larger than 256 px), the 11 presets, popup and label behavior, links, tethers, and the Sky Compass and Beacon geometry.
 
