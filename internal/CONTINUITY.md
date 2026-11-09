@@ -1,5 +1,7 @@
 # CONTINUITY — ArcGIS Earth + EarthStick + Earth Beacon + Object Factory
 
+**2026-11-08 (Claude) - Object Factory 2.1 RELEASED** (re-hardening, live-tested by Jim): Excel cp1252/UTF-16 lists, `|` lists read without quote handling + an unclosed quote in comma lists is an error (2.0 silently lost rows), blank rows skipped, plain number messages, real Desktop (`desktop_dir()`), window fits the screen with scroll bars. Outputs identical to 2.0 for good input (rig `tools/test-rigs/object_factory_test_v21.py` in ArcGIS Earth Unlocked). `releases/ArcGIS_Earth_Object_Factory_v2.1.zip`, `source/Object_Factory_v2.1.py` (the only file in `source/`; v1.1-v2.0 sources moved to `archive/source/`), change doc `docs/OBJECT_FACTORY_V2.1_CHANGES.md`. The Unlocked repo's CLAUDE.md is the newest family-wide state.
+
 **2026-11-04 update (Claude):** 'What's in the zip' sheet `assets/object_factory_whats_in_the_zip*.png` - every file in the download explained in plain words (Jim's idea), linked under the download heading on the README and the front page and shown in the user manual (PDF rebuilt). Made by `tools/graphics/make_zip_sheets.py` in ArcGIS-Earth-Unlocked; **if the zip contents change, update its card list there and re-render.**
 
 **Date:** 2026-10-29  
