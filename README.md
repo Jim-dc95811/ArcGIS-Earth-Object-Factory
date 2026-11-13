@@ -16,6 +16,8 @@
 ### **⬇️ [3. DOWNLOAD ARCGIS EARTH OBJECT FACTORY v2.1](releases/ArcGIS_Earth_Object_Factory_v2.1.zip)**
 **📖 [User manual](docs/OBJECT_FACTORY_USER_MANUAL.md)**
 **🗂️ [What's in the zip - every file explained](assets/object_factory_whats_in_the_zip_full.png)**
+**⭐ EASIEST WAY — [Get all 11 tools from Google Drive](https://drive.google.com/drive/folders/1jsxVTDsYdgJHibhCCeI9I69FsG0qMGgc?usp=sharing)** — no download warnings, the whole series is under 10 MB. Open the folder, open the tool you want, and run its one `.bat`.
+
 **📦 [Download the Whole ArcGIS Earth Unlocked Series of Tools - all 10 in one zip](https://github.com/Jim-dc95811/ArcGIS-Earth-Unlocked/raw/main/downloads/ArcGIS_Earth_Unlocked_All_Tools.zip)**
 
 Create geographic objects, batches, sky compass markers, and beacons for ArcGIS Earth. **2.1 (8 Nov 2026):** Excel lists with accents, quote marks and empty rows now work, plain messages for wrong numbers, saves to the Desktop you really see, and the window fits small laptops - objects come out exactly as before. New in 1.3.1 (Ready to Fly): the .bat installs Python for you if it is missing - answer **Y**, no admin needed.
